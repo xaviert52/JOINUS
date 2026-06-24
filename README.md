@@ -1,21 +1,20 @@
-# WAGMI DAO Ecosystem
+# JNS Ecosistema
 
 ## Overview
-The **WAGMI DAO Ecosystem** is a decentralized platform that combines governance, staking, and treasury management to empower the community. The project is built on the principles of decentralization, transparency, and sustainability.
+The **JNS Ecosistema** is a decentralized, bank-grade platform that combines ZK-governance, liquid staking, a hedge fund, and "The Arena" casino to empower the community with a circular cashflow. The project is built on the principles of absolute decentralization, transparency, and perpetual sustainability.
 
 ### Key Features
-1. **Governance**: 
-   - Community-driven decision-making through proposals and voting.
-   - Powered by the $WAGMI token and staking.
+1. **ZK-Governance**: 
+   - Anonymous community-driven decision-making using zk-SNARKs for voting privacy.
+   - Powered by the $JNS token and $JNSX liquid staking.
 
-2. **Staking**:
-   - Stake $WAGMI tokens to earn rewards and gain voting power.
-   - Flexible and locked staking options with varying rewards.
-   - Funds collected from transaction fees and staking penalties are sent back to the rewardPool.
+2. **Liquid Staking ($JNSX)**:
+   - Stake $JNS tokens to receive $JNSX, which yields real-yield rewards and linear time-weighted voting power (from 1.1x to 2.0x).
+   - Dynamic APY range from 8% to 25% sustained by transaction taxes, early withdrawal penalties, casino revenue tributes, and hedge fund returns (Real Yield without inflation).
 
-3. **Treasury**:
-   - Receives, allocates and manages the ecosystem's funds.
-   - Funds are allocated to ecosystem growth (launchpad), partnerships, and community rewards.
+3. **Casino ("The Arena") & Hedge Fund**:
+   - Cashflow generator feeding back into the Staking Reward Pool and the Scientific/Philanthropic Launchpad.
+   - Hedge fund operates with up to 30% of the long-term locked staking TVL, strictly authorized via governance voting.
 
 ---
 
@@ -23,7 +22,7 @@ The **WAGMI DAO Ecosystem** is a decentralized platform that combines governance
 ### The project is organized as follows:
 1. vscode/ 
      - settings.json # VSCode-specific settings 
-2. WAGMI/ 
+2. JNS-Ecosistema/ 
      - .env # Environment variables (excluded from Git) 
      - .gitignore # Files and folders to ignore in Git 
      - hardhat.config.js # Hardhat configuration for Solidity development 
@@ -31,32 +30,16 @@ The **WAGMI DAO Ecosystem** is a decentralized platform that combines governance
      - README.md # Project documentation 
      - cache/ # Hardhat cache (excluded from Git) 
      - contracts/ # Solidity smart contracts 
-          + Governor.sol # Governance contract 
-          + Staking.sol # Staking contract 
+          + JNSGovernorzk.sol # ZK Governance contract 
+          + JNSStaking.sol # Liquid Staking contract ($JNSX) 
+          + TheArenaCasino.sol # Casino & Buyback engine contract
           + Timelock.sol # Timelock controller for proposal execution 
           + Treasury.sol # Treasury management contract 
-          + WAGMIToken.sol # ERC-20 token contract for $WAGMI 
+          + JNSToken.sol # ERC-20 token contract ($JNS) with UUPS and transaction tax
           + interfaces/ # Interfaces for contracts 
-               - iGovernor.sol # Interface for the Governor contract 
-               - IStaking.sol # Interface for the Staking contract 
-               - ITreasury.sol # Interface for the Treasury contract 
-     - frontend/ # Frontend code (React-based) 
-          + src/ 
-               - App.js # Main React component 
-               - index.js # Entry point for the React app 
+     - frontend/ # Frontend code (React-based with viem/wagmi and ERC-4337 Account Abstraction) 
      - scripts/ # Deployment scripts 
-          + deployGovernor.js # Deploys the Governor contract 
-          + deployStaking.js # Deploys the Staking contract 
-          + deployTimelock.js # Deploys the Timelock contract 
-          + deployTreasury.js # Deploys the Treasury contract 
-          + deployWAGMIToken.js # Deploys the WAGMI token contract 
      - test/ # Unit tests for smart contracts 
-          + Governor.test.js # Tests for the Governor contract 
-          + Staking.test.js # Tests for the Staking contract 
-          + Timelock.test.js # Tests for the Timelock contract 
-          + Treasury.test.js # Tests for the Treasury contract 
-          + WAGMIToken.test.js # Tests for the WAGMI token contract
-
 
 ---
 
@@ -70,18 +53,19 @@ The **WAGMI DAO Ecosystem** is a decentralized platform that combines governance
 ### Steps
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/xaviert52/WAGMI.git
-   cd WAGMI
+   git clone https://github.com/xaviert52/JNS-Ecosystem.git
+   cd JNS-Ecosystem
+   ```
 
-2. **install dependencies**:
+2. **Install dependencies**:
    - npm install
 
-3. **Create a .env file in the WAGMI/ directory with the following variables**:
+3. **Create a .env file with the following variables**:
      - PRIVATE_KEY=your_private_key
-     - MOONSCAN_API_KEY=your_moonscan_api_key
+     - ARBISCAN_API_KEY=your_arbiscan_api_key
      - INITIAL_OWNER=your_wallet_address
      - TREASURY_ADDRESS=treasury_contract_address
-     - TIMELOCK_MIN_DELAY=3600
+     - TIMELOCK_MIN_DELAY=259200 # 3 days in seconds (minimum required delay)
      - EARLY_WITHDRAWAL_PENALTY=25 # 25% penalty
 
 4. **Compile the contracts**:
@@ -92,26 +76,26 @@ The **WAGMI DAO Ecosystem** is a decentralized platform that combines governance
 
 
 ### Deployment
-Deploy to Moonbase Alpha (Testnet)
+Deploy to Arbitrum Sepolia (Testnet)
 1. **Deploy the contracts**:
-     - npx hardhat run scripts/deployWAGMIToken.js --network moonbase
-     - npx hardhat run scripts/deployTreasury.js --network moonbase
-     - npx hardhat run scripts/deployStaking.js --network moonbase
-     - npx hardhat run scripts/deployTimelock.js --network moonbase
-     - npx hardhat run scripts/deployGovernor.js --network moonbase
+     - npx hardhat run scripts/deployJNSToken.js --network arbitrumSepolia
+     - npx hardhat run scripts/deployTreasury.js --network arbitrumSepolia
+     - npx hardhat run scripts/deployStaking.js --network arbitrumSepolia
+     - npx hardhat run scripts/deployTimelock.js --network arbitrumSepolia
+     - npx hardhat run scripts/deployGovernor.js --network arbitrumSepolia
 
-2. **Verify the contracts on Moonbeam Explorer**:
-     - npx hardhat verify --network moonbase <contract_address> <constructor_arguments>
+2. **Verify the contracts on Arbiscan**:
+     - npx hardhat verify --network arbitrumSepolia <contract_address> <constructor_arguments>
 
 ### Usage
 1. **Staking**
-     - Stake $WAGMI tokens to earn rewards and gain voting power.
+     - Stake $JNS tokens to receive $JNSX, earn Real Yield, and gain voting power.
      - Use the frontend to interact with the staking contract.
 2. **Governance**
-     - Propose and vote on decisions using the $WAGMI token.
+     - Propose and vote anonymously on decisions using $JNSX.
      - Only stakers can participate in governance.
 3. **Treasury**
-     - Funds are managed transparently and allocated based on community decisions.
+     - Funds are managed transparently and allocated based on governance decisions.
      
 ### Contributing
 We welcome contributions! Please fork the repository and submit a pull request.
