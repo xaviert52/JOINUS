@@ -5,14 +5,14 @@ import "@openzeppelin/contracts/governance/Governor.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorSettings.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorCountingSimple.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorTimelockControl.sol";
-import "./Staking.sol";
+import "./JNSStaking.sol";
 
 /// @title WAGMIGovernor
 /// @notice Governance contract for the DAO.
 contract WAGMIGovernor is Governor, GovernorSettings, GovernorCountingSimple, GovernorTimelockControl {
-    StakingContract public stakingContract;
+    JNSStaking public stakingContract;
 
-    constructor(StakingContract _stakingContract, TimelockController _timelock)
+    constructor(JNSStaking _stakingContract, TimelockController _timelock)
         Governor("WAGMIGovernor")
         GovernorSettings(1 /* 1 block */, 45818 /* 1 week */, 100e18)
         GovernorTimelockControl(_timelock)
@@ -114,13 +114,13 @@ contract WAGMIGovernor is Governor, GovernorSettings, GovernorCountingSimple, Go
         return super._executor();
     }
 
-    // Custom integration with StakingContract
+    // Custom integration with JNSStaking
     function _getVotes(
         address account,
         uint256 blockNumber,
         bytes memory params
     ) internal view override(Governor) returns (uint256) {
-        return stakingContract.getUserTotalStake(account);
+        return stakingContract.getVotingPower(account);
     }
 
     // Required by OZ v5 Governor

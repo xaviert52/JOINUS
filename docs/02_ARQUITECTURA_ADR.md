@@ -36,3 +36,18 @@
 - **Decisión**: React.js para el MVP con integración a Web3 a través de viem / wagmi.
 - **Motivo**: Ecosistema maduro, interoperabilidad nativa y rápida iteración para interfaces descentralizadas con soporte para Abstracción de Cuenta.
 - **Estado**: Aceptado.
+
+### ADR-006: Checkpointing de Gobernanza
+- **Decisión**: El token $JNSX heredará de `ERC20VotesUpgradeable` de OpenZeppelin. El contrato de Staking emitirá $JNSX multiplicando el depósito base por el factor de tiempo (1.0x a 2.0x), integrando la función `getVotingPower` nativamente y previniendo flash-loans.
+- **Motivo**: Previene ataques de gobernanza por préstamos rápidos (flash-loans) y recompensa linealmente a los stakers según su compromiso temporal.
+- **Estado**: Aceptado.
+
+### ADR-007: Paradoja ZK y Civismo
+- **Decisión**: Para compatibilizar el voto anónimo (zk-SNARKs) con la exigencia de >70% de participación cívica para dividendos, el Governor registrará públicamente el "acto de votar" (`hasParticipated`), pero mantendrá encriptado el peso y la decisión. Los dividendos se calcularán mediante "Épocas" (Epochs).
+- **Motivo**: Garantiza la privacidad y el voto anónimo mientras se verifica on-chain la participación cívica agregada y mínima para recibir recompensas B2B.
+- **Estado**: Aceptado.
+
+### ADR-008: Estándares DeFi
+- **Decisión**: Se adopta el estándar ERC-4626 para las bóvedas del B2B Yield Aggregator.
+- **Motivo**: Facilita la interoperabilidad y la integración estándar con otros protocolos DeFi y Yield Engines.
+- **Estado**: Aceptado.

@@ -8,17 +8,19 @@
 - **Riesgo**: Ninguno en esta fase.
 - **Plan**: Abordar durante la Fase 5.
 
-### DT-003: Refactorización UUPS JNSToken
+### ~~DT-003: Refactorización UUPS JNSToken~~ [RESUELTA en Fase 2]
 - **Fecha registro**: 2026-06-24
 - **Descripción**: Reescritura completa del token utilizando contratos base actualizables de OpenZeppelin para subsanar el diseño estático del repositorio anterior.
 - **Riesgo**: Bajo. Limita la evolución futura del token si se mantiene el diseño estático anterior.
 - **Plan**: Abordar durante la Fase 2 del desarrollo.
+- **Nota**: Resuelta. Ver resolución en la sección de Deuda Resuelta.
 
 ### DT-004: Descentralización de funciones en Staking
 - **Fecha registro**: 2026-06-24
 - **Descripción**: Eliminar el modificador `onlyOwner` de la función de retiro del 30% de fondos y acoplarla estrictamente al Governor.
 - **Riesgo**: Alto. El control directo del Owner representa un backdoor centralizado no admisible en un estándar de grado bancario.
 - **Plan**: Abordar durante la Fase 3 del desarrollo de staking.
+- **Actualización (Fase 3)**: La función `accessLockedFunds` se protegerá validando que el `msg.sender` sea explícitamente el contrato **Timelock** (no el Governor directo).
 
 ### DT-005: Esquema de circuitos ZK
 - **Fecha registro**: 2026-06-24
@@ -46,6 +48,16 @@
 - **Fecha registro**: 2026-05-15
 - **Fecha resolución**: 2026-06-24
 - **Resolución**: Se ha determinado la selección definitiva de `viem / wagmi` como stack Web3 para soportar de manera nativa la interacción y Abstracción de Cuenta (ERC-4337).
+
+### DT-003: Refactorización UUPS JNSToken
+- **Fecha registro**: 2026-06-24
+- **Fecha resolución**: 2026-07-03
+- **Resolución**: Reescritura completa del token JNSToken.sol utilizando UUPS y OpenZeppelin v5 upgradeable, habilitando de manera correcta la compatibilidad y actualizabilidad del token.
+
+### DT-008: Actualización de dependencias y tooling local (Fase 2)
+- **Fecha registro**: 2026-07-03
+- **Fecha resolución**: 2026-07-03
+- **Resolución**: Resolución de dependencias locales obsoletas instalando e integrando la v5 de OpenZeppelin, Hardhat Toolbox, y configurando la compatibilidad con el EVM Cancun (mcopy) y las directrices de testeo en Hardhat.
 
 ---
 

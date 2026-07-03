@@ -12,7 +12,8 @@ El núcleo del sistema será el token $JNS. Actualmente, el proyecto cuenta con 
 
 ### 2. Hito Vigente
 - **Fase 1 — Preparación (COMPLETADA)**: Definición de tokenomics, configuración de billeteras y establecimiento de documentación base.
-- **Fase 2 — Desarrollo del Token (VIGENTE)**: Creación del contrato ERC-20 upgradable (UUPS) con tarifas de transacción incorporadas.
+- **Fase 2 — Desarrollo del Token (COMPLETADA)**: Creación del contrato ERC-20 upgradable (UUPS) con tarifas de transacción incorporadas.
+- **Fase 3 — Desarrollo del Staking (VIGENTE)**: Implementación del staking de recompensa dual, gobernanza ZK y checkpointing de gobernanza.
 
 ### 3. Logros Recientes
 - [x] Estructuración del repositorio (Hardhat + Frontend).
