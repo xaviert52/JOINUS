@@ -32,6 +32,12 @@
 - **Riesgo**: Crítico. Impide la compilación y despliegue del sistema de gobernanza y staking de forma integrada.
 - **Plan**: Implementar e indexar de forma nativa la función en la Fase 3.
 
+### DT-007: Integración de Auto-Compound y Bóveda Dual
+- **Fecha registro**: 2026-07-03
+- **Descripción**: Modificar el diseño inicial de `JNSStaking.sol` para soportar tanto auto-compound nativo en $JNS como la reclamación líquida (claim) de $ETH/$USDC en una bóveda de dividendos.
+- **Riesgo**: Medio. Complejidad en la gestión de balances de múltiples tokens y reclamos meritocráticos dependientes de participación política.
+- **Plan**: Diseñar e implementar la interfaz de reclamo dual en el contrato de staking durante la Fase 3.
+
 ---
 
 ## Deuda Resuelta

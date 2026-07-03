@@ -1,29 +1,25 @@
-const { ethers } = require("hardhat");
+const { ethers, upgrades } = require("hardhat");
 
 async function main() {
   const [deployer] = await ethers.getSigners();
 
   console.log("Deploying contracts with the account:", deployer.address);
 
-  // Step 1: Deploy WAGMIToken
-  console.log("Deploying WAGMIToken...");
-  const WAGMIToken = await ethers.getContractFactory("WAGMIToken");
-  const wagmiToken = await WAGMIToken.deploy(
-    "WAGMI Token",
-    "WAGMI",
-    ethers.utils.parseEther("10000000"), // 10,000,000 tokens
-    1, // 1% burn fee
-    1, // 1% reward pool fee
-    ethers.constants.AddressZero // Placeholder for reward pool (to be set later)
-  );
-  await wagmiToken.deployed();
-  console.log("WAGMIToken deployed to:", wagmiToken.address);
+  // Step 1: Deploy JNSToken
+  console.log("Deploying JNSToken...");
+  const JNSToken = await ethers.getContractFactory("JNSToken");
+  // Deploy with placeholder for reward pool set to deployer address
+  const jnsToken = await upgrades.deployProxy(JNSToken, ["JNS Token", "JNS", deployer.address, deployer.address], {
+    initializer: "initialize",
+  });
+  await jnsToken.deployed();
+  console.log("JNSToken deployed to:", jnsToken.address);
 
   // Step 2: Deploy StakingContract
   console.log("Deploying StakingContract...");
   const Staking = await ethers.getContractFactory("StakingContract");
   const staking = await Staking.deploy(
-    wagmiToken.address, // Address of the WAGMIToken
+    jnsToken.address, // Address of the JNSToken
     deployer.address, // Initial owner
     ethers.utils.parseEther("10000"), // Max stake
     [30 * 24 * 60 * 60, 90 * 24 * 60 * 60, 180 * 24 * 60 * 60, 365 * 24 * 60 * 60], // Lock periods
@@ -33,9 +29,9 @@ async function main() {
   await staking.deployed();
   console.log("StakingContract deployed to:", staking.address);
 
-  // Step 3: Set reward pool in WAGMIToken
-  console.log("Setting reward pool in WAGMIToken...");
-  await wagmiToken.setRewardPool(staking.address);
+  // Step 3: Set reward pool in JNSToken
+  console.log("Setting reward pool in JNSToken...");
+  await jnsToken.setRewardPool(staking.address);
   console.log("Reward pool set to:", staking.address);
 
   console.log("Deployment completed successfully!");

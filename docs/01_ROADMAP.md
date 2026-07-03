@@ -1,42 +1,48 @@
 # 01 — Roadmap Técnico y de Ecosistema
 
 ## Visión General
-El roadmap de JNS Ecosistema está estructurado para construir paso a paso un ecosistema descentralizado robusto, que integre un launchpad, gobernanza ZK y un hedge fund. El token $JNS es el núcleo del ecosistema.
+El roadmap de JNS Ecosistema está estructurado para construir paso a paso un ecosistema descentralizado robusto, transicionando hacia el modelo DeFi Venture Hub en Arbitrum. El token $JNS es el núcleo de este ecosistema de grado bancario.
 
 ---
 
-### 🧱 FASE 1 — Preparación (VIGENTE)
-**Objetivo:** Establecer las bases del proyecto, economía y control.
-- [x] Finalizar definición de tokenomics inmutables (10M supply).
-- [ ] Realizar la migración técnica a Arbitrum.
-- [ ] Reestructuración completa de la documentación a JNS/$JNSX.
+### 🧱 FASE 1 — Preparación (COMPLETADA)
+**Objetivo:** Establecer las bases del proyecto, economía y control inicial.
+- [x] Finalizar definición de tokenomics inmutables (10M supply total).
+- [x] Realizar la migración técnica del concepto a Arbitrum.
+- [x] Reestructuración completa de la documentación inicial a JNS/$JNSX.
+- [x] Rediseño de la arquitectura del ecosistema hacia el modelo DeFi Venture Hub.
 
-### 🪙 FASE 2 — Desarrollo del Token
-**Objetivo:** Implementar el activo principal del ecosistema.
-- [ ] Crear `JNSToken.sol` con patrón UUPS Upgradeable.
-- [ ] Integrar Tax transaccional del 2% (1% quema, 1% rewardPool).
-- [ ] Transferencia de propiedad al Timelock.
+### 🪙 FASE 2 — Desarrollo del Token (VIGENTE)
+**Objetivo:** Implementar el activo base con mecanismos deflacionarios y de real yield.
+- [ ] Crear el contrato principal `JNSToken.sol` utilizando el patrón UUPS Upgradeable.
+- [ ] Integrar el Tax transaccional fijado en 3% (1% quema permanente, 2% distribuido directamente al rewardPool de staking).
+- [ ] Configurar exenciones de tarifas para contratos del ecosistema autorizados.
+- [ ] Transferencia de propiedad del token al Timelock de gobernanza desde el bloque cero.
 
-### 🔒 FASE 3 — Desarrollo del Staking
-**Objetivo:** Crear incentivos para la retención y participación.
-- [ ] Implementar `JNSStaking.sol` con acuñación del LST $JNSX.
-- [ ] Programar función `addRewardPool` para inyecciones externas.
-- [ ] Solucionar el bug de compilación inyectando de forma nativa e indexada la función crítica `getVotingPower`.
-- [ ] Rediseñar `accessLockedFunds` para acoplarla rígidamente al Governor eliminando el control directo del Owner.
+### 🔒 FASE 3 — Desarrollo del Staking y Yield Routing
+**Objetivo:** Implementar la retención de capital de alta convicción y agregación de rendimiento.
+- [ ] Desarrollar `JNSStaking.sol` con soporte para acuñar el Liquid Staking Token (LST) $JNSX.
+- [ ] Diseñar el sistema de Bóveda de Recompensa Dual (Auto-compound nativo en $JNS + Bóveda separada para dividendos de excedente B2B en $ETH/$USDC).
+- [ ] Solucionar el bug de integración implementando e indexando de forma nativa la función crítica `getVotingPower`.
+- [ ] Integrar el B2B Yield Routing Engine (Agregador de rendimiento multiactivo).
+- [ ] Rediseñar `accessLockedFunds` acoplándolo estrictamente al Governor zk-SNARK, eliminando cualquier control del Owner sobre el 30% del TVL autorizado.
 
-### 🏛️ FASE 4 — Gobernanza y Tesorería
-**Objetivo:** Descentralizar el control y gestionar los fondos.
-- [ ] Desarrollar `JNSGovernorzk.sol` (zk-SNARKs para anonimato de voto).
-- [ ] Desarrollar contrato Timelock con retraso mínimo de 3 días.
-- [ ] Configurar módulos de Circuit Breakers controlados por Multisig de Guardianes.
+### 🏛️ FASE 4 — Gobernanza ZK y Circuit Breakers
+**Objetivo:** Descentralizar el control político con privacidad de nivel bancario.
+- [ ] Desarrollar `JNSGovernorzk.sol` con soporte de zk-SNARKs para garantizar el anonimato del voto.
+- [ ] Desplegar el contrato Timelock con un período de espera mínimo de 3 días (259,200 segundos).
+- [ ] Configurar el módulo multisig de Guardianes con capacidad para activar Circuit Breakers y pausar contratos en caso de emergencias.
 
-### 🚀 FASE 5 — Lanzamiento y The Arena MVP
-**Objetivo:** Interfaz funcional y despliegue en redes.
-- [ ] Lanzamiento del Frontend MVP (React + viem/wagmi) con Abstracción de Cuenta (ERC-4337).
-- [ ] Despliegue del primer módulo de The Arena (Casino) en Arbitrum One (y Arbitrum Sepolia para pruebas).
-- [ ] Activación del motor de recompra (Buyback Engine).
+### 🚀 FASE 5 — Capitalización y The Arena MVP
+**Objetivo:** Distribución de tokens, arranque de liquidez y primer módulo gamificado.
+- [ ] Implementar la estrategia de capitalización comunitaria mediante LBP (Liquidity Bootstrapping Pool) / ILO (Initial Liquidity Offering).
+- [ ] Listar y asegurar pools de liquidez concentrada en el DEX líder Camelot.
+- [ ] Lanzamiento del Frontend MVP (React + viem/wagmi) integrando Abstracción de Cuenta (ERC-4337).
+- [ ] Lanzamiento del módulo secundario gamificado "The Arena" (opciones binarias y juegos algorítmicos Mines/Plinko).
+- [ ] Activación del motor de recompra (Buyback Engine) redireccionando un 90% a staking y un 10% a quema permanente.
 
-### 🌌 FASE 6 — El Ecosistema Integrado
-**Objetivo:** Completar la visión del ecosistema.
-- [ ] Despliegue del Launchpad asistido por Chainlink Functions.
-- [ ] Apertura del Hedge Fund operando el 30% autorizado del TVL de locks largos.
+### 🌌 FASE 6 — El Ecosistema Integrado (DeFi Venture Hub)
+**Objetivo:** Operación a pleno rendimiento del hub de inversión y financiación.
+- [ ] Lanzar el Launchpad formal con tarifas de incubación (Incubation Fees) automatizadas.
+- [ ] Abrir el Hedge Fund DeFi operando con el 30% del TVL autorizado de locks largos de convicción.
+- [ ] Habilitar el módulo multicadena de Yield Routing para optimizar la rentabilidad líquida institucional.

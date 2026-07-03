@@ -1,11 +1,10 @@
 require("dotenv").config();
-const { ethers } = require("hardhat");
+const { ethers, upgrades } = require("hardhat");
 const fs = require("fs");
 
 async function main() {
-  const tokenName = "We All Gonna Make It";
-  const tokenSymbol = "WAGMI";
-  const initialSupply = ethers.utils.parseEther("10000000"); // 10 millones de tokens
+  const tokenName = "JNS Token";
+  const tokenSymbol = "JNS";
   const treasuryAddress = process.env.TREASURY_ADDRESS;
   const initialOwner = process.env.INITIAL_OWNER;
 
@@ -13,16 +12,18 @@ async function main() {
     throw new Error("Please set TREASURY_ADDRESS and INITIAL_OWNER in your .env file");
   }
 
-  console.log("Deploying WAGMIToken...");
-  const WAGMIToken = await ethers.getContractFactory("WAGMIToken");
-  const wagmiToken = await WAGMIToken.deploy(tokenName, tokenSymbol, initialSupply, treasuryAddress, initialOwner);
+  console.log("Deploying JNSToken as UUPS Upgradeable Proxy...");
+  const JNSToken = await ethers.getContractFactory("JNSToken");
+  const jnsToken = await upgrades.deployProxy(JNSToken, [tokenName, tokenSymbol, initialOwner, treasuryAddress], {
+    initializer: "initialize",
+  });
 
-  await wagmiToken.deployed();
-  console.log("WAGMIToken deployed to:", wagmiToken.address);
+  await jnsToken.deployed();
+  console.log("JNSToken proxy deployed to:", jnsToken.address);
 
   // Guardar la dirección del token en el archivo .env
   const envPath = "./.env";
-  fs.appendFileSync(envPath, `STAKING_TOKEN_ADDRESS=${wagmiToken.address}\n`);
+  fs.appendFileSync(envPath, `STAKING_TOKEN_ADDRESS=${jnsToken.address}\n`);
   console.log(`STAKING_TOKEN_ADDRESS saved to ${envPath}`);
 }
 

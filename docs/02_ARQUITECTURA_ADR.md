@@ -18,7 +18,7 @@
 - **Estado**: Aceptado.
 
 ### ADR-002: Tarifas en Transferencias (Tax Token)
-- **Decisión**: Confirmar el Tax del 2% (1% quema, 1% asignado al `rewardPool` de staking).
+- **Decisión**: Configurar formalmente el Tax del 3% (1% quema, 2% asignado al `rewardPool` de staking para potenciar el Real Yield de los stakers de forma pasiva).
 - **Motivo**: Genera presión deflacionaria y financia de manera pasiva a los stakers, asegurando incentivos a largo plazo sin depender de emisiones inflacionarias.
 - **Estado**: Aceptado.
 

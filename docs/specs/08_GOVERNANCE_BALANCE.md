@@ -4,16 +4,28 @@ Este documento detalla el mecanismo político-económico del JNS Ecosistema, gar
 
 ---
 
-## 1. Mecanismo de Distribución de Alta Convicción
+## 1. Mecanismo de Distribución y Estructura de Recompensa Dual
 
-Para incentivar la participación activa y evitar la apatía política en el ecosistema, los flujos extraordinarios del protocolo (por ejemplo, trimestres de alta rentabilidad en The Arena Casino o rendimientos excepcionales del Hedge Fund) se distribuyen mediante un modelo de **Alta Convicción**.
+Para incentivar la participación activa y evitar la apatía política en el ecosistema, JNS implementa una **Estructura de Recompensa Dual** y un modelo de distribución de **Alta Convicción**.
 
-### Reglas de Asignación de Dividendos Extraordinarios
-Los dividendos extraordinarios no se distribuyen a todos los tenedores por igual, sino bajo dos condiciones estrictas y auditables on-chain:
+### Estructura de Recompensa Dual
+Las recompensas distribuidas a los stakers se dividen en dos flujos independientes gestionados por contratos inteligentes:
+
+1. **RewardPool Regular (Auto-Compound nativo en $JNS):**
+   - Se alimenta continuamente del 2% del Tax de transferencias, penalizaciones por retiros anticipados, y el 90% de los tokens recomprados en mercado por el Buyback Engine.
+   - El saldo acumulado en este pool se reinvierte automáticamente de forma nativa incrementando el balance de los stakers.
+
+2. **Bóveda de Dividendos Extraordinarios (Excedente Limpio B2B en $ETH o $USDC):**
+   - Se alimenta de los ingresos extraordinarios netos del DeFi Venture Hub (B2B Yield Routing Engine y tarifas del Launchpad).
+   - Estos fondos se almacenan en una bóveda separada y no sufren auto-compound automático.
+   - Se distribuyen exclusivamente a stakers de Alta Convicción para reclamarse de forma directa en monedas duras líquidas ($ETH o $USDC).
+
+### Reglas de Asignación de la Bóveda de Dividendos
+Los fondos de la Bóveda de Dividendos se asignan de forma meritocrática bajo dos condiciones estrictas on-chain:
 1. **Compromiso de Convicción Temporal (Lock de 365 días):** El usuario debe poseer el Liquid Staking Token (LST) **$JNSX** correspondiente a un bloqueo de máxima duración (365 días).
-2. **Participación Democrática Activa:** El contrato de distribución cruzará los balances de staking con el registro histórico de votaciones del **JNSGovernorzk.sol**. Los dividendos extraordinarios se calculan proporcionalmente sólo para aquellas direcciones que hayan emitido votos en al menos el 80% de las propuestas cerradas en el período evaluado.
+2. **Participación Democrática Activa (Quórum de Voto > 70%):** El contrato de distribución cruzará los balances de staking con el registro histórico de votaciones del **JNSGovernorzk.sol**. Solo se considerarán aptas las direcciones que registren participación en más del 70% de las propuestas del período evaluado.
 
-Este mecanismo mitiga el parasitismo financiero (free-riding), premiando exclusivamente a quienes aportan valor tanto en capital como en dirección política al protocolo.
+Este mecanismo mitiga el parasitismo financiero (free-riding) y premia de manera directa y tangible a los usuarios alineados a largo plazo con la gobernanza y solvencia del Hub.
 
 ---
 
