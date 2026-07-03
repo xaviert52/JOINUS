@@ -12,6 +12,10 @@ import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/Pau
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
+interface IJNSGovernor {
+    function hasMetCivicDuty(address user, uint256 epochId) external view returns (bool);
+}
+
 /// @title JNSStaking
 /// @notice Motor principal de Staking y contrato LST ($JNSX) para el JNS Ecosistema.
 contract JNSStaking is 
@@ -49,8 +53,17 @@ contract JNSStaking is
     mapping(address => uint256) public rewardDebt;
     mapping(address => uint256) public pendingRewards;
 
-    // TODO: Phase 3.2 - Mappings y variables de estado para el sistema de Epochs cívicas
-    // TODO: Phase 3.2 - Variables de estado para Bóveda Dual (Dividendos en $ETH/USDC)
+    // --- DUAL VAULT & CIVIC EPOCHS ---
+    IERC20 public dividendToken;
+    IJNSGovernor public governorContract;
+
+    uint256 public currentEpoch;
+    uint256 public totalJNSX365; // Tracker global de JNSX en locks de 365 días
+    
+    mapping(uint256 => uint256) public epochTotalDividends;
+    mapping(uint256 => uint256) public epochTotalEligibleShares;
+    mapping(uint256 => uint256) public epochEndTimes;
+    mapping(uint256 => mapping(address => bool)) public hasClaimedDividend;
     
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -143,6 +156,9 @@ contract JNSStaking is
         }));
 
         totalJNSLocked += _amount;
+        if (_lockType == LockType.DAYS_365) {
+            totalJNSX365 += amountJNSX;
+        }
         
         // _mint dispara _update, el cual actualiza _updateUserReward y _updateRewardDebt
         _mint(msg.sender, amountJNSX);
@@ -163,6 +179,9 @@ contract JNSStaking is
         stake.jnsxMinted -= _amountJNSX;
         stake.amount -= amountJNS;
         totalJNSLocked -= amountJNS;
+        if (stake.lockType == LockType.DAYS_365) {
+            totalJNSX365 -= _amountJNSX;
+        }
 
         uint256 penalty = 0;
         if (block.timestamp < stake.unlockTime) {
@@ -224,8 +243,68 @@ contract JNSStaking is
         }));
         
         totalJNSLocked += amount;
+        if (_lockType == LockType.DAYS_365) {
+            totalJNSX365 += amountJNSX;
+        }
         
         _mint(msg.sender, amountJNSX);
+    }
+
+    // ==========================================
+    // DUAL VAULT & CIVIC EPOCHS
+    // ==========================================
+
+    function setDividendToken(address _token) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        dividendToken = IERC20(_token);
+    }
+
+    function setGovernorContract(address _governor) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        governorContract = IJNSGovernor(_governor);
+    }
+
+    function startNewEpoch() external onlyRole(TIMELOCK_ROLE) {
+        epochTotalEligibleShares[currentEpoch] = totalJNSX365;
+        epochEndTimes[currentEpoch] = block.timestamp;
+        currentEpoch++;
+    }
+
+    function distributeExtraordinaryDividends(uint256 _amount) external nonReentrant {
+        require(address(dividendToken) != address(0), "Dividend token not set");
+        require(_amount > 0, "Amount must be > 0");
+        require(dividendToken.transferFrom(msg.sender, address(this), _amount), "Transfer failed");
+        
+        epochTotalDividends[currentEpoch] += _amount;
+    }
+
+    function claimExtraordinaryDividends(uint256 _epochId) external nonReentrant whenNotPaused {
+        require(_epochId < currentEpoch, "Epoch not ended yet");
+        require(!hasClaimedDividend[_epochId][msg.sender], "Already claimed");
+        require(address(governorContract) != address(0), "Governor not set");
+        require(address(dividendToken) != address(0), "Dividend token not set");
+        
+        require(governorContract.hasMetCivicDuty(msg.sender, _epochId), "Civic duty not met");
+
+        uint256 eligibleJNSX = 0;
+        uint256 epochEnd = epochEndTimes[_epochId];
+        
+        for (uint i = 0; i < userStakes[msg.sender].length; i++) {
+            StakeInfo storage stake = userStakes[msg.sender][i];
+            if (stake.lockType == LockType.DAYS_365 && stake.jnsxMinted > 0) {
+                // Inferir momento de creacion restando exactamente 365 days
+                uint256 createdAt = stake.unlockTime - 365 days;
+                if (createdAt <= epochEnd) {
+                    eligibleJNSX += stake.jnsxMinted;
+                }
+            }
+        }
+
+        require(eligibleJNSX > 0, "No eligible 365-day stakes");
+
+        uint256 userShare = (eligibleJNSX * epochTotalDividends[_epochId]) / epochTotalEligibleShares[_epochId];
+        require(userShare > 0, "No dividends to claim");
+
+        hasClaimedDividend[_epochId][msg.sender] = true;
+        require(dividendToken.transfer(msg.sender, userShare), "Transfer failed");
     }
 
     // ==========================================

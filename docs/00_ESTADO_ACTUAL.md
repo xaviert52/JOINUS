@@ -13,7 +13,8 @@ El núcleo del sistema será el token $JNS. Actualmente, el proyecto cuenta con 
 ### 2. Hito Vigente
 - **Fase 1 — Preparación (COMPLETADA)**: Definición de tokenomics, configuración de billeteras y establecimiento de documentación base.
 - **Fase 2 — Desarrollo del Token (COMPLETADA)**: Creación del contrato ERC-20 upgradable (UUPS) con tarifas de transacción incorporadas.
-- **Fase 3 — Desarrollo del Staking (VIGENTE)**: Implementación del staking de recompensa dual, gobernanza ZK y checkpointing de gobernanza.
+- **Fase 3 — Desarrollo del Staking (COMPLETADA)**: Implementación del staking de recompensa dual, checkpointing on-chain y bóveda meritocrática finalizados.
+- **Fase 4 — Gobernanza ZK (VIGENTE)**: Desarrollo del módulo de votos encriptados (Zero-Knowledge) para el ecosistema.
 
 ### 3. Logros Recientes
 - [x] Estructuración del repositorio (Hardhat + Frontend).
@@ -24,8 +25,8 @@ El núcleo del sistema será el token $JNS. Actualmente, el proyecto cuenta con 
 ### 4. Estado de Componentes
 
 #### Smart Contracts (Solidity / Hardhat)
-- **JNSToken.sol**: En planificación (ERC-20, UUPS Upgradeable, Suministro Fijo de 10M, Tax del 3%).
-- **JNSStaking.sol**: En planificación (Liquid Staking Token $JNSX, multiplicadores de tiempo 1.1x a 2.0x, Dynamic APY de Real Yield, bóveda de recompensa dual).
+- **JNSToken.sol**: Completado (ERC-20, UUPS Upgradeable, Suministro Fijo de 10M, Tax del 3%, Testing Exitoso).
+- **JNSStaking.sol**: Completado (Liquid Staking $JNSX, multiplicadores de tiempo, Real Yield, Bóveda Dual y Épocas Cívicas, Testing Exitoso).
 - **JNSGovernorzk.sol**: En planificación (Governor con soporte zk-SNARKs para privacidad de voto).
 - **TheArenaCasino.sol**: En planificación (Módulo secundario gamificado, generador de cashflow y recompras de mercado).
 

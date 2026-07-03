@@ -204,4 +204,81 @@ describe("JNSStaking (Phase 3)", function () {
       expect(stakeInfo.jnsxMinted).to.equal(ethers.utils.parseEther("40"));
     });
   });
+
+  describe("Dual Vault & Civic Epochs", function () {
+    let mockUSDC, mockGovernor;
+
+    beforeEach(async function () {
+      const MockUSDC = await ethers.getContractFactory("MockUSDC");
+      mockUSDC = await MockUSDC.deploy();
+      await mockUSDC.deployed();
+
+      const MockGovernor = await ethers.getContractFactory("MockGovernor");
+      mockGovernor = await MockGovernor.deploy();
+      await mockGovernor.deployed();
+
+      await jnsStaking.setDividendToken(mockUSDC.address);
+      await jnsStaking.setGovernorContract(mockGovernor.address);
+
+      // User1 stakes with Flexible (not eligible)
+      await jnsStaking.connect(user1).deposit(ethers.utils.parseEther("100"), 0);
+
+      // User2 stakes with 365 Days (eligible, 200 JNSX)
+      await jnsStaking.connect(user2).deposit(ethers.utils.parseEther("100"), 4);
+
+      // User2 satisfies civic duty for Epoch 0
+      await mockGovernor.setCivicDuty(user2.address, 0, true);
+    });
+
+    it("Should start a new epoch and snapshot totalJNSX365", async function () {
+      await jnsStaking.connect(timelock).startNewEpoch();
+      
+      const currentEpoch = await jnsStaking.currentEpoch();
+      const eligibleShares = await jnsStaking.epochTotalEligibleShares(0);
+
+      expect(currentEpoch).to.equal(1);
+      expect(eligibleShares).to.equal(ethers.utils.parseEther("200"));
+    });
+
+    it("Should reject claims for users without 365-day lock or civic duty", async function () {
+      await mockUSDC.mint(owner.address, ethers.utils.parseEther("1000"));
+      await mockUSDC.approve(jnsStaking.address, ethers.utils.parseEther("1000"));
+      await jnsStaking.distributeExtraordinaryDividends(ethers.utils.parseEther("1000"));
+
+      await jnsStaking.connect(timelock).startNewEpoch();
+
+      // User1 fails Civic Filter
+      await expect(
+        jnsStaking.connect(user1).claimExtraordinaryDividends(0)
+      ).to.be.revertedWith("Civic duty not met");
+
+      // Bypass Civic Filter
+      await mockGovernor.setCivicDuty(user1.address, 0, true);
+      
+      // User1 fails Conviction Filter (No 365-day lock)
+      await expect(
+        jnsStaking.connect(user1).claimExtraordinaryDividends(0)
+      ).to.be.revertedWith("No eligible 365-day stakes");
+    });
+
+    it("Should correctly distribute USDC to legitimate 365-day stakers", async function () {
+      await mockUSDC.mint(owner.address, ethers.utils.parseEther("1000"));
+      await mockUSDC.approve(jnsStaking.address, ethers.utils.parseEther("1000"));
+      await jnsStaking.distributeExtraordinaryDividends(ethers.utils.parseEther("1000"));
+
+      await jnsStaking.connect(timelock).startNewEpoch();
+
+      // User2 claims successfully
+      const balanceBefore = await mockUSDC.balanceOf(user2.address);
+      await jnsStaking.connect(user2).claimExtraordinaryDividends(0);
+      const balanceAfter = await mockUSDC.balanceOf(user2.address);
+
+      expect(balanceAfter.sub(balanceBefore)).to.equal(ethers.utils.parseEther("1000")); // Only eligible user gets 100%
+
+      // Reverts on double claim
+      await expect(
+        jnsStaking.connect(user2).claimExtraordinaryDividends(0)
+      ).to.be.revertedWith("Already claimed");
+    });
+  });
 });
