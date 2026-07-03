@@ -19,10 +19,10 @@ contract JNSToken is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, 
     address public rewardPoolAddress;
     
     /// @notice Mapping to identify addresses exempt from the transfer tax
-    mapping(address => bool) public feeExempt;
+    mapping(address => bool) public isTaxExempt;
     
     event RewardPoolAddressUpdated(address indexed newRewardPoolAddress);
-    event FeeExemptionUpdated(address indexed account, bool isExempt);
+    event TaxExemptionUpdated(address indexed account, bool status);
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -44,7 +44,6 @@ contract JNSToken is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, 
         __ERC20Burnable_init();
         __Pausable_init();
         __Ownable_init(_initialOwner);
-        __UUPSUpgradeable_init();
 
         // Mint maximum supply of 10,000,000 $JNS to the initial owner
         _mint(_initialOwner, MAX_SUPPLY);
@@ -52,9 +51,9 @@ contract JNSToken is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, 
         // Set the initial reward pool address
         rewardPoolAddress = _rewardPoolAddress;
         
-        // Exempt the initial owner and the contract itself from taxes
-        feeExempt[_initialOwner] = true;
-        feeExempt[address(this)] = true;
+        // Exempt the initial owner (deployer) and the contract itself from taxes
+        isTaxExempt[_initialOwner] = true;
+        isTaxExempt[address(this)] = true;
     }
 
     /// @notice Updates the reward pool address.
@@ -68,11 +67,11 @@ contract JNSToken is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, 
 
     /// @notice Sets fee exemption for a given address.
     /// @param account Address to exempt from fees.
-    /// @param isExempt Whether the address is exempt from fees.
-    function setFeeExemption(address account, bool isExempt) external onlyOwner {
-        feeExempt[account] = isExempt;
+    /// @param status Whether the address is exempt from fees.
+    function setTaxExempt(address account, bool status) external onlyOwner {
+        isTaxExempt[account] = status;
 
-        emit FeeExemptionUpdated(account, isExempt);
+        emit TaxExemptionUpdated(account, status);
     }
 
     /// @notice Pauses all token transfers.
@@ -85,7 +84,7 @@ contract JNSToken is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, 
         _unpause();
     }
 
-    /// @notice UUPS authorize upgrade hook, restricted to the owner (Timelock).
+    /// @notice UUPS authorize upgrade hook, restricted to the owner.
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
     /// @notice Internal update override to implement the 3% transfer tax.
@@ -104,7 +103,7 @@ contract JNSToken is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, 
         }
 
         // Apply transfer tax if sender and receiver are not exempt
-        if (feeExempt[from] || feeExempt[to]) {
+        if (isTaxExempt[from] || isTaxExempt[to]) {
             super._update(from, to, value);
         } else {
             uint256 burnAmount = (value * 1) / 100;         // 1% burn

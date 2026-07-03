@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 /// @title Treasury
 /// @notice Manages the initial distribution of funds to multisig wallets controlled by the DAO.
 contract Treasury is Ownable, ReentrancyGuard {
+    constructor(address initialOwner) Ownable(initialOwner) {}
     event FundsTransferred(address indexed recipient, uint256 amount);
 
     /// @notice Transfers funds to a specified recipient.

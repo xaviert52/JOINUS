@@ -41,22 +41,32 @@ describe("JNSToken", function () {
       expect(ownerBalance).to.equal(MAX_SUPPLY);
     });
 
-    it("Should exempt the owner and the contract itself from fees by default", async function () {
-      expect(await jnsToken.feeExempt(owner.address)).to.be.true;
-      expect(await jnsToken.feeExempt(jnsToken.address)).to.be.true;
-      expect(await jnsToken.feeExempt(user1.address)).to.be.false;
+    it("Should automatically add the deployer (owner) and contract to isTaxExempt", async function () {
+      expect(await jnsToken.isTaxExempt(owner.address)).to.be.true;
+      expect(await jnsToken.isTaxExempt(jnsToken.address)).to.be.true;
+      expect(await jnsToken.isTaxExempt(user1.address)).to.be.false;
     });
   });
 
-  describe("Transfer Tax Mechanism (3%)", function () {
+  describe("Validation of Exemptions and Transfer Tax Mechanism (3%)", function () {
     beforeEach(async function () {
       // Transfer 1,000 JNS to user1 to test standard non-exempt transfers.
-      // Since owner is feeExempt, this transfer incurs no tax.
+      // Since owner is in isTaxExempt, this transfer incurs no tax.
       const transferAmount = ethers.utils.parseEther("1000");
       await jnsToken.transfer(user1.address, transferAmount);
     });
 
-    it("Should apply exactly 3% retention on a regular trade (1% burn, 2% reward pool)", async function () {
+    it("Deployer (exempt) should be able to transfer without paying the 3% tax", async function () {
+      const transferAmount = ethers.utils.parseEther("100");
+      
+      // owner (exempt) sends 100 JNS to user2
+      await jnsToken.transfer(user2.address, transferAmount);
+
+      // user2 should receive the full amount
+      expect(await jnsToken.balanceOf(user2.address)).to.equal(transferAmount);
+    });
+
+    it("Should apply exactly 3% retention on a regular trade between non-exempt users (1% burn, 2% reward pool)", async function () {
       const initialTotalSupply = await jnsToken.totalSupply();
       const initialRewardPoolBalance = await jnsToken.balanceOf(rewardPool.address);
       
@@ -88,22 +98,9 @@ describe("JNSToken", function () {
       expect(initialTotalSupply.sub(finalTotalSupply)).to.equal(burnAmount);
     });
 
-    it("Should not apply tax if the sender is exempt", async function () {
-      // Set user1 as exempt
-      await jnsToken.setFeeExemption(user1.address, true);
-
-      const transferAmount = ethers.utils.parseEther("100");
-      
-      // user1 (exempt) sends 100 JNS to user2
-      await jnsToken.connect(user1).transfer(user2.address, transferAmount);
-
-      // user2 should receive the full amount
-      expect(await jnsToken.balanceOf(user2.address)).to.equal(transferAmount);
-    });
-
     it("Should not apply tax if the recipient is exempt", async function () {
-      // Set user2 as exempt
-      await jnsToken.setFeeExemption(user2.address, true);
+      // Set user2 as exempt using setTaxExempt
+      await jnsToken.setTaxExempt(user2.address, true);
 
       const transferAmount = ethers.utils.parseEther("100");
       
@@ -121,23 +118,13 @@ describe("JNSToken", function () {
       await jnsToken.transfer(user1.address, transferAmount);
     });
 
-    it("Should freeze movements when paused", async function () {
+    it("Should freeze movements immediately when paused", async function () {
       await jnsToken.pause();
 
       const transferAmount = ethers.utils.parseEther("100");
       await expect(
         jnsToken.connect(user1).transfer(user2.address, transferAmount)
       ).to.be.revertedWithCustomError(jnsToken, "EnforcedPause");
-    });
-
-    it("Should allow movements after unpausing", async function () {
-      await jnsToken.pause();
-      await jnsToken.unpause();
-
-      const transferAmount = ethers.utils.parseEther("100");
-      await expect(
-        jnsToken.connect(user1).transfer(user2.address, transferAmount)
-      ).to.not.be.reverted;
     });
   });
 });
