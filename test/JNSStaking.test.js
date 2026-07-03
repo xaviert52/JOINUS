@@ -127,4 +127,81 @@ describe("JNSStaking (Phase 3)", function () {
       expect(await jnsStaking.balanceOf(user1.address)).to.equal(ethers.utils.parseEther("100"));
     });
   });
+
+  describe("Withdrawals and Penalties (Early Unstake)", function () {
+    it("Should allow withdrawal with NO penalty if time has passed", async function () {
+      const amount = ethers.utils.parseEther("100");
+      // deposit 365 days (200 JNSX)
+      await jnsStaking.connect(user1).deposit(amount, 4);
+
+      // Increase time by 365 days + 1 second
+      await ethers.provider.send("evm_increaseTime", [365 * 24 * 60 * 60 + 1]);
+      await ethers.provider.send("evm_mine");
+
+      const balanceBefore = await jnsToken.balanceOf(user1.address);
+      
+      // Withdraw 200 JNSX
+      await jnsStaking.connect(user1).withdraw(ethers.utils.parseEther("200"), 0);
+      
+      const balanceAfter = await jnsToken.balanceOf(user1.address);
+      expect(balanceAfter.sub(balanceBefore)).to.equal(amount); // Returned 100 JNS
+    });
+
+    it("Should penalize 25% for breaking a 365 DAYS lock early", async function () {
+      const amount = ethers.utils.parseEther("100");
+      await jnsStaking.connect(user2).deposit(amount, 4);
+
+      // Early withdraw
+      const balanceBefore = await jnsToken.balanceOf(user2.address);
+      
+      await jnsStaking.connect(user2).withdraw(ethers.utils.parseEther("200"), 0);
+
+      const balanceAfter = await jnsToken.balanceOf(user2.address);
+      expect(balanceAfter.sub(balanceBefore)).to.equal(ethers.utils.parseEther("75")); // 25% penalty -> 75 returned
+    });
+  });
+
+  describe("Base Yield Reward Engine", function () {
+    beforeEach(async function () {
+      // User1 stakes 100 JNS (Flexible = 100 JNSX)
+      await jnsStaking.connect(user1).deposit(ethers.utils.parseEther("100"), 0);
+      // User2 stakes 100 JNS (365 days = 200 JNSX)
+      await jnsStaking.connect(user2).deposit(ethers.utils.parseEther("100"), 4);
+
+      // Total JNSX = 300. User1 has 1/3, User2 has 2/3.
+
+      // Simulate a reward injection of 30 JNS (e.g., from market tax)
+      await jnsToken.transfer(jnsStaking.address, ethers.utils.parseEther("30"));
+    });
+
+    it("Should distribute rewards proportionally to JNSX balance", async function () {
+      const pending1 = await jnsStaking.pendingBaseYield(user1.address);
+      const pending2 = await jnsStaking.pendingBaseYield(user2.address);
+
+      expect(pending1).to.equal(ethers.utils.parseEther("10")); // 1/3 of 30
+      expect(pending2).to.equal(ethers.utils.parseEther("20")); // 2/3 of 30
+    });
+
+    it("Should allow claiming the base yield", async function () {
+      const balanceBefore = await jnsToken.balanceOf(user1.address);
+      await jnsStaking.connect(user1).claimBaseYield();
+      const balanceAfter = await jnsToken.balanceOf(user1.address);
+
+      expect(balanceAfter.sub(balanceBefore)).to.equal(ethers.utils.parseEther("10"));
+    });
+
+    it("Should auto-compound the base yield natively into new JNSX stakes", async function () {
+      // User2 has 20 JNS pending. Auto-compound with 365 Days (2.0x).
+      // This should mint 40 JNSX (20 * 2).
+      const jnsxBefore = await jnsStaking.balanceOf(user2.address); // 200
+      await jnsStaking.connect(user2).autoCompoundBaseYield(4);
+      const jnsxAfter = await jnsStaking.balanceOf(user2.address); // 200 + 40 = 240
+      
+      expect(jnsxAfter.sub(jnsxBefore)).to.equal(ethers.utils.parseEther("40"));
+      
+      const stakeInfo = await jnsStaking.userStakes(user2.address, 1);
+      expect(stakeInfo.amount).to.equal(ethers.utils.parseEther("20"));
+      expect(stakeInfo.jnsxMinted).to.equal(ethers.utils.parseEther("40"));
+    });
+  });
 });
