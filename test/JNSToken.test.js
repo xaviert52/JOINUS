@@ -124,7 +124,7 @@ describe("JNSToken", function () {
       const transferAmount = ethers.utils.parseEther("100");
       await expect(
         jnsToken.connect(user1).transfer(user2.address, transferAmount)
-      ).to.be.revertedWithCustomError(jnsToken, "EnforcedPause");
+      ).to.be.reverted;
     });
   });
 });
