@@ -51,3 +51,8 @@
 - **Decisión**: Se adopta el estándar ERC-4626 para las bóvedas del B2B Yield Aggregator.
 - **Motivo**: Facilita la interoperabilidad y la integración estándar con otros protocolos DeFi y Yield Engines.
 - **Estado**: Aceptado.
+
+### ADR-009: Distribución del Flujo de Caja del Casino
+- **Decisión**: Se fija una comisión operativa y de riesgo del 40% para el fundador (Jasar) sobre las ganancias netas de The Arena. El 60% restante se divide algorítmicamente entre la Bóveda de Dividendos Cívicos (30%), la banca del casino (10%), recompras del mercado y quema (10%) y el RewardPool (10%).
+- **Motivo**: Canalizar el flujo de caja circular de The Arena de forma balanceada para incentivar la participación cívica y sostener el precio del token y la banca del casino.
+- **Estado**: Aceptado.

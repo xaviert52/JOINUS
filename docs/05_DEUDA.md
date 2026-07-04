@@ -8,11 +8,6 @@
 - **Riesgo**: Ninguno en esta fase.
 - **Plan**: Abordar durante la Fase 5.
 
-### DT-005: Esquema de circuitos ZK
-- **Fecha registro**: 2026-06-24
-- **Descripción**: Diseñar y compilar el circuito zk-SNARK para integrarlo con la lógica de gobernanza anónima.
-- **Riesgo**: Medio. Complejidad en la integración on-chain y costes de gas para verificación de pruebas.
-- **Plan**: Diseñar los circuitos ZK y probar su compilación durante la Fase 4.
 
 ---
 
@@ -47,6 +42,11 @@
 - **Fecha registro**: 2026-07-03
 - **Fecha resolución**: 2026-07-03
 - **Resolución**: Resolución de dependencias locales obsoletas instalando e integrando la v5 de OpenZeppelin, Hardhat Toolbox, y configurando la compatibilidad con el EVM Cancun (mcopy) y las directrices de testeo en Hardhat.
+
+### DT-005: Esquema de circuitos ZK y verificación de Semaphore
+- **Fecha registro**: 2026-06-24
+- **Fecha resolución**: 2026-07-04
+- **Resolución**: Liquidada exitosamente mediante el empaquetado del peso y la decisión en la señal pública de Semaphore V4.
 
 ---
 
