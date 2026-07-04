@@ -26,7 +26,7 @@ El núcleo del sistema será el token $JNS. Actualmente, el proyecto cuenta con 
 
 #### Smart Contracts (Solidity / Hardhat)
 - **JNSToken.sol**: Completado (ERC-20, UUPS Upgradeable, Suministro Fijo de 10M, Tax del 3%, Testing Exitoso).
-- **JNSStaking.sol**: Completado (Liquid Staking $JNSX, multiplicadores de tiempo, Real Yield, Bóveda Dual y Épocas Cívicas, Testing Exitoso).
+- **JNSStaking.sol**: Implementado (LST $JNSX, Early Unstake, Recompensa Dual, Checkpointing ERC20Votes y Acceso Timelock).
 - **JNSGovernorzk.sol**: En planificación (Governor con soporte zk-SNARKs para privacidad de voto).
 - **TheArenaCasino.sol**: En planificación (Módulo secundario gamificado, generador de cashflow y recompras de mercado).
 

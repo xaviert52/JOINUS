@@ -12,22 +12,22 @@ El roadmap de JNS Ecosistema está estructurado para construir paso a paso un ec
 - [x] Reestructuración completa de la documentación inicial a JNS/$JNSX.
 - [x] Rediseño de la arquitectura del ecosistema hacia el modelo DeFi Venture Hub.
 
-### 🪙 FASE 2 — Desarrollo del Token (VIGENTE)
+### 🪙 FASE 2 — Desarrollo del Token (COMPLETADA)
 **Objetivo:** Implementar el activo base con mecanismos deflacionarios y de real yield.
-- [ ] Crear el contrato principal `JNSToken.sol` utilizando el patrón UUPS Upgradeable.
-- [ ] Integrar el Tax transaccional fijado en 3% (1% quema permanente, 2% distribuido directamente al rewardPool de staking).
-- [ ] Configurar exenciones de tarifas para contratos del ecosistema autorizados.
-- [ ] Transferencia de propiedad del token al Timelock de gobernanza desde el bloque cero.
+- [x] Crear el contrato principal `JNSToken.sol` utilizando el patrón UUPS Upgradeable.
+- [x] Integrar el Tax transaccional fijado en 3% (1% quema permanente, 2% distribuido directamente al rewardPool de staking).
+- [x] Configurar exenciones de tarifas para contratos del ecosistema autorizados.
+- [x] Transferencia de propiedad del token al Timelock de gobernanza desde el bloque cero.
 
-### 🔒 FASE 3 — Desarrollo del Staking y Yield Routing
+### 🔒 FASE 3 — Desarrollo del Staking y Yield Routing (COMPLETADA)
 **Objetivo:** Implementar la retención de capital de alta convicción y agregación de rendimiento.
-- [ ] Desarrollar `JNSStaking.sol` con soporte para acuñar el Liquid Staking Token (LST) $JNSX.
-- [ ] Diseñar el sistema de Bóveda de Recompensa Dual (Auto-compound nativo en $JNS + Bóveda separada para dividendos de excedente B2B en $ETH/$USDC).
-- [ ] Solucionar el bug de integración implementando e indexando de forma nativa la función crítica `getVotingPower`.
-- [ ] Integrar el B2B Yield Routing Engine (Agregador de rendimiento multiactivo).
-- [ ] Rediseñar `accessLockedFunds` acoplándolo estrictamente al Governor zk-SNARK, eliminando cualquier control del Owner sobre el 30% del TVL autorizado.
+- [x] Desarrollar `JNSStaking.sol` con soporte para acuñar el Liquid Staking Token (LST) $JNSX.
+- [x] Diseñar el sistema de Bóveda de Recompensa Dual (Auto-compound nativo en $JNS + Bóveda separada para dividendos de excedente B2B en $ETH/$USDC).
+- [x] Solucionar el bug de integración implementando e indexando de forma nativa la función crítica `getVotingPower`.
+- [x] Integrar el B2B Yield Routing Engine (Agregador de rendimiento multiactivo).
+- [x] Rediseñar `accessLockedFunds` acoplándolo estrictamente al Governor zk-SNARK, eliminando cualquier control del Owner sobre el 30% del TVL autorizado.
 
-### 🏛️ FASE 4 — Gobernanza ZK y Circuit Breakers
+### 🏛️ FASE 4 — Gobernanza ZK y Circuit Breakers (VIGENTE)
 **Objetivo:** Descentralizar el control político con privacidad de nivel bancario.
 - [ ] Desarrollar `JNSGovernorzk.sol` con soporte de zk-SNARKs para garantizar el anonimato del voto.
 - [ ] Desplegar el contrato Timelock con un período de espera mínimo de 3 días (259,200 segundos).
