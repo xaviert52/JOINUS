@@ -53,6 +53,10 @@
 - **Estado**: Aceptado.
 
 ### ADR-009: Distribución del Flujo de Caja del Casino
-- **Decisión**: Se fija una comisión operativa y de riesgo del 40% para el fundador (Jasar) sobre las ganancias netas de The Arena. El 60% restante se divide algorítmicamente entre la Bóveda de Dividendos Cívicos (30%), la banca del casino (10%), recompras del mercado y quema (10%) y el RewardPool (10%).
-- **Motivo**: Canalizar el flujo de caja circular de The Arena de forma balanceada para incentivar la participación cívica y sostener el precio del token y la banca del casino.
+- **Decisión**: Se fija una comisión operativa y de riesgo del 35% para el fundador (Jasar) sobre las ganancias netas de The Arena (cobertura de infraestructura y banca). El 65% restante se divide algorítmicamente entre:
+  * 30% a la Bóveda de Dividendos de Alta Convicción (para stakers de $JNSX a 365 días con >70% de asistencia cívica).
+  * 15% al RewardPool General (para potenciar masivamente el APY pasivo de todos los stakers).
+  * 10% al House Bankroll (fondo de cobertura y crecimiento de la banca del casino).
+  * 10% para recompras en DEX (Buyback) y quema perpetua de $JNS.
+- **Motivo**: Canalizar el flujo de caja circular de The Arena priorizando el beneficio comunitario al elevar estratégicamente el RewardPool al 15% e incentivando el compromiso a largo plazo.
 - **Estado**: Aceptado.
