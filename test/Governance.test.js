@@ -54,7 +54,7 @@ describe("Governance ZK (Phase 4)", function () {
       await mockSemaphore.deployed();
 
       const Governor = await ethers.getContractFactory("JNSGovernorzk");
-      jnsGovernor = await upgrades.deployProxy(Governor, [jnsStaking.address, mockSemaphore.address, 1], { unsafeAllow: ["constructor"] });
+      jnsGovernor = await upgrades.deployProxy(Governor, [jnsStaking.address, mockSemaphore.address, 1, owner.address, owner.address], { unsafeAllow: ["constructor"] });
       await jnsGovernor.deployed();
     });
 
@@ -63,7 +63,7 @@ describe("Governance ZK (Phase 4)", function () {
       expect(tokenAddress).to.equal(jnsStaking.address);
     });
 
-    it("Should update the public civic registry (hasParticipated) when a ZK vote is cast", async function () {
+    it("Should update the public civic registry and weighted counts when a ZK vote is cast", async function () {
       await jnsToken.approve(jnsStaking.address, ethers.utils.parseEther("100"));
       await jnsStaking.deposit(ethers.utils.parseEther("100"), 0); 
       
@@ -73,7 +73,7 @@ describe("Governance ZK (Phase 4)", function () {
         [owner.address],
         [0],
         ["0x"],
-        "Proposal #1: Test ZK Anonymity"
+        "Proposal #1: Test ZK Anonymity & Weighted Voting"
       );
       const receipt = await grantTx.wait();
       
@@ -83,22 +83,42 @@ describe("Governance ZK (Phase 4)", function () {
       await ethers.provider.send("evm_increaseTime", [1.5 * 24 * 60 * 60]);
       await ethers.provider.send("evm_mine", []);
 
+      // Simular la inyección de la raíz del árbol de Merkle off-chain por parte del Admin
+      const fakeMerkleRoot = 999999;
+      await jnsGovernor.setProposalMerkleRoot(proposalId, fakeMerkleRoot);
+
       const nullifierHash = 123456789;
       const proof = [0, 0, 0, 0, 0, 0, 0, 0];
+      const weight = ethers.utils.parseEther("10");
       
       await jnsGovernor.connect(user1).castVoteZK(
         proposalId,
         1, // support (For)
-        ethers.utils.parseEther("10"), // simulated weight
-        20, // tree depth
-        111111, // root
+        weight,
         nullifierHash,
         proof
       );
 
+      // Verificación 1: Paradoja Cívica (Registro de Participación del relayer)
       const epoch = await jnsGovernor.currentEpoch();
       const participated = await jnsGovernor.hasParticipated(epoch, user1.address);
       expect(participated).to.be.true;
+
+      // Verificación 2: Conteo Ponderado ZK manual exitoso
+      const proposalData = await jnsGovernor.proposalZKs(proposalId);
+      expect(proposalData.totalVotesFor).to.equal(weight);
+      expect(proposalData.totalVotesAgainst).to.equal(0);
+
+      // Verificación 3: Prevención de Doble Voto
+      await expect(
+        jnsGovernor.connect(user1).castVoteZK(
+          proposalId,
+          1,
+          weight,
+          nullifierHash,
+          proof
+        )
+      ).to.be.revertedWith("JNSGovernorZK: nullifier already used");
     });
   });
 });
