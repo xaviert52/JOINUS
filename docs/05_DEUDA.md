@@ -4,10 +4,10 @@
 
 ### DT-001: Implementación Frontend Pendiente
 - **Fecha registro**: 2026-05-15
-- **Descripción**: El directorio frontend se encuentra inicializado pero sin la arquitectura final de React y Web3 definida.
-- **Riesgo**: Ninguno en esta fase.
-- **Plan**: Abordar durante la Fase 5.
-
+- **Estado**: En Progreso (Fase 5)
+- **Descripción**: Inicialización de arquitectura Next.js (App Router), Wagmi v2, viem, RainbowKit y Pimlico (permissionless.js) priorizando el anonimato Web3 y Account Abstraction (Gasless TXs).
+- **Riesgo**: Moderado. Complejidad en la integración de ZK Proofs en el cliente y orquestación de Paymasters.
+- **Plan**: Desarrollar en `frontend/` los portales de Staking y Gobernanza ZK de manera desacoplada.
 
 ---
 
