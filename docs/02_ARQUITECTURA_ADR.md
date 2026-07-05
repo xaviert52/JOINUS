@@ -18,8 +18,8 @@
 - **Estado**: Aceptado.
 
 ### ADR-002: Tarifas en Transferencias (Tax Token)
-- **Decisión**: Configurar formalmente el Tax del 3% (1% quema, 2% asignado al `rewardPool` de staking para potenciar el Real Yield de los stakers de forma pasiva).
-- **Motivo**: Genera presión deflacionaria y financia de manera pasiva a los stakers, asegurando incentivos a largo plazo sin depender de emisiones inflacionarias.
+- **Decisión**: Configurar formalmente el Tax del 3% (1% quema permanente). Respecto al restante: El 2% de retención del tax transaccional se envía ÚNICA Y EXCLUSIVAMENTE a la dirección de la bóveda del RewardPool General de la DAO. Ningún usuario recibe distribuciones directas del mercado. El Smart Contract de Staking se alimenta de este RewardPool colectivo para calcular matemáticamente un APY dinámico y pagar a los stakers. El Auto-Compound es una acción estrictamente manual y voluntaria donde el usuario decide reinvertir sus propias utilidades ya devengadas.
+- **Motivo**: Genera presión deflacionaria y centraliza el yield en el contrato de staking protegiendo jurídicamente a la DAO de distribuciones automáticas.
 - **Estado**: Aceptado.
 
 ### ADR-003: Time-weighted Voting lineal

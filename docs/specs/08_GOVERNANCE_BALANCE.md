@@ -11,8 +11,8 @@ Para incentivar la participación activa y evitar la apatía política en el eco
 ### Estructura de Recompensa Dual
 Las recompensas distribuidas a los stakers se dividen en dos flujos independientes gestionados por contratos inteligentes:
 
-1. **RewardPool Regular (Auto-Compound nativo en $JNS):**
-   - Se alimenta continuamente del 2% del Tax de transferencias, penalizaciones por retiros anticipados, y el 90% de los tokens recomprados en mercado por el Buyback Engine.
+1. **RewardPool Regular (APY Dinámico en $JNS):**
+   - El 2% de retención del tax transaccional se envía ÚNICA Y EXCLUSIVAMENTE a la dirección de la bóveda del RewardPool General de la DAO. Ningún usuario recibe distribuciones directas del mercado. El Smart Contract de Staking se alimenta de este RewardPool colectivo para calcular matemáticamente un APY dinámico y pagar a los stakers. El Auto-Compound es una acción estrictamente manual y voluntaria donde el usuario decide reinvertir sus propias utilidades ya devengadas.
    - El saldo acumulado en este pool se reinvierte automáticamente de forma nativa incrementando el balance de los stakers.
 
 2. **Bóveda de Dividendos Extraordinarios (Excedente Limpio B2B en $ETH o $USDC):**

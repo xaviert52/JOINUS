@@ -1,21 +1,18 @@
-MIT License
+Business Source License 1.1
 
-Copyright (c) 2023 xaviret52
+License text copyright (c) 2017 MariaDB Corporation Ab, All Rights Reserved.
+"Business Source License" is a trademark of MariaDB Corporation Ab.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Parameters:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Licensor: JNS Ecosistema DAO
+Licensed Work: JNS Smart Contracts & Frontend Interface
+Additional Use Grant: You may use the Licensed Work for non-production purposes, such as local testing, auditing, and academic research. 
+Change Date: 2028-07-05
+Change License: MIT License
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Terms:
+
+The Licensor hereby grants you the right to copy, modify, create derivative works, redistribute, and make non-production use of the Licensed Work. The Licensed Work may not be used for production purposes (such as deploying a competing fork to the mainnet) until the Change Date. After the Change Date, the Licensed Work will be licensed under the Change License.
+
+Any copy of the Licensed Work must include this License.

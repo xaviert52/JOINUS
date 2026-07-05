@@ -15,14 +15,14 @@ El roadmap de JNS Ecosistema está estructurado para construir paso a paso un ec
 ### 🪙 FASE 2 — Desarrollo del Token (COMPLETADA)
 **Objetivo:** Implementar el activo base con mecanismos deflacionarios y de real yield.
 - [x] Crear el contrato principal `JNSToken.sol` utilizando el patrón UUPS Upgradeable.
-- [x] Integrar el Tax transaccional fijado en 3% (1% quema permanente, 2% distribuido directamente al rewardPool de staking).
+- [x] Integrar el Tax transaccional fijado en 3% (1% quema permanente, 2% canalizado al RewardPool General de la DAO).
 - [x] Configurar exenciones de tarifas para contratos del ecosistema autorizados.
 - [x] Transferencia de propiedad del token al Timelock de gobernanza desde el bloque cero.
 
 ### 🔒 FASE 3 — Desarrollo del Staking y Yield Routing (COMPLETADA)
 **Objetivo:** Implementar la retención de capital de alta convicción y agregación de rendimiento.
 - [x] Desarrollar `JNSStaking.sol` con soporte para acuñar el Liquid Staking Token (LST) $JNSX.
-- [x] Diseñar el sistema de Bóveda de Recompensa Dual (Auto-compound nativo en $JNS + Bóveda separada para dividendos de excedente B2B en $ETH/$USDC).
+- [x] Diseñar el sistema de Bóveda de Recompensa Dual (APY dinámico en $JNS con reinversión manual + Bóveda separada para dividendos de excedente B2B en $ETH/$USDC).
 - [x] Solucionar el bug de integración implementando e indexando de forma nativa la función crítica `getVotingPower`.
 - [x] Integrar el B2B Yield Routing Engine (Agregador de rendimiento multiactivo).
 - [x] Rediseñar `accessLockedFunds` acoplándolo estrictamente al Governor zk-SNARK, eliminando cualquier control del Owner sobre el 30% del TVL autorizado.
