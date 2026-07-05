@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.26;
+pragma solidity 0.8.26;
 
+/// @title JNSTimelock
+/// @notice Contrato maestro y ejecutor del DAO con retardo temporal por seguridad.
+/// @dev Requiere mínimo 3 días de retardo forzoso en la inicialización.
 import {TimelockControllerUpgradeable} from "@openzeppelin/contracts-upgradeable/governance/TimelockControllerUpgradeable.sol";
 
 contract JNSTimelock is TimelockControllerUpgradeable {

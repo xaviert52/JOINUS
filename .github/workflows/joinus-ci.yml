@@ -1,8 +1,11 @@
-name: WAGMI Workspace CI/CD
+name: JOINUS Ecosystem CI/CD
 
 on:
-  workflow_dispatch: # Permite ejecutar el workflow manualmente desde GitHub Actions
-
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 jobs:
   setup:
     name: Setup Environment
