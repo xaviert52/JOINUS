@@ -10,70 +10,70 @@ describe("Security Edge Cases (Fase 5)", function () {
 
     // Deploy Mocks
     const TokenFactory = await ethers.getContractFactory("JNSToken");
-    token = await upgrades.deployProxy(TokenFactory, ["JNS Token", "JNS", owner.address, owner.address], { initializer: "initialize" });
+    token = await upgrades.deployProxy(TokenFactory, ["JNS Token", "JNS", owner.address, owner.address], { initializer: "initialize", unsafeAllow: ["constructor"] });
 
     const SemaphoreFactory = await ethers.getContractFactory("MockSemaphore");
     semaphore = await SemaphoreFactory.deploy();
 
     // Deploy Staking
     const StakingFactory = await ethers.getContractFactory("JNSStaking");
-    staking = await upgrades.deployProxy(StakingFactory, [owner.address, await token.getAddress()], { initializer: "initialize" });
+    staking = await upgrades.deployProxy(StakingFactory, [owner.address, (token.target || token.address)], { initializer: "initialize", unsafeAllow: ["constructor"] });
 
     // Set DaoRewardPool to avoid transfer failures during penalty application
     await staking.setDaoRewardPool(owner.address);
 
     // Deploy GovernorZK
     const GovFactory = await ethers.getContractFactory("JNSGovernorzk");
-    governor = await upgrades.deployProxy(GovFactory, [await staking.getAddress(), await semaphore.getAddress(), 1, owner.address, owner.address], { initializer: "initialize" });
+    governor = await upgrades.deployProxy(GovFactory, [(staking.target || staking.address), (semaphore.target || semaphore.address), 1, owner.address, owner.address], { initializer: "initialize", unsafeAllow: ["constructor"] });
 
     // Setup initial funds
-    await token.transfer(user1.address, ethers.parseEther("10000"));
-    await token.transfer(attacker.address, ethers.parseEther("10000"));
+    await token.transfer(user1.address, ethers.utils.parseEther("10000"));
+    await token.transfer(attacker.address, ethers.utils.parseEther("10000"));
     
     // Whitelist staking from fees so calculations align perfectly in tests
-    await token.setTaxExempt(await staking.getAddress(), true);
+    await token.setTaxExempt((staking.target || staking.address), true);
     await token.setTaxExempt(user1.address, true);
     await token.setTaxExempt(attacker.address, true);
 
-    await token.connect(user1).approve(await staking.getAddress(), ethers.parseEther("10000"));
-    await token.connect(attacker).approve(await staking.getAddress(), ethers.parseEther("10000"));
+    await token.connect(user1).approve((staking.target || staking.address), ethers.utils.parseEther("10000"));
+    await token.connect(attacker).approve((staking.target || staking.address), ethers.utils.parseEther("10000"));
   });
 
   describe("JNSStaking: Reentrancy & Fuzzing", function () {
     it("Should penalize correctly on absurd amounts (Fuzzing Early Unstake)", async function () {
       // Simulate large integer amount (1M JNS)
-      const absurdAmount = ethers.parseEther("1000000");
+      const absurdAmount = ethers.utils.parseEther("1000000");
       await token.transfer(user1.address, absurdAmount);
-      await token.connect(user1).approve(await staking.getAddress(), absurdAmount);
+      await token.connect(user1).approve((staking.target || staking.address), absurdAmount);
       
       await staking.connect(user1).deposit(absurdAmount, 4); // 365 Days
       
       // Withdraw immediately to trigger 25% penalty
-      const jnsxMinted = absurdAmount * 200n / 100n; // 2x multiplier
+      const jnsxMinted = absurdAmount.mul(200).div(100); // 2x multiplier
       const initialBalance = await token.balanceOf(user1.address);
       
       await staking.connect(user1).withdraw(jnsxMinted, 0); // 100% withdraw
       
       const finalBalance = await token.balanceOf(user1.address);
-      const difference = finalBalance - initialBalance;
+      const difference = finalBalance.sub(initialBalance);
       
       // Expected return is 75% of original (25% penalty applied)
-      const expectedReturn = absurdAmount * 75n / 100n;
+      const expectedReturn = absurdAmount.mul(75).div(100);
       expect(difference).to.equal(expectedReturn);
     });
 
     it("Should prevent state manipulation via repeated partial withdraws", async function () {
-      const depositAmount = ethers.parseEther("100");
+      const depositAmount = ethers.utils.parseEther("100");
       await staking.connect(user1).deposit(depositAmount, 1); // 30 Days
       
-      const jnsxMinted = depositAmount * 110n / 100n;
+      const jnsxMinted = depositAmount.mul(110).div(100);
       
       // Attempt multiple fast partial withdraws to break math (simulated by sequence)
-      await staking.connect(user1).withdraw(jnsxMinted / 4n, 0);
-      await staking.connect(user1).withdraw(jnsxMinted / 4n, 0);
+      await staking.connect(user1).withdraw(jnsxMinted.div(4), 0);
+      await staking.connect(user1).withdraw(jnsxMinted.div(4), 0);
       
       const stakeInfo = await staking.userStakes(user1.address, 0);
-      expect(stakeInfo.amount).to.equal(depositAmount / 2n); // Exactly half should remain
+      expect(stakeInfo.amount).to.equal(depositAmount.div(2)); // Exactly half should remain
     });
   });
 
@@ -82,7 +82,7 @@ describe("Security Edge Cases (Fase 5)", function () {
       const proposalId = 1;
       const merkleRoot = 12345;
       const nullifierHash = 99999;
-      const weight = ethers.parseEther("500");
+      const weight = ethers.utils.parseEther("500");
       const support = 1;
 
       await governor.setProposalMerkleRoot(proposalId, merkleRoot);
