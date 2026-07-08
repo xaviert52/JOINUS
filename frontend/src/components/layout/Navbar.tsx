@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export function Navbar() {
@@ -7,7 +8,8 @@ export function Navbar() {
     <nav className="fixed top-0 w-full z-50 bg-[#050505]/80 backdrop-blur-xl border-b border-zinc-800/80 p-4 transition-all">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Izquierda: Logo */}
-        <Link href="/" className="flex items-center group">
+        <Link href="/" className="flex items-center gap-3 group">
+          <Image src="/logo.png" alt="JOINUS Logo" width={32} height={32} className="object-contain group-hover:scale-110 transition-transform" />
           <span className="text-2xl font-black tracking-[0.2em] text-white uppercase flex items-center">
             JOINUS
             <span className="text-red-500 font-mono text-3xl -mt-1 ml-0.5 drop-shadow-[0_0_8px_rgba(239,68,68,0.8)] group-hover:animate-pulse">!</span>
@@ -31,7 +33,7 @@ export function Navbar() {
             </button>
             <div className="absolute top-full left-0 mt-4 w-52 bg-[#0a0a0a] border border-zinc-800 rounded-lg shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden">
               <Link href="/casino" className="px-5 py-4 hover:bg-zinc-900 hover:text-red-400 transition-colors border-b border-zinc-800/50">
-                The Arena (Casino)
+                The Arena
               </Link>
               <Link href="/lending" className="px-5 py-4 hover:bg-zinc-900 hover:text-red-400 transition-colors">
                 Lending Protocol
@@ -40,7 +42,7 @@ export function Navbar() {
           </div>
 
           <Link href="/governance" className="hover:text-white transition-colors">
-            Governance ZK
+            Governance
           </Link>
         </div>
 

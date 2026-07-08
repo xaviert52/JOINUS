@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { useReadContract } from 'wagmi';
 import { formatEther } from 'viem';
