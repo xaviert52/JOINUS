@@ -52,12 +52,13 @@
 - **Motivo**: Facilita la interoperabilidad y la integración estándar con otros protocolos DeFi y Yield Engines.
 - **Estado**: Aceptado.
 
-### ADR-009: Distribución del Flujo de Caja del Casino
+### ADR-009: Ecosistema Modular y Flujo de Caja
 - **Decisión**: Se fija una comisión operativa y de riesgo del 35% para el fundador (Jasar) sobre las ganancias netas de The Arena (cobertura de infraestructura y banca). El 65% restante se divide algorítmicamente entre:
   * 30% a la Bóveda de Dividendos (para CUALQUIER staker de $JNSX con >70% de asistencia cívica, sin importar tiempo de bloqueo).
   * 15% al RewardPool General (para potenciar masivamente el APY pasivo de todos los stakers).
   * 10% al House Bankroll (fondo de cobertura y crecimiento de la banca del casino).
   * 10% para recompras en DEX (Buyback) y quema perpetua de $JNS.
+  Adicionalmente, el RewardPool General no solo se alimenta del Casino y los Taxes, sino que actuará como un "Agujero Negro de Valor" capturando comisiones de TODOS los futuros módulos del Ecosistema Modular (Launchpad, Lending Hub, etc.), engordando constantemente la emisión asintótica.
 - **Motivo**: Canalizar el flujo de caja circular de The Arena priorizando el beneficio comunitario al elevar estratégicamente el RewardPool al 15% e incentivando el compromiso a largo plazo.
 - **Estado**: Aceptado.
 
@@ -66,7 +67,9 @@
 - **Motivo**: Garantiza una transparencia total sobre la pista de aterrizaje (runway). Si el pool cae, la emisión absoluta disminuye asintóticamente (auto-throttle) forzando el replenish matemático hasta volver al target de 530 semanas (10.2 años).
 - **Estado**: Aceptado.
 
-### ADR-011: Weekly Epochs & Decreasing Proposal Bounties
-- **Decisión**: El ecosistema cierra recompensas en ciclos de 7 días (Weekly Epochs) para fomentar el pensamiento a largo plazo ("El Ritual Semanal"). Además, las propuestas de gobernanza exitosas pagarán un "Bounty" al creador utilizando una curva decreciente desde el pool de incentivos.
-- **Motivo**: Las épocas semanales reducen el ruido de los reclamos diarios y promueven la estabilidad. Las primeras propuestas pagarán más tokens (pero menos valor fiat inicial), y las futuras pagarán menos tokens (que presumiblemente tendrán alta apreciación), premiando a los pioneros constructores de la DAO.
+### ADR-011: Weekly Epochs, Claiming Frequency & Governance Filters
+- **Decisión**: El ecosistema cierra recompensas en ciclos de 7 días (Weekly Epochs) para fomentar el pensamiento a largo plazo. 
+  * **Claiming Frequency**: Las posiciones FLEXIBLES pueden reclamar/retirar o hacer Auto-Compound en cualquier momento. Las posiciones BLOQUEADAS (30 días a 3 años) solo pueden reclamar o hacer Auto-Compound una vez por semana.
+  * **Governance Filters**: El periodo de votación oficial es de 7 Días. Se requiere pasar por un "Temperature Check" (Off-chain) y superar el "Proposal Threshold" (On-chain, requiriendo un mínimo de Poder de Voto en $JNSX) para someter propuestas formales. Las propuestas exitosas pagarán un "Bounty" al creador utilizando una curva decreciente.
+- **Motivo**: Las épocas semanales reducen el ruido de los reclamos diarios y promueven la estabilidad limitando los retiros de posiciones bloqueadas. Los filtros de gobernanza previenen el spam, y los bounties premian a los pioneros constructores de la DAO.
 - **Estado**: Aceptado.

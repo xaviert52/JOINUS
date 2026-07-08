@@ -11,9 +11,10 @@ Para incentivar la participación activa y evitar la apatía política en el eco
 ### Estructura de Recompensa Dual
 Las recompensas distribuidas a los stakers se dividen en dos flujos independientes gestionados por contratos inteligentes:
 
-1. **RewardPool Regular (APY Dinámico en $JNS):**
-   - El 2% de retención del tax transaccional se envía ÚNICA Y EXCLUSIVAMENTE a la dirección de la bóveda del RewardPool General de la DAO. Ningún usuario recibe distribuciones directas del mercado. El Smart Contract de Staking se alimenta de este RewardPool colectivo para calcular matemáticamente un APY dinámico y pagar a los stakers. El Auto-Compound es una acción estrictamente manual y voluntaria donde el usuario decide reinvertir sus propias utilidades ya devengadas.
-   - El saldo acumulado en este pool se reinvierte automáticamente de forma nativa incrementando el balance de los stakers.
+1. **RewardPool General (APY Dinámico en $JNS):**
+   - El 2% de retención del tax transaccional se envía ÚNICA Y EXCLUSIVAMENTE a la dirección de la bóveda del RewardPool General de la DAO. Ningún usuario recibe distribuciones directas del mercado. El Smart Contract calcula un APY dinámico. Reclamar este Base Yield a la wallet incurre en el 3% de Tax normal. El Auto-Compound es 100% Tax-Free.
+   - **Ecosistema Modular**: Adicionalmente, el RewardPool actúa como un "Agujero Negro de Valor" alimentándose de TODOS los futuros módulos del Ecosistema Modular (Casino, Launchpad, Lending Hub, etc.), engordando constantemente la emisión asintótica pasiva.
+   - El saldo acumulado en este pool se distribuye asintóticamente a los stakers.
 
 2. **Bóveda de Dividendos Extraordinarios (Excedente Limpio B2B en $ETH o $USDC):**
    - Se alimenta de los ingresos extraordinarios netos del DeFi Venture Hub (B2B Yield Routing Engine y tarifas del Launchpad).
@@ -26,6 +27,12 @@ Los fondos de la Bóveda de Dividendos se asignan de forma meritocrática bajo d
 2. **Participación Democrática Activa (Quórum de Voto > 70%):** El contrato de distribución cruzará los balances de staking con el registro histórico de votaciones del **JNSGovernorzk.sol**. Solo se considerarán aptas las direcciones que registren participación en más del 70% de las propuestas del período evaluado.
 
 Este mecanismo mitiga el parasitismo financiero (free-riding) y premia de manera directa y tangible a los usuarios alineados a largo plazo con la gobernanza y solvencia del Hub.
+
+### Filtros de Gobernanza y Ciclos de Votación
+Para asegurar una democracia madura, se imponen las siguientes reglas:
+- **Periodo de Votación**: 7 Días inmutables en el Governor (Weekly Epochs).
+- **Proposal Threshold (Umbral de Propuesta)**: Para someter una propuesta oficial on-chain, se requiere un mínimo de Poder de Voto en $JNSX, validando el compromiso del proponente.
+- **Temperature Check**: Todo proposal debe superar primero un sondeo off-chain en la comunidad para filtrar spam.
 
 ---
 
@@ -58,8 +65,10 @@ La Emisión Semanal está regulada por la fórmula asintótica para mantener el 
 **`Weekly Emission = Current RewardPool Balance / Target Health Weeks`**
 *(Actualmente `Target Health Weeks` = 530, gobernable vía votación)*
 
-### Auto-Compound y Stake Laddering
-El mecanismo de Auto-Compound es estrictamente manual y voluntario. Cuando el usuario decide reinvertir sus propias utilidades, el Smart Contract generará posiciones independientes ("Stake Laddering"), inyectando las ganancias por defecto en una nueva posición de Staking FLEXIBLE (1.0x), dando liquidez inmediata sobre los rendimientos y evitando el secuestro forzoso del capital original. Reclamar Base Yield directamente a la wallet incurrirá en el 3% de Tax normal, mientras que el Auto-Compound es 100% Tax-Free.
+### Frecuencia de Pagos (Claiming) y Auto-Compound
+El mecanismo de Auto-Compound es estrictamente manual y voluntario. Cuando el usuario decide reinvertir sus utilidades, el Smart Contract generará posiciones independientes ("Stake Laddering"), inyectando las ganancias por defecto en una nueva posición de Staking FLEXIBLE (1.0x).
+- **Regla de Frecuencia**: Las posiciones FLEXIBLES (que no tengan ningún bloqueo activo asociado a la wallet) pueden reclamar el Base Yield o hacer Auto-Compound en cualquier momento (diario, por minuto). 
+- Sin embargo, las posiciones BLOQUEADAS (30 días a 3 años) deben respetar el ciclo de la época, por lo cual **solo pueden reclamar o hacer Auto-Compound una vez por semana (7 días de enfriamiento mínimo entre retiros)**.
 
 ### Razón de Diseño
 Se descarta la utilización de una votación cuadrática simple debido al riesgo latente de desincentivar y ahuyentar a los grandes proveedores de capital (ballenas) ante la fuga de liquidez en un entorno multicadena. No obstante, al mantener multiplicadores temporales significativos (hasta 2.0x), se concede una ventaja proporcional y competitiva al inversor minorista dispuesto a bloquear su capital por un año completo, contrarrestando el peso bruto del capital oportunista a corto plazo.

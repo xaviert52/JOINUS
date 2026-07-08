@@ -54,7 +54,7 @@ contract JNSGovernorzk is
         address _guardian
     ) public initializer {
         __Governor_init("JNSGovernorZK");
-        __GovernorSettings_init(1 days, 1 weeks, 0);
+        __GovernorSettings_init(1 days, 1 weeks, 10000 * 1e18);
         __GovernorCountingSimple_init();
         __GovernorVotes_init(_token);
         __AccessControl_init();

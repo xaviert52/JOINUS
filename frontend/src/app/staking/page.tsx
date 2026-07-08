@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useStaking } from '@/hooks/useStaking';
 import { useGaslessTx } from '@/hooks/useGaslessTx';
 
@@ -23,7 +24,9 @@ export default function StakingTerminal() {
     isCivicDutyMet,
     lockedJNS,
     unlockDate,
-    has365DayLock
+    has365DayLock,
+    hasLockedPositions,
+    daysUntilNextClaim
   } = useStaking();
 
   const [stakeAmount, setStakeAmount] = useState('');
@@ -58,10 +61,18 @@ export default function StakingTerminal() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        transition={{ duration: 0.8, staggerChildren: 0.2 }}
+        className="grid grid-cols-1 lg:grid-cols-12 gap-8"
+      >
         
         {/* PANEL IZQUIERDO: ACCIÓN (Lock & Mint) */}
-        <div className="lg:col-span-5 bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 md:p-10 shadow-2xl flex flex-col relative overflow-hidden group">
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}
+          className="lg:col-span-5 bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 md:p-10 shadow-2xl flex flex-col relative overflow-hidden group"
+        >
           {/* Subtle hover effect on card */}
           <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none" />
           
@@ -147,14 +158,17 @@ export default function StakingTerminal() {
               {isSponsoring ? "Sponsoring Tx..." : "Lock & Mint"}
             </button>
           </div>
-        </div>
+        </motion.div>
 
 
         {/* PANEL DERECHO: PORTFOLIO & REWARDS */}
         <div className="lg:col-span-7 space-y-6 flex flex-col">
           
           {/* Active Positions */}
-          <div className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 md:p-10 relative">
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}
+            className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 md:p-10 relative"
+          >
             <h3 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-8">Your Portfolio</h3>
             <div className="grid grid-cols-2 gap-8">
               <div>
@@ -170,11 +184,14 @@ export default function StakingTerminal() {
               <span className="text-zinc-500 font-bold uppercase tracking-[0.2em] text-[10px]">Unlock Date</span>
               <span className="text-white font-mono bg-zinc-900/80 px-4 py-2 rounded-lg border border-zinc-800/80 text-sm shadow-inner">{unlockDate}</span>
             </div>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1">
             {/* Cañón 1: Base Yield */}
-            <div className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 hover:border-red-500/40 transition-all duration-500 flex flex-col group relative overflow-hidden">
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 hover:border-red-500/40 transition-colors duration-500 flex flex-col group relative overflow-hidden"
+            >
               <div className="absolute inset-0 bg-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
               <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3 flex justify-between items-center z-10">
                 RewardPool Yield 
@@ -189,24 +206,29 @@ export default function StakingTerminal() {
               <div className="flex flex-col gap-3 mt-auto z-10">
                 <button 
                   onClick={() => sendGaslessTransaction("0xStaking", "0xClaim")}
-                  className="w-full py-4 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-colors border border-zinc-700/50 hover:border-zinc-500"
+                  disabled={hasLockedPositions && daysUntilNextClaim > 0}
+                  className="w-full py-4 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-colors border border-zinc-700/50 hover:border-zinc-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Claim Yield
+                  {(hasLockedPositions && daysUntilNextClaim > 0) ? `Unlocks in ${daysUntilNextClaim} days` : "Claim Yield"}
                 </button>
                 <button 
                   onClick={() => sendGaslessTransaction("0xStaking", "0xAutoCompound")}
-                  className="w-full py-4 bg-red-600/90 hover:bg-red-500 text-white font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-all shadow-[0_0_20px_rgba(220,38,38,0.2)] hover:shadow-[0_0_30px_rgba(220,38,38,0.4)] transform hover:-translate-y-0.5"
+                  disabled={hasLockedPositions && daysUntilNextClaim > 0}
+                  className="w-full py-4 bg-red-600/90 hover:bg-red-500 text-white font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-all shadow-[0_0_20px_rgba(220,38,38,0.2)] hover:shadow-[0_0_30px_rgba(220,38,38,0.4)] transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
                 >
-                  Auto-Compound
+                  {(hasLockedPositions && daysUntilNextClaim > 0) ? `Unlocks in ${daysUntilNextClaim} days` : "Auto-Compound"}
                 </button>
                 <p className="text-[8px] text-zinc-500 mt-2 px-1 leading-relaxed">
-                  * Transparent Execution: Auto-compounding creates an independent lock (Stake Laddering). It maximizes your $JNSX multiplier without resetting your original deposit's unlock date.
+                  * Transparent Execution: Auto-compounding creates an independent lock (Stake Laddering). It maximizes your $JNSX multiplier without resetting your original deposit's unlock date. Weekly Epochs apply to locked stakes.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Cañón 2: High-Conviction Dividends */}
-            <div className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 hover:border-blue-500/40 transition-all duration-500 flex flex-col group relative overflow-hidden">
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 hover:border-blue-500/40 transition-colors duration-500 flex flex-col group relative overflow-hidden"
+            >
               <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
               <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3 flex justify-between items-center z-10">
                 USDC Dividends
@@ -238,11 +260,14 @@ export default function StakingTerminal() {
               >
                 {isSponsoring ? "Sponsoring..." : "Claim Dividends"}
               </button>
-            </div>
+            </motion.div>
           </div>
 
           {/* Zona de Peligro (Withdraw) */}
-          <div className="p-6 border border-red-900/30 bg-red-950/10 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6 group hover:bg-red-950/20 transition-colors">
+          <motion.div 
+            whileHover={{ scale: 1.01 }}
+            className="p-6 border border-red-900/30 bg-red-950/10 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6 group hover:bg-red-950/20 transition-colors"
+          >
             <div>
               <h4 className="text-red-500 font-black uppercase text-[10px] mb-2 tracking-[0.3em] flex items-center gap-2">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
@@ -253,11 +278,9 @@ export default function StakingTerminal() {
             <button className="whitespace-nowrap px-8 py-3 border border-red-900/50 hover:border-red-500 text-red-500 hover:bg-red-950/40 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl transition-all shadow-[0_0_15px_rgba(239,68,68,0.1)] hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
               Early Unstake
             </button>
-          </div>
-
+          </motion.div>
         </div>
-
-      </div>
+      </motion.div>
     </div>
   );
 }

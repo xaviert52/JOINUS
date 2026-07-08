@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useReadContract } from 'wagmi';
 import { formatEther } from 'viem';
+import { motion } from 'framer-motion';
 import { JNS_STAKING_ADDRESS, JNS_STAKING_ABI, JNS_TOKEN_ADDRESS, JNS_TOKEN_ABI } from '@/config/contracts';
 
 export default function Home() {
@@ -26,7 +27,12 @@ export default function Home() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-10 relative z-10">
       
       {/* SECCIÓN HERO */}
-      <section className="flex flex-col items-center text-center space-y-8 mt-20 mb-32 relative">
+      <motion.section 
+        initial={{ opacity: 0, y: 20 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="flex flex-col items-center text-center space-y-8 mt-20 mb-32 relative"
+      >
         {/* Glow de ambientación profunda */}
         <div className="absolute top-1/2 left-1/2 w-[80vw] md:w-[600px] h-[400px] bg-red-600/15 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none animate-pulse" />
 
@@ -49,19 +55,27 @@ export default function Home() {
             </button>
           </Link>
         </div>
-      </section>
+      </motion.section>
 
       {/* GRID DE ESTADÍSTICAS */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-32 relative">
+      <motion.section 
+        initial={{ opacity: 0 }} 
+        animate={{ opacity: 1 }} 
+        transition={{ delay: 0.3, duration: 0.8 }}
+        className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-32 relative"
+      >
         {/* Línea conectora sutil de fondo */}
         <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-zinc-800 to-transparent -z-10 hidden md:block"></div>
         
         {/* Stat 1: TVL */}
-        <div className="group bg-[#0a0a0a]/80 backdrop-blur-2xl border border-zinc-800/80 rounded-2xl p-8 flex flex-col justify-center items-center text-center shadow-2xl hover:border-red-500/40 transition-all duration-500 hover:-translate-y-2">
+        <motion.div 
+          whileHover={{ y: -8, scale: 1.02 }}
+          className="group bg-[#0a0a0a]/80 backdrop-blur-2xl border border-zinc-800/80 rounded-2xl p-8 flex flex-col justify-center items-center text-center shadow-2xl hover:border-red-500/40 transition-colors duration-500"
+        >
           <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mb-4">Total Value Locked</h3>
           <p className="text-4xl md:text-5xl font-mono font-bold text-white mb-3 group-hover:text-red-50 transition-colors drop-shadow-md">{formattedTVL} JNS</p>
           <p className="text-[10px] text-red-500/90 font-bold tracking-[0.2em] uppercase">Secured by 3-Day Timelock</p>
-        </div>
+        </motion.div>
 
         {/* Stat 2: Base APY */}
         <div className="group bg-[#0a0a0a]/80 backdrop-blur-2xl border border-zinc-800/80 rounded-2xl p-8 flex flex-col justify-center items-center text-center shadow-2xl hover:border-green-500/40 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden">
@@ -82,7 +96,7 @@ export default function Home() {
           <p className="text-4xl md:text-5xl font-mono font-bold text-white mb-3 group-hover:text-red-50 transition-colors drop-shadow-md">{formattedBurned} JNS</p>
           <p className="text-[10px] text-zinc-500 font-bold tracking-[0.2em] uppercase">Perpetual Deflation Engine</p>
         </div>
-      </section>
+      </motion.section>
 
       {/* ECOSISTEMA (CARDS) */}
       <section className="mb-20">

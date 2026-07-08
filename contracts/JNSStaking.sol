@@ -54,6 +54,7 @@ contract JNSStaking is
 
     mapping(address => uint256) public rewardDebt;
     mapping(address => uint256) public pendingRewards;
+    mapping(address => uint256) public lastClaimTime;
 
     // --- DUAL VAULT & CIVIC EPOCHS ---
     IERC20 public dividendToken;
@@ -239,7 +240,22 @@ contract JNSStaking is
     // CLAIM & AUTO-COMPOUND
     // ==========================================
 
+    function _enforceClaimFrequency(address user) internal {
+        bool hasLockedStake = false;
+        for (uint i = 0; i < userStakes[user].length; i++) {
+            if (userStakes[user][i].lockType != LockType.FLEXIBLE && userStakes[user][i].amount > 0) {
+                hasLockedStake = true;
+                break;
+            }
+        }
+        if (hasLockedStake) {
+            require(block.timestamp >= lastClaimTime[user] + 7 days, "Claim available once per week for locked stakes");
+        }
+        lastClaimTime[user] = block.timestamp;
+    }
+
     function claimBaseYield() external nonReentrant whenNotPaused {
+        _enforceClaimFrequency(msg.sender);
         _updateUserReward(msg.sender);
         uint256 amount = pendingRewards[msg.sender];
         require(amount > 0, "No yield to claim");
@@ -251,6 +267,7 @@ contract JNSStaking is
     }
 
     function autoCompoundBaseYield() external nonReentrant whenNotPaused {
+        _enforceClaimFrequency(msg.sender);
         _updateUserReward(msg.sender);
         uint256 amount = pendingRewards[msg.sender];
         require(amount > 0, "No yield to auto-compound");

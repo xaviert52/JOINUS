@@ -33,6 +33,8 @@ export function useStaking() {
     lockMultiplier: 2.0, // To be integrated
     lockedJNS: 2500, // To be integrated
     unlockDate: '2027-07-05', // To be integrated
-    has365DayLock: true // To be integrated
+    has365DayLock: true, // To be integrated
+    hasLockedPositions: true, // To be integrated
+    daysUntilNextClaim: 5 // To be integrated
   };
 }

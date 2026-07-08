@@ -64,8 +64,8 @@ describe("Governance ZK (Phase 4)", function () {
     });
 
     it("Should update the public civic registry and weighted counts when a ZK vote is cast", async function () {
-      await jnsToken.approve(jnsStaking.address, ethers.utils.parseEther("100"));
-      await jnsStaking.deposit(ethers.utils.parseEther("100"), 0); 
+      await jnsToken.approve(jnsStaking.address, ethers.utils.parseEther("10000"));
+      await jnsStaking.deposit(ethers.utils.parseEther("10000"), 0); 
       
       await ethers.provider.send("evm_mine", []);
 
