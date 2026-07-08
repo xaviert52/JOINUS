@@ -38,13 +38,13 @@ export default function ApyAnalytics() {
 
             <div className="bg-[#0a0a0a] border border-zinc-800 rounded-2xl p-6 md:p-8 flex items-center justify-center shadow-inner mb-10 overflow-x-auto">
               <code className="text-green-400 font-mono text-sm md:text-lg lg:text-xl whitespace-nowrap drop-shadow-[0_0_10px_rgba(74,222,128,0.2)]">
-                Annual Emission = Current RewardPool Balance / 10 Years Target
+                Annual Emission = Current RewardPool Balance / 10.2 Years Target
               </code>
             </div>
 
             <div className="prose prose-invert prose-zinc max-w-none">
               <p className="text-zinc-400 leading-relaxed font-medium">
-                Unlike traditional DAOs that hardcode an inflationary schedule, our RewardPool implements a mathematically self-correcting engine. The yield dynamically scales based on the actual capital held by the DAO, protecting the protocol from hyperinflation and guaranteeing long-term sustainability.
+                Unlike traditional DAOs that hardcode an inflationary schedule, our RewardPool implements a mathematically self-correcting engine operating in <strong>Weekly Epochs</strong>. The yield dynamically scales based on the actual capital held by the DAO, protecting the protocol from hyperinflation and guaranteeing long-term sustainability.
               </p>
             </div>
           </div>
@@ -58,9 +58,9 @@ export default function ApyAnalytics() {
                   <span className="text-red-500 text-xs font-black">01</span>
                 </div>
                 <div>
-                  <h4 className="text-white font-bold mb-2">Self-Regulating Runway</h4>
+                  <h4 className="text-white font-bold mb-2">Self-Regulating Runway (Auto-Throttle)</h4>
                   <p className="text-zinc-400 text-sm leading-relaxed">
-                    The pool mathematically targets a 10+ year lifespan. It adjusts emissions dynamically. If the pool balance drops, the absolute emissions decrease asymptotically, ensuring the runway never prematurely ends.
+                    The pool mathematically targets a 10.2-year lifespan (100% Health). It adjusts emissions dynamically per week. If the pool health drops below 100%, the absolute emissions are proportionally throttled down, forcing a mathematical replenish until the 10.2 years target is restored.
                   </p>
                 </div>
               </div>
@@ -105,7 +105,7 @@ export default function ApyAnalytics() {
               
               <div>
                 <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Current Target Divisor</p>
-                <p className="text-xl font-mono font-bold text-zinc-300">10 Years <span className="text-xs text-zinc-600">(3650 Days)</span></p>
+                <p className="text-xl font-mono font-bold text-zinc-300">10.2 Years <span className="text-xs text-zinc-600">(3723 Days)</span></p>
               </div>
 
               <div className="pt-6 border-t border-zinc-800/80">

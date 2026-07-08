@@ -62,6 +62,11 @@
 - **Estado**: Aceptado.
 
 ### ADR-010: Sostenibilidad Matemática y Health Factor
-- **Decisión**: El tiempo de vida del RewardPool depende estrictamente de la Tasa de Emisión Fija, no de los multiplicadores. Se establece la fórmula matemática inmutable: `Pool Health (Years) = RewardPool Balance / Annual Emission`.
-- **Motivo**: Garantiza una transparencia total sobre la pista de aterrizaje (runway) de las recompensas, permitiendo a la DAO ajustar emisiones mediante gobernanza sin que los multiplicadores distorsionen la salud macroeconómica del sistema.
+- **Decisión**: El tiempo de vida del RewardPool depende estrictamente de la Tasa de Emisión Fija, no de los multiplicadores. Se establece la fórmula matemática inmutable: `Pool Health (Years) = RewardPool Balance / Annual Emission`. El target óptimo (100% Health) es de **10.2 Años**.
+- **Motivo**: Garantiza una transparencia total sobre la pista de aterrizaje (runway). Si el pool cae del 100% de salud (ej. 80%), el contrato frena proporcionalmente la emisión de recompensas (auto-throttle) para forzar el replenish matemático hasta volver al target de 10.2 años.
+- **Estado**: Aceptado.
+
+### ADR-011: Weekly Epochs & Decreasing Proposal Bounties
+- **Decisión**: El ecosistema cierra recompensas en ciclos de 7 días (Weekly Epochs) para fomentar el pensamiento a largo plazo ("El Ritual Semanal"). Además, las propuestas de gobernanza exitosas pagarán un "Bounty" al creador utilizando una curva decreciente desde el pool de incentivos.
+- **Motivo**: Las épocas semanales reducen el ruido de los reclamos diarios y promueven la estabilidad. Las primeras propuestas pagarán más tokens (pero menos valor fiat inicial), y las futuras pagarán menos tokens (que presumiblemente tendrán alta apreciación), premiando a los pioneros constructores de la DAO.
 - **Estado**: Aceptado.
