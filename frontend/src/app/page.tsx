@@ -77,15 +77,15 @@ export default function Home() {
           <p className="text-[10px] text-red-500/90 font-bold tracking-[0.2em] uppercase">Secured by 3-Day Timelock</p>
         </motion.div>
 
-        {/* Stat 2: Base APY */}
+        {/* Stat 2: Average APY */}
         <div className="group bg-[#0a0a0a]/80 backdrop-blur-2xl border border-zinc-800/80 rounded-2xl p-8 flex flex-col justify-center items-center text-center shadow-2xl hover:border-green-500/40 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden">
           <div className="absolute inset-0 bg-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-          <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mb-4">Current Base APY</h3>
+          <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mb-4">Current Average APY</h3>
           <p className="text-4xl md:text-5xl font-mono font-bold text-green-400 mb-3 flex items-center gap-2 drop-shadow-[0_0_15px_rgba(74,222,128,0.2)]">
             15.00%
           </p>
           <p className="text-[10px] text-zinc-500 font-bold tracking-[0.2em] uppercase mb-2">Funded by Genesis Pool</p>
-          <Link href="/docs/apy" className="text-[9px] text-zinc-500 hover:text-red-400 transition-colors underline">
+          <Link href="http://localhost:3000/docs/apy" className="text-[9px] text-zinc-500 hover:text-red-400 transition-colors underline">
             How our APY works &rarr;
           </Link>
         </div>

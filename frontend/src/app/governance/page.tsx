@@ -60,7 +60,12 @@ export default function GovernanceTerminal() {
             </div>
 
             <h3 className="text-xl md:text-2xl font-black text-white leading-tight mb-4 tracking-wide group-hover:text-red-100 transition-colors">{proposal.title}</h3>
-            <p className="text-zinc-400 text-sm leading-relaxed mb-8 font-medium line-clamp-3">{proposal.description}</p>
+            <p className="text-zinc-400 text-sm leading-relaxed mb-4 font-medium line-clamp-3">{proposal.description}</p>
+            
+            <div className="flex gap-4 mb-8">
+              <a href="#" className="text-zinc-500 hover:text-red-500 transition-colors underline text-xs">Read full proposal</a>
+              <a href="#" className="text-zinc-500 hover:text-red-500 transition-colors underline text-xs">Discord #proposal-discussion</a>
+            </div>
             
             {/* Quorum Progress */}
             <div className="mb-8">

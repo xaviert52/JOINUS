@@ -63,18 +63,11 @@ export default function StakingTerminal() {
         </div>
       </div>
 
+      {/* PISO 1: DEPOSIT & MINT (Ancho Total) */}
       <motion.div 
-        initial={{ opacity: 0, y: 20 }} 
-        animate={{ opacity: 1, y: 0 }} 
-        transition={{ duration: 0.8, staggerChildren: 0.2 }}
-        className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch mb-8"
+        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+        className="w-full bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 md:p-10 shadow-2xl relative overflow-hidden group mb-8"
       >
-        
-        {/* COL 1: DEPOSIT & MINT */}
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}
-          className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 md:p-10 shadow-2xl flex flex-col relative overflow-hidden group h-full"
-        >
           {/* Subtle hover effect on card */}
           <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none" />
           
@@ -140,12 +133,20 @@ export default function StakingTerminal() {
           <div className="mt-auto flex flex-col gap-4">
             <div className="flex items-center justify-between p-4 bg-[#050505] rounded-2xl border border-zinc-800">
               <div>
-                <p className="text-[10px] font-black uppercase text-white tracking-[0.2em] flex items-center gap-2">
-                  Gasless Mode
-                  <span className="bg-red-500 text-[8px] px-2 py-0.5 rounded-full">DAO Sponsored</span>
-                </p>
-                <p className="text-[9px] text-zinc-500 mt-1 uppercase tracking-widest">Pay 0 ETH for Gas (ERC-4337)</p>
-                <p className="text-[8px] text-zinc-600 mt-1 italic">When enabled, the DAO's Paymaster sponsors your gas fees ONLY for Voting and Auto-Compounding. Withdrawals require user gas.</p>
+                <div className="flex items-center gap-2 group/tooltip relative">
+                  <p className="text-xs font-black uppercase text-white tracking-[0.2em] flex items-center gap-2">
+                    Gasless Mode
+                    <span className="bg-red-500 text-[9px] px-2.5 py-1 rounded-full text-white">DAO Sponsored</span>
+                  </p>
+                  <span className="text-zinc-500 hover:text-white cursor-help">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  </span>
+                  <div className="absolute bottom-full left-0 mb-2 w-64 bg-zinc-900 border border-zinc-700 text-zinc-300 text-[9px] p-3 rounded-xl opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none z-20">
+                    The DAO's Paymaster contract uses a 3% withdrawal tax pool to sponsor ETH gas fees ONLY for Voting and Auto-Compounding.
+                  </div>
+                </div>
+                <p className="text-[10px] text-zinc-400 mt-1.5 uppercase tracking-widest font-bold">Pay 0 ETH for Gas (ERC-4337)</p>
+                <p className="text-[9px] text-zinc-500 mt-1 italic">Withdrawals require user gas.</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" checked={isGaslessMode} onChange={() => setIsGaslessMode(!isGaslessMode)} className="sr-only peer" />
@@ -163,8 +164,15 @@ export default function StakingTerminal() {
           </div>
         </motion.div>
 
-
-        {/* COL 2: BASE YIELD CAÑÓN 1 */}
+      {/* PISO 2: REWARDS & DIVIDENDS (2 Columnas) */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        transition={{ duration: 0.8, delay: 0.1, staggerChildren: 0.2 }}
+        className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch mb-8"
+      >
+        
+        {/* COL 1: BASE YIELD CAÑÓN 1 */}
         <motion.div 
           whileHover={{ scale: 1.02 }}
           className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 hover:border-red-500/40 transition-colors duration-500 flex flex-col group relative overflow-hidden h-full"
@@ -268,7 +276,7 @@ export default function StakingTerminal() {
         </motion.div>
       </motion.div>
 
-      {/* FILA INFERIOR: ACTIVE STAKING POSITIONS */}
+      {/* PISO 3: ACTIVE STAKING POSITIONS */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}
         className="w-full bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 relative overflow-hidden"
@@ -395,9 +403,15 @@ export default function StakingTerminal() {
             </div>
             
             {selectedStake.type !== 'Flexible' && (
-              <button className="w-full mt-1 py-3 border border-red-900/30 text-red-500 hover:bg-red-950/20 text-[9px] font-black uppercase tracking-[0.2em] rounded-xl transition-all shadow-[0_0_10px_rgba(239,68,68,0.05)]">
-                Early Unstake (Penalty)
-              </button>
+              <div className="w-full border border-red-900/30 bg-red-950/10 rounded-xl p-4 flex flex-col gap-3">
+                <div className="flex justify-between items-center text-[9px] uppercase tracking-widest font-black">
+                  <span className="text-zinc-500">Early Unstake Penalty:</span>
+                  <span className="text-red-500">25.0% Burn</span>
+                </div>
+                <button className="w-full py-3 bg-red-900/20 text-red-500 hover:bg-red-900/40 hover:text-red-400 border border-red-900/50 text-[9px] font-black uppercase tracking-[0.2em] rounded-lg transition-all shadow-[0_0_10px_rgba(239,68,68,0.05)]">
+                  Force Early Unstake
+                </button>
+              </div>
             )}
           </motion.div>
         </div>

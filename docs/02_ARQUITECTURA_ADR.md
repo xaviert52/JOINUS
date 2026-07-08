@@ -71,7 +71,7 @@
 - **Decisión**: El ecosistema cierra recompensas en ciclos de 7 días (Weekly Epochs) para fomentar el pensamiento a largo plazo. 
   * **Claiming Frequency**: Las posiciones FLEXIBLES pueden reclamar/retirar o hacer Auto-Compound en cualquier momento. Las posiciones BLOQUEADAS (30 días a 3 años) solo pueden reclamar o hacer Auto-Compound una vez por semana.
   * **Auto-Compound Activo (El Ritual Semanal)**: El Auto-Compound NO es un proceso pasivo en background. Es una acción de ejecución estrictamente requerida por el usuario. El UI de la dApp permite enrutar estos dividendos reclamados a nuevas posiciones Flexibles o iniciar un "Stake Laddering" independiente.
-  * **Governance Filters**: El periodo de votación oficial es de 7 Días. Se requiere pasar por un "Temperature Check" (Off-chain) y superar el "Proposal Threshold" (On-chain, requiriendo un mínimo de Poder de Voto en $JNSX) para someter propuestas formales. Las propuestas exitosas pagarán un "Bounty" al creador utilizando una curva decreciente.
+  * **Governance Filters**: El periodo de votación oficial es estrictamente de 7 Días en bloques (blocks). Se requiere pasar por un "Temperature Check" (Off-chain en Discord) y superar el "Proposal Threshold" (On-chain, requiriendo un mínimo de 10,000 $JNSX) para someter propuestas formales. Las propuestas exitosas pagarán un "Bounty" al creador utilizando una curva decreciente.
 - **Motivo**: Las épocas semanales reducen el ruido de los reclamos diarios y promueven la estabilidad limitando los retiros de posiciones bloqueadas. Los filtros de gobernanza previenen el spam, y los bounties premian a los pioneros constructores de la DAO.
 - **Estado**: Aceptado.
 
@@ -81,13 +81,18 @@
 - **Estado**: Aceptado.
 
 ### ADR-013: Auto-Compound Routing y Acumulación Perpetua
-- **Decisión**: El mecanismo de Auto-Compound requiere ejecución manual (Ritual Semanal). Queda fijado que el "Ritual Semanal" no confisca fondos. Si un usuario no ejecuta Claim o Compound el domingo, las recompensas se acumulan perpetuamente y de manera segura en el Smart Contract. Al ejecutarlo, el contrato (y la interfaz) exigen que el usuario elija la ruta de reinversión:
+- **Decisión**: El mecanismo de Auto-Compound requiere ejecución manual (Ritual Semanal). Queda fijado que el "Ritual Semanal" no confisca fondos. Si un usuario no ejecuta Claim o Compound el domingo, las recompensas (yield de cualquier candado no reclamado) se acumulan de forma segura bloque a bloque de manera perpetua en el mapeo del Smart Contract. Al ejecutarlo, el contrato (y la interfaz) exigen que el usuario elija la ruta de reinversión:
   * **Ruta A (Compound to Flexible)**: Permite mantener la liquidez total sobre el interés recién generado (1.0x).
   * **Ruta B (Stake Laddering)**: Permite re-bloquear las ganancias al plazo elegido (desde 30 Días hasta 3 Años) para escalar asintóticamente el multiplicador (hasta 3.2x).
 - **Motivo**: Transfiere la soberanía del flujo de capital al usuario y desmitifica los procesos oscuros de "auto-compounding mágico" de la antigua era DeFi.
 - **Estado**: Aceptado.
 
-### ADR-014: Aislamiento de Riesgo y Transparencia UX
+### ADR-014: Auto-Financiamiento del Paymaster
+- **Decisión**: El pool del Paymaster se alimentará en fases avanzadas tomando una fracción del 3% de tax cobrado a los usuarios que ejecutan retiros líquidos (Claims), convirtiéndolo algorítmicamente a $ETH para subsidiar a los que hacen Auto-Compound y votan.
+- **Motivo**: Crea un círculo virtuoso de auto-sostenibilidad. Quienes retiran liquidez y diluyen la escasez del token financian el gas de aquellos que componen y fortalecen la red.
+- **Estado**: Aceptado.
+
+### ADR-015: Aislamiento de Riesgo y Transparencia UX
 - **Decisión**: 
   1. **Aislamiento de Retiro Anticipado**: Las acciones destructivas de capital (Early Unstake) se gestionan de forma atómica e individual dentro de cada posición en el Modal de Detalles, eliminando controles globales centralizados. 
   2. **Transparencia en Saldos Dinámicos**: El Reward Yield se desglosa visualmente en tres balances limpios con texto en blanco: Capital disponible a retirar, Acumulado del ciclo actual y Temporizador del Epoch en gris.
