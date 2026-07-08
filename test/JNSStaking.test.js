@@ -218,19 +218,20 @@ describe("JNSStaking (Phase 3)", function () {
       expect(balanceAfter.sub(balanceBefore)).to.be.closeTo(ethers.utils.parseEther("1"), tolerance);
     });
 
-    it("Should auto-compound the base yield natively into new JNSX stakes", async function () {
-      // User2 has 2 JNS pending. Auto-compound with 365 Days (2.0x).
-      // This should mint 4 JNSX (2 * 2).
+    it("Should auto-compound the base yield natively into new JNSX stakes (FLEXIBLE)", async function () {
+      // User2 has ~2 JNS pending. Auto-compound now forces FLEXIBLE (1.0x).
+      // This should mint ~2 JNSX (2 * 1).
       const jnsxBefore = await jnsStaking.balanceOf(user2.address); // 200
-      await jnsStaking.connect(user2).autoCompoundBaseYield(4);
-      const jnsxAfter = await jnsStaking.balanceOf(user2.address); // 200 + 4 = 204
+      await jnsStaking.connect(user2).autoCompoundBaseYield();
+      const jnsxAfter = await jnsStaking.balanceOf(user2.address); // 200 + 2 = 202
       
       const tolerance = ethers.utils.parseEther("0.00004");
-      expect(jnsxAfter.sub(jnsxBefore)).to.be.closeTo(ethers.utils.parseEther("4"), tolerance);
+      expect(jnsxAfter.sub(jnsxBefore)).to.be.closeTo(ethers.utils.parseEther("2"), tolerance);
       
       const stakeInfo = await jnsStaking.userStakes(user2.address, 1);
       expect(stakeInfo.amount).to.be.closeTo(ethers.utils.parseEther("2"), tolerance);
-      expect(stakeInfo.jnsxMinted).to.be.closeTo(ethers.utils.parseEther("4"), tolerance);
+      expect(stakeInfo.jnsxMinted).to.be.closeTo(ethers.utils.parseEther("2"), tolerance);
+      expect(stakeInfo.lockType).to.equal(0); // FLEXIBLE
     });
   });
 
@@ -259,17 +260,17 @@ describe("JNSStaking (Phase 3)", function () {
       await mockGovernor.setCivicDuty(user2.address, 0, true);
     });
 
-    it("Should start a new epoch and snapshot totalJNSX365", async function () {
+    it("Should start a new epoch and snapshot total supply", async function () {
       await jnsStaking.connect(timelock).startNewEpoch();
       
       const currentEpoch = await jnsStaking.currentEpoch();
       const eligibleShares = await jnsStaking.epochTotalEligibleShares(0);
 
       expect(currentEpoch).to.equal(1);
-      expect(eligibleShares).to.equal(ethers.utils.parseEther("200"));
+      expect(eligibleShares).to.equal(ethers.utils.parseEther("300")); // 100 + 200
     });
 
-    it("Should reject claims for users without 365-day lock or civic duty", async function () {
+    it("Should reject claims for users without civic duty", async function () {
       await mockUSDC.mint(owner.address, ethers.utils.parseEther("1000"));
       await mockUSDC.approve(jnsStaking.address, ethers.utils.parseEther("1000"));
       await jnsStaking.distributeExtraordinaryDividends(ethers.utils.parseEther("1000"));
@@ -280,29 +281,29 @@ describe("JNSStaking (Phase 3)", function () {
       await expect(
         jnsStaking.connect(user1).claimExtraordinaryDividends(0)
       ).to.be.revertedWith("Civic duty not met");
-
-      // Bypass Civic Filter
-      await mockGovernor.setCivicDuty(user1.address, 0, true);
-      
-      // User1 fails Conviction Filter (No 365-day lock)
-      await expect(
-        jnsStaking.connect(user1).claimExtraordinaryDividends(0)
-      ).to.be.revertedWith("No eligible 365-day stakes");
     });
 
-    it("Should correctly distribute USDC to legitimate 365-day stakers", async function () {
-      await mockUSDC.mint(owner.address, ethers.utils.parseEther("1000"));
-      await mockUSDC.approve(jnsStaking.address, ethers.utils.parseEther("1000"));
-      await jnsStaking.distributeExtraordinaryDividends(ethers.utils.parseEther("1000"));
+    it("Should correctly distribute USDC to ANY legitimate staker (even flexible) based on JNSX", async function () {
+      await mockUSDC.mint(owner.address, ethers.utils.parseEther("3000"));
+      await mockUSDC.approve(jnsStaking.address, ethers.utils.parseEther("3000"));
+      await jnsStaking.distributeExtraordinaryDividends(ethers.utils.parseEther("3000"));
 
       await jnsStaking.connect(timelock).startNewEpoch();
 
-      // User2 claims successfully
-      const balanceBefore = await mockUSDC.balanceOf(user2.address);
-      await jnsStaking.connect(user2).claimExtraordinaryDividends(0);
-      const balanceAfter = await mockUSDC.balanceOf(user2.address);
+      // User1 gets Civic Duty
+      await mockGovernor.setCivicDuty(user1.address, 0, true);
 
-      expect(balanceAfter.sub(balanceBefore)).to.equal(ethers.utils.parseEther("1000")); // Only eligible user gets 100%
+      // User1 claims successfully (100 / 300 = 1/3 of 3000 = 1000)
+      const balanceBefore1 = await mockUSDC.balanceOf(user1.address);
+      await jnsStaking.connect(user1).claimExtraordinaryDividends(0);
+      const balanceAfter1 = await mockUSDC.balanceOf(user1.address);
+      expect(balanceAfter1.sub(balanceBefore1)).to.equal(ethers.utils.parseEther("1000")); 
+
+      // User2 claims successfully (200 / 300 = 2/3 of 3000 = 2000)
+      const balanceBefore2 = await mockUSDC.balanceOf(user2.address);
+      await jnsStaking.connect(user2).claimExtraordinaryDividends(0);
+      const balanceAfter2 = await mockUSDC.balanceOf(user2.address);
+      expect(balanceAfter2.sub(balanceBefore2)).to.equal(ethers.utils.parseEther("2000")); 
 
       // Reverts on double claim
       await expect(

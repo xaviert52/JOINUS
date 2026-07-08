@@ -18,7 +18,7 @@
 - **Estado**: Aceptado.
 
 ### ADR-002: Tarifas en Transferencias (Tax Token)
-- **Decisión**: Configurar formalmente el Tax del 3% (1% quema permanente). Respecto al restante: El 2% de retención del tax transaccional se envía ÚNICA Y EXCLUSIVAMENTE a la dirección de la bóveda del RewardPool General de la DAO. Ningún usuario recibe distribuciones directas del mercado. El Smart Contract de Staking se alimenta de este RewardPool colectivo para calcular matemáticamente un APY dinámico y pagar a los stakers. El Auto-Compound es una acción estrictamente manual y voluntaria donde el usuario decide reinvertir sus propias utilidades ya devengadas.
+- **Decisión**: Configurar formalmente el Tax del 3% (1% quema permanente). El 2% de retención se envía ÚNICA Y EXCLUSIVAMENTE al RewardPool General de la DAO. Ningún usuario recibe distribuciones directas del mercado. El Smart Contract calcula un APY dinámico. Reclamar este Base Yield a la wallet incurre en el 3% de Tax normal. El Auto-Compound es 100% Tax-Free e inyecta las ganancias por defecto en una nueva posición de Staking FLEXIBLE (1.0x), dando liquidez inmediata sobre los rendimientos.
 - **Motivo**: Genera presión deflacionaria y centraliza el yield en el contrato de staking protegiendo jurídicamente a la DAO de distribuciones automáticas.
 - **Estado**: Aceptado.
 
@@ -54,7 +54,7 @@
 
 ### ADR-009: Distribución del Flujo de Caja del Casino
 - **Decisión**: Se fija una comisión operativa y de riesgo del 35% para el fundador (Jasar) sobre las ganancias netas de The Arena (cobertura de infraestructura y banca). El 65% restante se divide algorítmicamente entre:
-  * 30% a la Bóveda de Dividendos de Alta Convicción (para stakers de $JNSX a 365 días con >70% de asistencia cívica).
+  * 30% a la Bóveda de Dividendos (para CUALQUIER staker de $JNSX con >70% de asistencia cívica, sin importar tiempo de bloqueo).
   * 15% al RewardPool General (para potenciar masivamente el APY pasivo de todos los stakers).
   * 10% al House Bankroll (fondo de cobertura y crecimiento de la banca del casino).
   * 10% para recompras en DEX (Buyback) y quema perpetua de $JNS.
@@ -62,7 +62,7 @@
 - **Estado**: Aceptado.
 
 ### ADR-010: Sostenibilidad Matemática y Health Factor
-- **Decisión**: El concepto central del APY no es un "Porcentaje Fijo", sino una **"Porción del Pastel" (Slice of the Pie)**. La recompensa del usuario se calcula como: `(Tus $JNSX / Total Global $JNSX) * Emisión Semanal`. El tiempo de vida del RewardPool depende estrictamente de esta Tasa de Emisión Asintótica. Se establece la fórmula matemática inmutable para mantener el Health Factor en 10.2 Años de forma auto-regulada: `Weekly Emission = Current RewardPool Balance / 530 Weeks`.
+- **Decisión**: El concepto central del APY no es un "Porcentaje Fijo", sino una **"Porción del Pastel" (Slice of the Pie)**. La recompensa del usuario se calcula como: `(Tus $JNSX / Total Global $JNSX) * Emisión Semanal`. El tiempo de vida del RewardPool depende estrictamente de esta Tasa de Emisión Asintótica. Se establece la fórmula matemática inmutable para mantener el Health Factor en 10.2 Años de forma auto-regulada: `Weekly Emission = Current RewardPool Balance / Target Health Weeks`. Actualmente `Target Health Weeks` = 530, pero es un parámetro gobernable y modificable vía votación del DAO.
 - **Motivo**: Garantiza una transparencia total sobre la pista de aterrizaje (runway). Si el pool cae, la emisión absoluta disminuye asintóticamente (auto-throttle) forzando el replenish matemático hasta volver al target de 530 semanas (10.2 años).
 - **Estado**: Aceptado.
 

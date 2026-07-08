@@ -18,11 +18,11 @@ Las recompensas distribuidas a los stakers se dividen en dos flujos independient
 2. **Bóveda de Dividendos Extraordinarios (Excedente Limpio B2B en $ETH o $USDC):**
    - Se alimenta de los ingresos extraordinarios netos del DeFi Venture Hub (B2B Yield Routing Engine y tarifas del Launchpad).
    - Estos fondos se almacenan en una bóveda separada y no sufren auto-compound automático.
-   - Se distribuyen exclusivamente a stakers de Alta Convicción para reclamarse de forma directa en monedas duras líquidas ($ETH o $USDC).
+   - Se distribuyen a CUALQUIER staker de Alta Participación Cívica para reclamarse de forma directa en monedas duras líquidas ($ETH o $USDC), independientemente de su tiempo de bloqueo.
 
 ### Reglas de Asignación de la Bóveda de Dividendos
 Los fondos de la Bóveda de Dividendos se asignan de forma meritocrática bajo dos condiciones estrictas on-chain:
-1. **Compromiso de Convicción Temporal (Lock de 365 días):** El usuario debe poseer el Liquid Staking Token (LST) **$JNSX** correspondiente a un bloqueo de máxima duración (365 días).
+1. **Sin Restricción de Convicción Temporal:** El usuario puede poseer el Liquid Staking Token (LST) **$JNSX** en cualquier bloqueo (incluso Flexible).
 2. **Participación Democrática Activa (Quórum de Voto > 70%):** El contrato de distribución cruzará los balances de staking con el registro histórico de votaciones del **JNSGovernorzk.sol**. Solo se considerarán aptas las direcciones que registren participación en más del 70% de las propuestas del período evaluado.
 
 Este mecanismo mitiga el parasitismo financiero (free-riding) y premia de manera directa y tangible a los usuarios alineados a largo plazo con la gobernanza y solvencia del Hub.
@@ -55,10 +55,11 @@ El concepto central del APY no es un "Porcentaje Fijo", sino una **"Porción del
 **`(User $JNSX / Total Global $JNSX) * Weekly Emission`**
 
 La Emisión Semanal está regulada por la fórmula asintótica para mantener el Health Factor en 10.2 Años de forma auto-regulada: 
-**`Weekly Emission = Current RewardPool Balance / 530 Weeks`**
+**`Weekly Emission = Current RewardPool Balance / Target Health Weeks`**
+*(Actualmente `Target Health Weeks` = 530, gobernable vía votación)*
 
 ### Auto-Compound y Stake Laddering
-El mecanismo de Auto-Compound es estrictamente manual y voluntario. Cuando el usuario decide reinvertir sus propias utilidades, el Smart Contract generará posiciones independientes ("Stake Laddering"), cada una con su propia fecha de vencimiento y multiplicador según el lock elegido, evitando el secuestro forzoso del capital original y permitiendo estrategias de flujo de caja escalonado.
+El mecanismo de Auto-Compound es estrictamente manual y voluntario. Cuando el usuario decide reinvertir sus propias utilidades, el Smart Contract generará posiciones independientes ("Stake Laddering"), inyectando las ganancias por defecto en una nueva posición de Staking FLEXIBLE (1.0x), dando liquidez inmediata sobre los rendimientos y evitando el secuestro forzoso del capital original. Reclamar Base Yield directamente a la wallet incurrirá en el 3% de Tax normal, mientras que el Auto-Compound es 100% Tax-Free.
 
 ### Razón de Diseño
 Se descarta la utilización de una votación cuadrática simple debido al riesgo latente de desincentivar y ahuyentar a los grandes proveedores de capital (ballenas) ante la fuga de liquidez en un entorno multicadena. No obstante, al mantener multiplicadores temporales significativos (hasta 2.0x), se concede una ventaja proporcional y competitiva al inversor minorista dispuesto a bloquear su capital por un año completo, contrarrestando el peso bruto del capital oportunista a corto plazo.

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useStaking } from '@/hooks/useStaking';
+import { useGaslessTx } from '@/hooks/useGaslessTx';
 
 const LOCK_OPTIONS = [
   { label: 'Flexible', days: 0, multiplier: 1.0 },
@@ -27,6 +28,8 @@ export default function StakingTerminal() {
 
   const [stakeAmount, setStakeAmount] = useState('');
   const [selectedLock, setSelectedLock] = useState(LOCK_OPTIONS[4]);
+
+  const { isGaslessMode, setIsGaslessMode, isSponsoring, sendGaslessTransaction } = useGaslessTx();
 
   const projectedJNSX = stakeAmount ? (parseFloat(stakeAmount) * selectedLock.multiplier).toFixed(2) : '0.00';
 
@@ -121,9 +124,29 @@ export default function StakingTerminal() {
             <span className="text-2xl font-mono font-bold text-white tracking-wider">{projectedJNSX} <span className="text-red-500 text-lg">$JNSX</span></span>
           </div>
 
-          <button className="w-full py-5 bg-red-600 hover:bg-red-500 text-white font-black rounded-2xl uppercase tracking-[0.2em] text-sm transition-all shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] mt-auto transform hover:-translate-y-1">
-            Lock & Mint
-          </button>
+          <div className="mt-auto flex flex-col gap-4">
+            <div className="flex items-center justify-between p-4 bg-[#050505] rounded-2xl border border-zinc-800">
+              <div>
+                <p className="text-[10px] font-black uppercase text-white tracking-[0.2em] flex items-center gap-2">
+                  Gasless Mode
+                  <span className="bg-red-500 text-[8px] px-2 py-0.5 rounded-full">DAO Sponsored</span>
+                </p>
+                <p className="text-[9px] text-zinc-500 mt-1 uppercase tracking-widest">Pay 0 ETH for Gas (ERC-4337)</p>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" checked={isGaslessMode} onChange={() => setIsGaslessMode(!isGaslessMode)} className="sr-only peer" />
+                <div className="w-11 h-6 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-500"></div>
+              </label>
+            </div>
+
+            <button 
+              onClick={() => sendGaslessTransaction("0xStakingContract", "0xLockData")}
+              disabled={isSponsoring}
+              className="w-full py-5 bg-red-600 hover:bg-red-500 text-white font-black rounded-2xl uppercase tracking-[0.2em] text-sm transition-all shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSponsoring ? "Sponsoring Tx..." : "Lock & Mint"}
+            </button>
+          </div>
         </div>
 
 
@@ -164,10 +187,16 @@ export default function StakingTerminal() {
               </div>
               
               <div className="flex flex-col gap-3 mt-auto z-10">
-                <button className="w-full py-4 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-colors border border-zinc-700/50 hover:border-zinc-500">
+                <button 
+                  onClick={() => sendGaslessTransaction("0xStaking", "0xClaim")}
+                  className="w-full py-4 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-colors border border-zinc-700/50 hover:border-zinc-500"
+                >
                   Claim Yield
                 </button>
-                <button className="w-full py-4 bg-red-600/90 hover:bg-red-500 text-white font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-all shadow-[0_0_20px_rgba(220,38,38,0.2)] hover:shadow-[0_0_30px_rgba(220,38,38,0.4)] transform hover:-translate-y-0.5">
+                <button 
+                  onClick={() => sendGaslessTransaction("0xStaking", "0xAutoCompound")}
+                  className="w-full py-4 bg-red-600/90 hover:bg-red-500 text-white font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-all shadow-[0_0_20px_rgba(220,38,38,0.2)] hover:shadow-[0_0_30px_rgba(220,38,38,0.4)] transform hover:-translate-y-0.5"
+                >
                   Auto-Compound
                 </button>
                 <p className="text-[8px] text-zinc-500 mt-2 px-1 leading-relaxed">
@@ -199,14 +228,15 @@ export default function StakingTerminal() {
               </div>
               
               <button 
-                disabled={!isCivicDutyMet || !has365DayLock}
+                onClick={() => sendGaslessTransaction("0xStaking", "0xClaimDividends")}
+                disabled={!isCivicDutyMet || isSponsoring}
                 className={`w-full py-4 font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-all border mt-auto z-10
-                  ${(isCivicDutyMet && has365DayLock) 
+                  ${isCivicDutyMet 
                     ? 'bg-blue-500/10 border-blue-500/50 text-blue-400 hover:bg-blue-500/20 shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transform hover:-translate-y-0.5' 
                     : 'bg-zinc-950 border-zinc-900 text-zinc-700 cursor-not-allowed'}
                 `}
               >
-                Claim Dividends
+                {isSponsoring ? "Sponsoring..." : "Claim Dividends"}
               </button>
             </div>
           </div>

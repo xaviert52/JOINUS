@@ -50,6 +50,7 @@ contract JNSStaking is
     address public daoRewardPool; // Si es address(0) o este contrato, las penas se auto-reinvierten
     uint256 public strategicDeployed; // JNS prestado al Timelock
     uint256 public lastRewardTime; // Para prorratear la emision semanal asintotica
+    uint256 public healthTargetWeeks; // Factor gobernable para el APY asintotico
 
     mapping(address => uint256) public rewardDebt;
     mapping(address => uint256) public pendingRewards;
@@ -82,6 +83,7 @@ contract JNSStaking is
         _grantRole(DEFAULT_ADMIN_ROLE, _admin);
         jnsToken = IERC20(_jnsToken);
         lastRewardTime = block.timestamp;
+        healthTargetWeeks = 530;
     }
 
     function setDaoRewardPool(address _pool) external onlyRole(DEFAULT_ADMIN_ROLE) {
@@ -100,7 +102,8 @@ contract JNSStaking is
             uint256 totalJNSX = totalSupply();
             if (totalJNSX > 0 && lastRewardTime > 0) {
                 uint256 timeElapsed = block.timestamp - lastRewardTime;
-                uint256 weeklyEmission = rewardPoolBalance / 530;
+                uint256 hTarget = healthTargetWeeks > 0 ? healthTargetWeeks : 530;
+                uint256 weeklyEmission = rewardPoolBalance / hTarget;
                 uint256 newRewards = (weeklyEmission * timeElapsed) / 7 days;
                 
                 if (newRewards > rewardPoolBalance) {
@@ -139,7 +142,8 @@ contract JNSStaking is
         if (currentBalance > jnsBalanceAccounted && totalSupply() > 0 && lastRewardTime > 0) {
             uint256 rewardPoolBalance = currentBalance - jnsBalanceAccounted;
             uint256 timeElapsed = block.timestamp - lastRewardTime;
-            uint256 weeklyEmission = rewardPoolBalance / 530;
+            uint256 hTarget = healthTargetWeeks > 0 ? healthTargetWeeks : 530;
+            uint256 weeklyEmission = rewardPoolBalance / hTarget;
             uint256 newRewards = (weeklyEmission * timeElapsed) / 7 days;
             
             if (newRewards > rewardPoolBalance) {
@@ -246,7 +250,7 @@ contract JNSStaking is
         jnsBalanceAccounted -= amount; 
     }
 
-    function autoCompoundBaseYield(LockType _lockType) external nonReentrant whenNotPaused {
+    function autoCompoundBaseYield() external nonReentrant whenNotPaused {
         _updateUserReward(msg.sender);
         uint256 amount = pendingRewards[msg.sender];
         require(amount > 0, "No yield to auto-compound");
@@ -254,6 +258,8 @@ contract JNSStaking is
         pendingRewards[msg.sender] = 0;
         
         // El yield ya está dentro de currentBalance y de jnsBalanceAccounted gracias a updateReward
+        // Siempre se inyecta como FLEXIBLE sin lock
+        LockType _lockType = LockType.FLEXIBLE;
         uint256 multiplier = _getMultiplier(_lockType);
         uint256 amountJNSX = (amount * multiplier) / 100;
         uint256 unlockTime = block.timestamp + _getDuration(_lockType);
@@ -266,9 +272,6 @@ contract JNSStaking is
         }));
         
         totalJNSLocked += amount;
-        if (_lockType == LockType.DAYS_365) {
-            totalJNSX365 += amountJNSX;
-        }
         
         _mint(msg.sender, amountJNSX);
     }
@@ -285,8 +288,13 @@ contract JNSStaking is
         governorContract = IJNSGovernor(_governor);
     }
 
+    function setHealthTargetWeeks(uint256 _weeks) external onlyRole(TIMELOCK_ROLE) {
+        require(_weeks > 0, "Target cannot be zero");
+        healthTargetWeeks = _weeks;
+    }
+
     function startNewEpoch() external onlyRole(TIMELOCK_ROLE) {
-        epochTotalEligibleShares[currentEpoch] = totalJNSX365;
+        epochTotalEligibleShares[currentEpoch] = totalSupply();
         epochEndTimes[currentEpoch] = block.timestamp;
         currentEpoch++;
     }
@@ -312,16 +320,16 @@ contract JNSStaking is
         
         for (uint i = 0; i < userStakes[msg.sender].length; i++) {
             StakeInfo storage stake = userStakes[msg.sender][i];
-            if (stake.lockType == LockType.DAYS_365 && stake.jnsxMinted > 0) {
-                // Inferir momento de creacion restando exactamente 365 days
-                uint256 createdAt = stake.unlockTime - 365 days;
+            if (stake.jnsxMinted > 0) {
+                // Inferir momento de creacion restando el duration del lock
+                uint256 createdAt = stake.unlockTime - _getDuration(stake.lockType);
                 if (createdAt <= epochEnd) {
                     eligibleJNSX += stake.jnsxMinted;
                 }
             }
         }
 
-        require(eligibleJNSX > 0, "No eligible 365-day stakes");
+        require(eligibleJNSX > 0, "No eligible stakes");
 
         uint256 userShare = (eligibleJNSX * epochTotalDividends[_epochId]) / epochTotalEligibleShares[_epochId];
         require(userShare > 0, "No dividends to claim");

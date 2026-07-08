@@ -9,11 +9,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Izquierda: Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <Image src="/logo.png" alt="JOINUS Logo" width={32} height={32} className="object-contain group-hover:scale-110 transition-transform" />
-          <span className="text-2xl font-black tracking-[0.2em] text-white uppercase flex items-center">
-            JOINUS
-            <span className="text-red-500 font-mono text-3xl -mt-1 ml-0.5 drop-shadow-[0_0_8px_rgba(239,68,68,0.8)] group-hover:animate-pulse">!</span>
-          </span>
+          <Image src="/logo.png" alt="JOINUS Logo" width={160} height={48} className="object-contain group-hover:scale-105 transition-transform" />
         </Link>
         
         {/* Centro: Enlaces minimalistas */}
