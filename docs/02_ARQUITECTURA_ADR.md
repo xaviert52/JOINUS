@@ -75,13 +75,13 @@
 - **Motivo**: Las épocas semanales reducen el ruido de los reclamos diarios y promueven la estabilidad limitando los retiros de posiciones bloqueadas. Los filtros de gobernanza previenen el spam, y los bounties premian a los pioneros constructores de la DAO.
 - **Estado**: Aceptado.
 
-### ADR-012: Gasless Paymaster Economics (ERC-4337)
-- **Decisión**: La integración de Abstracción de Cuenta (Pimlico / ERC-4337) actuará como la estrategia central de adquisición de usuarios del protocolo. La DAO o la Billetera de Operaciones fundará y mantendrá el contrato Paymaster.
-- **Motivo**: El ROI justificado para la DAO es la eliminación total de la fricción (especialmente para usuarios no nativos o con bajo balance de ETH), incrementando masivamente el TVL, la accesibilidad y la retención bajo la filosofía: "Los bancos te cobran comisiones, nosotros pagamos tu gas".
+### ADR-012: Gasless Paymaster Economics (ERC-4337) y Subsidio Selectivo
+- **Decisión**: La integración de Abstracción de Cuenta (Pimlico / ERC-4337) actuará como la estrategia central de adquisición de usuarios del protocolo. La DAO o la Billetera de Operaciones fundará y mantendrá el contrato Paymaster. Sin embargo, el Paymaster patrocinará única y exclusivamente transacciones de Civismo y Retención (Votar con pruebas ZK y hacer Auto-Compound). Las funciones de retiro de capital (Withdraw/Early Unstake) exigirán que el usuario pague su propio gas.
+- **Motivo**: El ROI justificado para la DAO es la eliminación total de la fricción (especialmente para usuarios no nativos o con bajo balance de ETH) en las acciones constructivas para el TVL, mientras el usuario asume los costos de salida o retiro.
 - **Estado**: Aceptado.
 
-### ADR-013: Auto-Compound Routing
-- **Decisión**: El mecanismo de Auto-Compound requiere ejecución manual (Ritual Semanal). Al ejecutarlo, el contrato (y la interfaz) exigen que el usuario elija la ruta de reinversión:
+### ADR-013: Auto-Compound Routing y Acumulación Perpetua
+- **Decisión**: El mecanismo de Auto-Compound requiere ejecución manual (Ritual Semanal). Queda fijado que el "Ritual Semanal" no confisca fondos. Si un usuario no ejecuta Claim o Compound el domingo, las recompensas se acumulan perpetuamente y de manera segura en el Smart Contract. Al ejecutarlo, el contrato (y la interfaz) exigen que el usuario elija la ruta de reinversión:
   * **Ruta A (Compound to Flexible)**: Permite mantener la liquidez total sobre el interés recién generado (1.0x).
   * **Ruta B (Stake Laddering)**: Permite re-bloquear las ganancias al plazo máximo disponible (ej. 3 Años) para maximizar asintóticamente el multiplicador (3.2x).
 - **Motivo**: Transfiere la soberanía del flujo de capital al usuario y desmitifica los procesos oscuros de "auto-compounding mágico" de la antigua era DeFi.

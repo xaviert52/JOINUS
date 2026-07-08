@@ -31,6 +31,8 @@ export default function StakingTerminal() {
 
   const [stakeAmount, setStakeAmount] = useState('');
   const [selectedLock, setSelectedLock] = useState(LOCK_OPTIONS[4]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedStake, setSelectedStake] = useState<any>(null);
 
   const { isGaslessMode, setIsGaslessMode, isSponsoring, sendGaslessTransaction } = useGaslessTx();
 
@@ -143,7 +145,7 @@ export default function StakingTerminal() {
                   <span className="bg-red-500 text-[8px] px-2 py-0.5 rounded-full">DAO Sponsored</span>
                 </p>
                 <p className="text-[9px] text-zinc-500 mt-1 uppercase tracking-widest">Pay 0 ETH for Gas (ERC-4337)</p>
-                <p className="text-[8px] text-zinc-600 mt-1 italic">When enabled, the DAO's Paymaster contract sponsors your Ethereum network gas fees. You transact for free.</p>
+                <p className="text-[8px] text-zinc-600 mt-1 italic">When enabled, the DAO's Paymaster sponsors your gas fees ONLY for Voting and Auto-Compounding. Withdrawals require user gas.</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" checked={isGaslessMode} onChange={() => setIsGaslessMode(!isGaslessMode)} className="sr-only peer" />
@@ -200,18 +202,30 @@ export default function StakingTerminal() {
               </h3>
               <div className="mb-4"></div>
               
-              <div className="text-[10px] font-black uppercase text-green-500/80 tracking-[0.2em] mb-1">Pending Yield:</div>
-              <div className="text-4xl md:text-5xl font-mono font-bold text-green-400 mb-2 drop-shadow-[0_0_15px_rgba(74,222,128,0.2)] z-10">
-                {baseYieldPending.toFixed(2)} <span className="text-xl text-green-500/50">$JNS</span>
+              <div className="grid grid-cols-2 gap-4 mb-6 relative z-10">
+                <div className="bg-[#050505] p-4 rounded-xl border border-zinc-800/80 shadow-inner">
+                  <div className="text-[9px] font-black uppercase text-zinc-500 tracking-[0.2em] mb-1">Available to Withdraw:</div>
+                  <div className="text-3xl font-mono font-bold text-white drop-shadow-md">
+                    {baseYieldPending.toFixed(2)} <span className="text-sm text-zinc-600">$JNS</span>
+                  </div>
+                </div>
+                
+                <div className="bg-[#050505] p-4 rounded-xl border border-zinc-800/80 shadow-inner flex flex-col justify-between">
+                  <div className="text-[9px] font-black uppercase text-zinc-500 tracking-[0.2em] mb-1">Accumulated this Cycle:</div>
+                  <div className="text-xl font-mono font-bold text-zinc-300">
+                    {(baseYieldPending * 0.1).toFixed(2)} <span className="text-xs text-zinc-600">$JNS</span>
+                  </div>
+                </div>
               </div>
 
               {hasLockedPositions && daysUntilNextClaim > 0 && (
-                <div className="text-[10px] font-mono font-bold text-orange-400 bg-orange-500/10 border border-orange-500/20 px-3 py-2 rounded-lg mb-6 shadow-inner z-10">
-                  ⏳ Weekly Epoch closes in: {daysUntilNextClaim} Days
+                <div className="text-[10px] font-mono font-bold text-zinc-400 bg-zinc-900/50 border border-zinc-800/80 px-3 py-2 rounded-lg mb-6 shadow-inner z-10 flex items-center gap-2">
+                  <svg className="w-4 h-4 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  Weekly Epoch closes in: {daysUntilNextClaim} Days
                 </div>
               )}
               {(!hasLockedPositions || daysUntilNextClaim === 0) && (
-                <div className="mb-6"></div>
+                <div className="mb-2"></div>
               )}
               
               <div className="flex flex-col gap-3 mt-auto z-10">
@@ -309,7 +323,10 @@ export default function StakingTerminal() {
                     <td className="py-4 text-red-400">2,000</td>
                     <td className="py-4 text-zinc-500">2027-07-05</td>
                     <td className="py-4 text-right">
-                      <button className="text-[9px] bg-zinc-900 hover:bg-zinc-800 px-3 py-1.5 rounded uppercase tracking-wider text-zinc-400 hover:text-white transition-colors border border-zinc-800">
+                      <button 
+                        onClick={() => { setSelectedStake({ type: '365 Days', mult: '2.0x', amount: '1,000', power: '2,000', date: '2027-07-05', lockValue: 'ladder' }); setIsModalOpen(true); }}
+                        className="text-[9px] bg-zinc-900 hover:bg-zinc-800 px-3 py-1.5 rounded uppercase tracking-wider text-zinc-400 hover:text-white transition-colors border border-zinc-800"
+                      >
                         Details
                       </button>
                     </td>
@@ -324,7 +341,10 @@ export default function StakingTerminal() {
                     <td className="py-4 text-red-400/70">1,500</td>
                     <td className="py-4 text-zinc-500">N/A</td>
                     <td className="py-4 text-right">
-                      <button className="text-[9px] bg-zinc-900 hover:bg-zinc-800 px-3 py-1.5 rounded uppercase tracking-wider text-zinc-400 hover:text-white transition-colors border border-zinc-800">
+                      <button 
+                        onClick={() => { setSelectedStake({ type: 'Flexible', mult: '1.0x', amount: '1,500', power: '1,500', date: 'N/A', lockValue: 'flexible' }); setIsModalOpen(true); }}
+                        className="text-[9px] bg-zinc-900 hover:bg-zinc-800 px-3 py-1.5 rounded uppercase tracking-wider text-zinc-400 hover:text-white transition-colors border border-zinc-800"
+                      >
                         Details
                       </button>
                     </td>
@@ -359,6 +379,70 @@ export default function StakingTerminal() {
           </motion.div>
         </div>
       </motion.div>
+      {/* Individual Stake Details Modal */}
+      {isModalOpen && selectedStake && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            className="bg-zinc-950 border border-zinc-800 p-8 rounded-3xl w-full max-w-md relative shadow-2xl flex flex-col gap-6"
+          >
+            <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            
+            <div>
+              <h3 className="text-white font-black uppercase tracking-[0.2em] mb-1">Stake Details</h3>
+              <p className="text-zinc-500 text-[10px] uppercase tracking-widest">{selectedStake.type} Lock ({selectedStake.mult})</p>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-[#050505] p-4 rounded-xl border border-zinc-800/80 shadow-inner">
+                <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest mb-1">Amount</p>
+                <p className="text-white font-mono text-xl font-bold">{selectedStake.amount} <span className="text-[10px] text-zinc-600">$JNS</span></p>
+              </div>
+              <div className="bg-[#050505] p-4 rounded-xl border border-zinc-800/80 shadow-inner">
+                <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest mb-1">Unlock Date</p>
+                <p className="text-white font-mono text-sm font-bold mt-1.5">{selectedStake.date}</p>
+              </div>
+            </div>
+
+            <div className="bg-[#050505] border border-zinc-800/80 rounded-xl p-4 shadow-inner">
+              <label className="block text-[8px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-3">Auto-Compound Routing</label>
+              <select 
+                defaultValue={selectedStake.lockValue}
+                className="w-full bg-[#0a0a0a] border border-zinc-700 text-zinc-300 text-[10px] font-bold uppercase tracking-[0.1em] rounded-lg p-2.5 focus:outline-none focus:border-white/20 transition-colors cursor-pointer"
+              >
+                <option value="flexible">Route to Flexible (1.0x)</option>
+                <option value="ladder">Ladder to Max Lock (3.2x)</option>
+              </select>
+            </div>
+
+            <div className="flex gap-3">
+              <button 
+                onClick={() => { sendGaslessTransaction("0xStaking", "0xClaim"); setIsModalOpen(false); }}
+                className="flex-1 py-4 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] border border-zinc-700/50 hover:border-zinc-500 transition-colors"
+              >
+                Claim Yield
+              </button>
+              <button 
+                onClick={() => { sendGaslessTransaction("0xStaking", "0xAutoCompound"); setIsModalOpen(false); }}
+                className="flex-1 py-4 bg-white hover:bg-zinc-200 text-black font-black rounded-xl uppercase tracking-[0.2em] text-[10px] shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] transition-all transform hover:-translate-y-0.5"
+              >
+                Compound
+              </button>
+            </div>
+            
+            {selectedStake.type !== 'Flexible' && (
+              <button className="w-full mt-1 py-3 border border-red-900/30 text-red-500 hover:bg-red-950/20 text-[9px] font-black uppercase tracking-[0.2em] rounded-xl transition-all shadow-[0_0_10px_rgba(239,68,68,0.05)]">
+                Early Unstake (Penalty)
+              </button>
+            )}
+          </motion.div>
+        </div>
+      )}
+
     </div>
   );
 }
