@@ -83,6 +83,13 @@
 ### ADR-013: Auto-Compound Routing y Acumulación Perpetua
 - **Decisión**: El mecanismo de Auto-Compound requiere ejecución manual (Ritual Semanal). Queda fijado que el "Ritual Semanal" no confisca fondos. Si un usuario no ejecuta Claim o Compound el domingo, las recompensas se acumulan perpetuamente y de manera segura en el Smart Contract. Al ejecutarlo, el contrato (y la interfaz) exigen que el usuario elija la ruta de reinversión:
   * **Ruta A (Compound to Flexible)**: Permite mantener la liquidez total sobre el interés recién generado (1.0x).
-  * **Ruta B (Stake Laddering)**: Permite re-bloquear las ganancias al plazo máximo disponible (ej. 3 Años) para maximizar asintóticamente el multiplicador (3.2x).
+  * **Ruta B (Stake Laddering)**: Permite re-bloquear las ganancias al plazo elegido (desde 30 Días hasta 3 Años) para escalar asintóticamente el multiplicador (hasta 3.2x).
 - **Motivo**: Transfiere la soberanía del flujo de capital al usuario y desmitifica los procesos oscuros de "auto-compounding mágico" de la antigua era DeFi.
+- **Estado**: Aceptado.
+
+### ADR-014: Aislamiento de Riesgo y Transparencia UX
+- **Decisión**: 
+  1. **Aislamiento de Retiro Anticipado**: Las acciones destructivas de capital (Early Unstake) se gestionan de forma atómica e individual dentro de cada posición en el Modal de Detalles, eliminando controles globales centralizados. 
+  2. **Transparencia en Saldos Dinámicos**: El Reward Yield se desglosa visualmente en tres balances limpios con texto en blanco: Capital disponible a retirar, Acumulado del ciclo actual y Temporizador del Epoch en gris.
+- **Motivo**: Previene accidentes (fat-finger errors) al obligar al usuario a inspeccionar la posición individual antes de quemar capital y evita confusiones visuales sobre qué liquidez es exigible inmediatamente.
 - **Estado**: Aceptado.

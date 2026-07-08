@@ -67,13 +67,13 @@ export default function StakingTerminal() {
         initial={{ opacity: 0, y: 20 }} 
         animate={{ opacity: 1, y: 0 }} 
         transition={{ duration: 0.8, staggerChildren: 0.2 }}
-        className="grid grid-cols-1 lg:grid-cols-12 gap-8"
+        className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch mb-8"
       >
         
-        {/* PANEL IZQUIERDO: ACCIÓN (Lock & Mint) */}
+        {/* COL 1: DEPOSIT & MINT */}
         <motion.div 
           initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}
-          className="lg:col-span-5 bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 md:p-10 shadow-2xl flex flex-col relative overflow-hidden group"
+          className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 md:p-10 shadow-2xl flex flex-col relative overflow-hidden group h-full"
         >
           {/* Subtle hover effect on card */}
           <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none" />
@@ -164,42 +164,16 @@ export default function StakingTerminal() {
         </motion.div>
 
 
-        {/* PANEL DERECHO: PORTFOLIO & REWARDS */}
-        <div className="lg:col-span-7 space-y-6 flex flex-col">
-          
-          {/* Active Positions */}
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}
-            className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 md:p-10 relative"
-          >
-            <h3 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-8">Your Portfolio</h3>
-            <div className="grid grid-cols-2 gap-8">
-              <div>
-                <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-3">Locked Value</p>
-                <p className="text-4xl md:text-5xl font-mono font-bold text-white drop-shadow-md">{lockedJNS.toLocaleString()} <span className="text-base text-zinc-600">$JNS</span></p>
-              </div>
-              <div className="text-right">
-                <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-3">Voting Power</p>
-                <p className="text-4xl md:text-5xl font-mono font-bold text-red-400 drop-shadow-[0_0_15px_rgba(248,113,113,0.3)]">{jnsxBalance.toLocaleString()} <span className="text-base text-zinc-600">$JNSX</span></p>
-              </div>
-            </div>
-            <div className="mt-8 pt-8 border-t border-zinc-800/80 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-              <span className="text-zinc-500 font-bold uppercase tracking-[0.2em] text-[10px]">Unlock Date</span>
-              <span className="text-white font-mono bg-zinc-900/80 px-4 py-2 rounded-lg border border-zinc-800/80 text-sm shadow-inner">{unlockDate}</span>
-            </div>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1">
-            {/* Cañón 1: Base Yield */}
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 hover:border-red-500/40 transition-colors duration-500 flex flex-col group relative overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-              <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3 flex justify-between items-center z-10">
-                RewardPool Yield 
-                <span className="text-green-400 text-[9px] bg-green-500/10 px-2.5 py-1 rounded-full border border-green-500/30 tracking-[0.2em] font-black shadow-[0_0_10px_rgba(74,222,128,0.2)]">ACTIVE</span>
-              </h3>
+        {/* COL 2: BASE YIELD CAÑÓN 1 */}
+        <motion.div 
+          whileHover={{ scale: 1.02 }}
+          className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 hover:border-red-500/40 transition-colors duration-500 flex flex-col group relative overflow-hidden h-full"
+        >
+          <div className="absolute inset-0 bg-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+          <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3 flex justify-between items-center z-10">
+            RewardPool Yield 
+            <span className="text-white text-[9px] bg-zinc-800/50 px-2.5 py-1 rounded-full border border-zinc-700/50 tracking-[0.2em] font-black shadow-inner">ACTIVE</span>
+          </h3>
               <div className="mb-4"></div>
               
               <div className="grid grid-cols-2 gap-4 mb-6 relative z-10">
@@ -255,11 +229,11 @@ export default function StakingTerminal() {
               </div>
             </motion.div>
 
-            {/* Cañón 2: High-Conviction Dividends */}
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 hover:border-blue-500/40 transition-colors duration-500 flex flex-col group relative overflow-hidden"
-            >
+        {/* COL 3: USDC DIVIDENDS CAÑÓN 2 */}
+        <motion.div 
+          whileHover={{ scale: 1.02 }}
+          className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 hover:border-blue-500/40 transition-colors duration-500 flex flex-col group relative overflow-hidden h-full"
+        >
               <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
               <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3 flex justify-between items-center z-10">
                 USDC Dividends
@@ -291,14 +265,14 @@ export default function StakingTerminal() {
               >
                 {isSponsoring ? "Sponsoring..." : "Claim Dividends"}
               </button>
-            </motion.div>
-          </div>
+        </motion.div>
+      </motion.div>
 
-          {/* Active Staking Positions Table */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 relative overflow-hidden"
-          >
+      {/* FILA INFERIOR: ACTIVE STAKING POSITIONS */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}
+        className="w-full bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 relative overflow-hidden"
+      >
             <h3 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-6">Active Staking Positions</h3>
             
             <div className="overflow-x-auto">
@@ -360,25 +334,6 @@ export default function StakingTerminal() {
               </p>
             </div>
           </motion.div>
-
-          {/* Zona de Peligro (Withdraw) */}
-          <motion.div 
-            whileHover={{ scale: 1.01 }}
-            className="p-6 border border-red-900/30 bg-red-950/10 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6 group hover:bg-red-950/20 transition-colors"
-          >
-            <div>
-              <h4 className="text-red-500 font-black uppercase text-[10px] mb-2 tracking-[0.3em] flex items-center gap-2">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                Danger Zone
-              </h4>
-              <p className="text-[10px] text-red-500/70 font-bold uppercase tracking-[0.2em] leading-relaxed max-w-sm">Warning: Breaking the lock incurs up to a 25% penalty burned to the RewardPool.</p>
-            </div>
-            <button className="whitespace-nowrap px-8 py-3 border border-red-900/50 hover:border-red-500 text-red-500 hover:bg-red-950/40 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl transition-all shadow-[0_0_15px_rgba(239,68,68,0.1)] hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
-              Early Unstake
-            </button>
-          </motion.div>
-        </div>
-      </motion.div>
       {/* Individual Stake Details Modal */}
       {isModalOpen && selectedStake && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
@@ -414,8 +369,13 @@ export default function StakingTerminal() {
                 defaultValue={selectedStake.lockValue}
                 className="w-full bg-[#0a0a0a] border border-zinc-700 text-zinc-300 text-[10px] font-bold uppercase tracking-[0.1em] rounded-lg p-2.5 focus:outline-none focus:border-white/20 transition-colors cursor-pointer"
               >
-                <option value="flexible">Route to Flexible (1.0x)</option>
-                <option value="ladder">Ladder to Max Lock (3.2x)</option>
+                <option value="flexible">Flexible (1.0x)</option>
+                <option value="30days">30 Days (1.1x)</option>
+                <option value="90days">90 Days (1.3x)</option>
+                <option value="180days">180 Days (1.6x)</option>
+                <option value="365days">1 Year (2.0x ★)</option>
+                <option value="2years">2 Years (2.6x ★)</option>
+                <option value="3years">3 Years (3.2x ★)</option>
               </select>
             </div>
 
