@@ -62,8 +62,8 @@
 - **Estado**: Aceptado.
 
 ### ADR-010: Sostenibilidad Matemática y Health Factor
-- **Decisión**: El tiempo de vida del RewardPool depende estrictamente de la Tasa de Emisión Fija, no de los multiplicadores. Se establece la fórmula matemática inmutable: `Pool Health (Years) = RewardPool Balance / Annual Emission`. El target óptimo (100% Health) es de **10.2 Años**.
-- **Motivo**: Garantiza una transparencia total sobre la pista de aterrizaje (runway). Si el pool cae del 100% de salud (ej. 80%), el contrato frena proporcionalmente la emisión de recompensas (auto-throttle) para forzar el replenish matemático hasta volver al target de 10.2 años.
+- **Decisión**: El concepto central del APY no es un "Porcentaje Fijo", sino una **"Porción del Pastel" (Slice of the Pie)**. La recompensa del usuario se calcula como: `(Tus $JNSX / Total Global $JNSX) * Emisión Semanal`. El tiempo de vida del RewardPool depende estrictamente de esta Tasa de Emisión Asintótica. Se establece la fórmula matemática inmutable para mantener el Health Factor en 10.2 Años de forma auto-regulada: `Weekly Emission = Current RewardPool Balance / 530 Weeks`.
+- **Motivo**: Garantiza una transparencia total sobre la pista de aterrizaje (runway). Si el pool cae, la emisión absoluta disminuye asintóticamente (auto-throttle) forzando el replenish matemático hasta volver al target de 530 semanas (10.2 años).
 - **Estado**: Aceptado.
 
 ### ADR-011: Weekly Epochs & Decreasing Proposal Bounties

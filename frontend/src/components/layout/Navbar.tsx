@@ -27,10 +27,10 @@ export function Navbar() {
           
           {/* Dropdown de Productos */}
           <div className="relative group">
-            <button className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer uppercase">
+            <Link href="/products" className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer uppercase">
               Products
               <svg className="w-3 h-3 text-zinc-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-            </button>
+            </Link>
             <div className="absolute top-full left-0 mt-4 w-52 bg-[#0a0a0a] border border-zinc-800 rounded-lg shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden">
               <Link href="/casino" className="px-5 py-4 hover:bg-zinc-900 hover:text-red-400 transition-colors border-b border-zinc-800/50">
                 The Arena

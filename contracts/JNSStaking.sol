@@ -33,7 +33,7 @@ contract JNSStaking is
     IERC20 public jnsToken;
     uint256 public totalJNSLocked;
 
-    enum LockType { FLEXIBLE, DAYS_30, DAYS_90, DAYS_180, DAYS_365 }
+    enum LockType { FLEXIBLE, DAYS_30, DAYS_90, DAYS_180, DAYS_365, DAYS_730, DAYS_1095 }
 
     struct StakeInfo {
         uint256 amount;
@@ -49,6 +49,7 @@ contract JNSStaking is
     uint256 public jnsBalanceAccounted;
     address public daoRewardPool; // Si es address(0) o este contrato, las penas se auto-reinvierten
     uint256 public strategicDeployed; // JNS prestado al Timelock
+    uint256 public lastRewardTime; // Para prorratear la emision semanal asintotica
 
     mapping(address => uint256) public rewardDebt;
     mapping(address => uint256) public pendingRewards;
@@ -80,6 +81,7 @@ contract JNSStaking is
 
         _grantRole(DEFAULT_ADMIN_ROLE, _admin);
         jnsToken = IERC20(_jnsToken);
+        lastRewardTime = block.timestamp;
     }
 
     function setDaoRewardPool(address _pool) external onlyRole(DEFAULT_ADMIN_ROLE) {
@@ -90,16 +92,29 @@ contract JNSStaking is
     // REWARD ENGINE
     // ==========================================
     
-    /// @notice Detecta ingresos pasivos y actualiza el índice global de recompensas
+    /// @notice Detecta ingresos pasivos y actualiza el indice global de recompensas usando emision asintotica
     function updateReward() public {
         uint256 currentBalance = jnsToken.balanceOf(address(this));
         if (currentBalance > jnsBalanceAccounted) {
-            uint256 newRewards = currentBalance - jnsBalanceAccounted;
+            uint256 rewardPoolBalance = currentBalance - jnsBalanceAccounted;
             uint256 totalJNSX = totalSupply();
-            if (totalJNSX > 0) {
-                accRewardPerShare += (newRewards * 1e18) / totalJNSX;
+            if (totalJNSX > 0 && lastRewardTime > 0) {
+                uint256 timeElapsed = block.timestamp - lastRewardTime;
+                uint256 weeklyEmission = rewardPoolBalance / 530;
+                uint256 newRewards = (weeklyEmission * timeElapsed) / 7 days;
+                
+                if (newRewards > rewardPoolBalance) {
+                    newRewards = rewardPoolBalance;
+                }
+                
+                if (newRewards > 0) {
+                    accRewardPerShare += (newRewards * 1e18) / totalJNSX;
+                    jnsBalanceAccounted += newRewards;
+                }
             }
-            jnsBalanceAccounted = currentBalance;
+            lastRewardTime = block.timestamp;
+        } else {
+            lastRewardTime = block.timestamp;
         }
     }
 
@@ -121,8 +136,16 @@ contract JNSStaking is
         uint256 acc = accRewardPerShare;
         uint256 currentBalance = jnsToken.balanceOf(address(this));
         
-        if (currentBalance > jnsBalanceAccounted && totalSupply() > 0) {
-            uint256 newRewards = currentBalance - jnsBalanceAccounted;
+        if (currentBalance > jnsBalanceAccounted && totalSupply() > 0 && lastRewardTime > 0) {
+            uint256 rewardPoolBalance = currentBalance - jnsBalanceAccounted;
+            uint256 timeElapsed = block.timestamp - lastRewardTime;
+            uint256 weeklyEmission = rewardPoolBalance / 530;
+            uint256 newRewards = (weeklyEmission * timeElapsed) / 7 days;
+            
+            if (newRewards > rewardPoolBalance) {
+                newRewards = rewardPoolBalance;
+            }
+            
             acc += (newRewards * 1e18) / totalSupply();
         }
         
@@ -316,6 +339,8 @@ contract JNSStaking is
         if (_lockType == LockType.DAYS_90) return 130;
         if (_lockType == LockType.DAYS_180) return 160;
         if (_lockType == LockType.DAYS_365) return 200;
+        if (_lockType == LockType.DAYS_730) return 260;
+        if (_lockType == LockType.DAYS_1095) return 320;
         return 100; // FLEXIBLE
     }
 
@@ -324,6 +349,8 @@ contract JNSStaking is
         if (_lockType == LockType.DAYS_90) return 90 days;
         if (_lockType == LockType.DAYS_180) return 180 days;
         if (_lockType == LockType.DAYS_365) return 365 days;
+        if (_lockType == LockType.DAYS_730) return 730 days;
+        if (_lockType == LockType.DAYS_1095) return 1095 days;
         return 0; // FLEXIBLE
     }
 
@@ -332,6 +359,8 @@ contract JNSStaking is
         if (_lockType == LockType.DAYS_90) return 15;
         if (_lockType == LockType.DAYS_180) return 20;
         if (_lockType == LockType.DAYS_365) return 25;
+        if (_lockType == LockType.DAYS_730) return 25; // Cap at 25%
+        if (_lockType == LockType.DAYS_1095) return 25; // Cap at 25%
         return 0; // FLEXIBLE
     }
 

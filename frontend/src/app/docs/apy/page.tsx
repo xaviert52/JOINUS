@@ -88,6 +88,28 @@ export default function ApyAnalytics() {
                   </p>
                 </div>
               </div>
+
+              <div className="flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center shrink-0 mt-1">
+                  <span className="text-yellow-500 text-xs font-black">04</span>
+                </div>
+                <div>
+                  <h4 className="text-white font-bold mb-2">Slice of the Pie Mechanics</h4>
+                  <div className="bg-[#050505] p-4 rounded-xl border border-zinc-800/80 my-3">
+                    <code className="text-yellow-400 font-mono text-xs md:text-sm">
+                      Your Reward = (Your $JNSX / Total Global $JNSX) * Weekly Emission
+                    </code>
+                  </div>
+                  <p className="text-zinc-400 text-sm leading-relaxed">
+                    The APY is not a fixed percentage. It is a competition for a slice of the weekly emission. 
+                    Because extreme locks grant up to a <span className="text-red-400 font-bold">3.2x multiplier</span> in $JNSX, 
+                    those who commit long-term devour the slices of those who don't.
+                  </p>
+                  <blockquote className="mt-4 border-l-2 border-red-500 pl-4 py-1">
+                    <p className="text-zinc-300 italic text-sm">"We encode long-term thinking. This is meritocracy verified by code."</p>
+                  </blockquote>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -70,6 +70,24 @@ describe("JNSStaking (Phase 3)", function () {
       const jnsxBalance = await jnsStaking.balanceOf(user2.address);
       expect(jnsxBalance).to.equal(depositAmount.mul(2)); // 2.0x
     });
+
+    it("Should allow a 730 DAYS lock and mint 2.6x JNSX", async function () {
+      const depositAmount = ethers.utils.parseEther("100");
+      // LockType.DAYS_730 = 5
+      await jnsStaking.connect(user2).deposit(depositAmount, 5);
+
+      const jnsxBalance = await jnsStaking.balanceOf(user2.address);
+      expect(jnsxBalance).to.equal(depositAmount.mul(26).div(10)); // 2.6x
+    });
+
+    it("Should allow a 1095 DAYS lock and mint 3.2x JNSX", async function () {
+      const depositAmount = ethers.utils.parseEther("100");
+      // LockType.DAYS_1095 = 6
+      await jnsStaking.connect(user2).deposit(depositAmount, 6);
+
+      const jnsxBalance = await jnsStaking.balanceOf(user2.address);
+      expect(jnsxBalance).to.equal(depositAmount.mul(32).div(10)); // 3.2x
+    });
   });
 
   describe("Governance Checkpointing (DT-006)", function () {
@@ -170,16 +188,25 @@ describe("JNSStaking (Phase 3)", function () {
 
       // Total JNSX = 300. User1 has 1/3, User2 has 2/3.
 
-      // Simulate a reward injection of 30 JNS (e.g., from market tax)
-      await jnsToken.transfer(jnsStaking.address, ethers.utils.parseEther("30"));
+      // Simulate a reward injection of 1590 JNS (1590 / 530 = 3 JNS weekly emission)
+      await jnsToken.transfer(jnsStaking.address, ethers.utils.parseEther("1590"));
+
+      // Advance time by 7 days
+      await ethers.provider.send("evm_increaseTime", [7 * 24 * 60 * 60]);
+      await ethers.provider.send("evm_mine");
     });
 
-    it("Should distribute rewards proportionally to JNSX balance", async function () {
+    it("Should distribute asymptotic rewards proportionally to JNSX balance", async function () {
       const pending1 = await jnsStaking.pendingBaseYield(user1.address);
       const pending2 = await jnsStaking.pendingBaseYield(user2.address);
 
-      expect(pending1).to.equal(ethers.utils.parseEther("10")); // 1/3 of 30
-      expect(pending2).to.equal(ethers.utils.parseEther("20")); // 2/3 of 30
+      // Expected newRewards = 1590 / 530 = 3 JNS.
+      // User1 = 1/3 of 3 JNS = 1 JNS
+      // User2 = 2/3 of 3 JNS = 2 JNS
+      // Tolerance of ~2 seconds of emission (which is about 0.000003 JNS per user)
+      const tolerance = ethers.utils.parseEther("0.00001");
+      expect(pending1).to.be.closeTo(ethers.utils.parseEther("1"), tolerance); 
+      expect(pending2).to.be.closeTo(ethers.utils.parseEther("2"), tolerance); 
     });
 
     it("Should allow claiming the base yield", async function () {
@@ -187,21 +214,23 @@ describe("JNSStaking (Phase 3)", function () {
       await jnsStaking.connect(user1).claimBaseYield();
       const balanceAfter = await jnsToken.balanceOf(user1.address);
 
-      expect(balanceAfter.sub(balanceBefore)).to.equal(ethers.utils.parseEther("10"));
+      const tolerance = ethers.utils.parseEther("0.00001");
+      expect(balanceAfter.sub(balanceBefore)).to.be.closeTo(ethers.utils.parseEther("1"), tolerance);
     });
 
     it("Should auto-compound the base yield natively into new JNSX stakes", async function () {
-      // User2 has 20 JNS pending. Auto-compound with 365 Days (2.0x).
-      // This should mint 40 JNSX (20 * 2).
+      // User2 has 2 JNS pending. Auto-compound with 365 Days (2.0x).
+      // This should mint 4 JNSX (2 * 2).
       const jnsxBefore = await jnsStaking.balanceOf(user2.address); // 200
       await jnsStaking.connect(user2).autoCompoundBaseYield(4);
-      const jnsxAfter = await jnsStaking.balanceOf(user2.address); // 200 + 40 = 240
+      const jnsxAfter = await jnsStaking.balanceOf(user2.address); // 200 + 4 = 204
       
-      expect(jnsxAfter.sub(jnsxBefore)).to.equal(ethers.utils.parseEther("40"));
+      const tolerance = ethers.utils.parseEther("0.00004");
+      expect(jnsxAfter.sub(jnsxBefore)).to.be.closeTo(ethers.utils.parseEther("4"), tolerance);
       
       const stakeInfo = await jnsStaking.userStakes(user2.address, 1);
-      expect(stakeInfo.amount).to.equal(ethers.utils.parseEther("20"));
-      expect(stakeInfo.jnsxMinted).to.equal(ethers.utils.parseEther("40"));
+      expect(stakeInfo.amount).to.be.closeTo(ethers.utils.parseEther("2"), tolerance);
+      expect(stakeInfo.jnsxMinted).to.be.closeTo(ethers.utils.parseEther("4"), tolerance);
     });
   });
 
