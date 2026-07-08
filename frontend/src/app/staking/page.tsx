@@ -9,6 +9,8 @@ const LOCK_OPTIONS = [
   { label: '90 Days', days: 90, multiplier: 1.3 },
   { label: '180 Days', days: 180, multiplier: 1.6 },
   { label: '365 Days', days: 365, multiplier: 2.0, isVip: true },
+  { label: '2 Years', days: 730, multiplier: 3.5, isVip: true },
+  { label: '3 Years', days: 1095, multiplier: 5.0, isVip: true },
 ];
 
 export default function StakingTerminal() {

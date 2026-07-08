@@ -47,6 +47,11 @@ Donde los parámetros y límites están definidos estrictamente por los siguient
 | Lock Medio | 90 días | 1.3x |
 | Lock Largo | 180 días | 1.6x |
 | Lock Convicción | 365 días | 2.0x |
+| Lock Extremo 1 | 730 días (2 Años) | 3.5x |
+| Lock Extremo 2 | 1095 días (3 Años) | 5.0x |
+
+### Auto-Compound y Stake Laddering
+El mecanismo de Auto-Compound es estrictamente manual y voluntario. Cuando el usuario decide reinvertir sus propias utilidades, el Smart Contract generará posiciones independientes ("Stake Laddering"), cada una con su propia fecha de vencimiento y multiplicador según el lock elegido, evitando el secuestro forzoso del capital original y permitiendo estrategias de flujo de caja escalonado.
 
 ### Razón de Diseño
 Se descarta la utilización de una votación cuadrática simple debido al riesgo latente de desincentivar y ahuyentar a los grandes proveedores de capital (ballenas) ante la fuga de liquidez en un entorno multicadena. No obstante, al mantener multiplicadores temporales significativos (hasta 2.0x), se concede una ventaja proporcional y competitiva al inversor minorista dispuesto a bloquear su capital por un año completo, contrarrestando el peso bruto del capital oportunista a corto plazo.

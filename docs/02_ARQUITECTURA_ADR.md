@@ -60,3 +60,8 @@
   * 10% para recompras en DEX (Buyback) y quema perpetua de $JNS.
 - **Motivo**: Canalizar el flujo de caja circular de The Arena priorizando el beneficio comunitario al elevar estratégicamente el RewardPool al 15% e incentivando el compromiso a largo plazo.
 - **Estado**: Aceptado.
+
+### ADR-010: Sostenibilidad Matemática y Health Factor
+- **Decisión**: El tiempo de vida del RewardPool depende estrictamente de la Tasa de Emisión Fija, no de los multiplicadores. Se establece la fórmula matemática inmutable: `Pool Health (Years) = RewardPool Balance / Annual Emission`.
+- **Motivo**: Garantiza una transparencia total sobre la pista de aterrizaje (runway) de las recompensas, permitiendo a la DAO ajustar emisiones mediante gobernanza sin que los multiplicadores distorsionen la salud macroeconómica del sistema.
+- **Estado**: Aceptado.
