@@ -1,8 +1,23 @@
 'use client';
 
+import { useAccount, useReadContract } from 'wagmi';
+import { formatEther } from 'viem';
+import { JNS_STAKING_ADDRESS } from '@/config/contracts';
+
 export function useGovernance() {
+  const { address } = useAccount();
+
+  const { data: jnsxBalanceRaw } = useReadContract({
+    address: JNS_STAKING_ADDRESS,
+    abi: [{ name: 'balanceOf', type: 'function', stateMutability: 'view', inputs: [{ name: 'account', type: 'address' }], outputs: [{ type: 'uint256' }] }],
+    functionName: 'balanceOf',
+    args: address ? [address] : undefined,
+  });
+
+  const votingPower = jnsxBalanceRaw ? Number(formatEther(jnsxBalanceRaw as bigint)) : 0;
+
   return {
-    votingPower: 2500,
+    votingPower,
     civicDutyEpoch: "Epoch 1: 100% Attended",
     activeProposals: [
       {

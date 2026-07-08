@@ -11,8 +11,8 @@ const LOCK_OPTIONS = [
   { label: '90 Days', days: 90, multiplier: 1.3 },
   { label: '180 Days', days: 180, multiplier: 1.6 },
   { label: '365 Days', days: 365, multiplier: 2.0, isVip: true },
-  { label: '2 Years', days: 730, multiplier: 3.5, isVip: true },
-  { label: '3 Years', days: 1095, multiplier: 5.0, isVip: true },
+  { label: '2 Years', days: 730, multiplier: 2.6, isVip: true },
+  { label: '3 Years', days: 1095, multiplier: 3.2, isVip: true },
 ];
 
 export default function StakingTerminal() {
@@ -143,6 +143,7 @@ export default function StakingTerminal() {
                   <span className="bg-red-500 text-[8px] px-2 py-0.5 rounded-full">DAO Sponsored</span>
                 </p>
                 <p className="text-[9px] text-zinc-500 mt-1 uppercase tracking-widest">Pay 0 ETH for Gas (ERC-4337)</p>
+                <p className="text-[8px] text-zinc-600 mt-1 italic">When enabled, the DAO's Paymaster contract sponsors your Ethereum network gas fees. You transact for free.</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" checked={isGaslessMode} onChange={() => setIsGaslessMode(!isGaslessMode)} className="sr-only peer" />
@@ -262,6 +263,60 @@ export default function StakingTerminal() {
               </button>
             </motion.div>
           </div>
+
+          {/* Active Staking Positions Table */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}
+            className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 relative overflow-hidden"
+          >
+            <h3 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] mb-6">Active Staking Positions</h3>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-zinc-800 text-[9px] uppercase tracking-[0.2em] text-zinc-600">
+                    <th className="pb-3 font-black">Type / Multiplier</th>
+                    <th className="pb-3 font-black">Locked Amount ($JNS)</th>
+                    <th className="pb-3 font-black text-red-500/70">Voting Power ($JNSX)</th>
+                    <th className="pb-3 font-black">Unlock Date</th>
+                    <th className="pb-3 font-black text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="text-xs font-mono text-zinc-300">
+                  {/* Mock Row 1 */}
+                  <tr className="border-b border-zinc-800/50 hover:bg-zinc-900/30 transition-colors">
+                    <td className="py-4 flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_5px_rgba(239,68,68,0.8)]"></span>
+                      365 Days <span className="text-[9px] text-zinc-500">2.0x</span>
+                    </td>
+                    <td className="py-4">1,000</td>
+                    <td className="py-4 text-red-400">2,000</td>
+                    <td className="py-4 text-zinc-500">2027-07-05</td>
+                    <td className="py-4 text-right">
+                      <button className="text-[9px] bg-zinc-900 hover:bg-zinc-800 px-3 py-1.5 rounded uppercase tracking-wider text-zinc-400 hover:text-white transition-colors border border-zinc-800">
+                        Details
+                      </button>
+                    </td>
+                  </tr>
+                  {/* Mock Row 2 */}
+                  <tr className="hover:bg-zinc-900/30 transition-colors">
+                    <td className="py-4 flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-600"></span>
+                      Flexible <span className="text-[9px] text-zinc-500">1.0x</span>
+                    </td>
+                    <td className="py-4">1,500</td>
+                    <td className="py-4 text-red-400/70">1,500</td>
+                    <td className="py-4 text-zinc-500">N/A</td>
+                    <td className="py-4 text-right">
+                      <button className="text-[9px] bg-zinc-900 hover:bg-zinc-800 px-3 py-1.5 rounded uppercase tracking-wider text-zinc-400 hover:text-white transition-colors border border-zinc-800">
+                        Details
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </motion.div>
 
           {/* Zona de Peligro (Withdraw) */}
           <motion.div 

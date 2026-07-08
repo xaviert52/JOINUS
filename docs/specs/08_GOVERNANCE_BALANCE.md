@@ -65,8 +65,8 @@ La Emisión Semanal está regulada por la fórmula asintótica para mantener el 
 **`Weekly Emission = Current RewardPool Balance / Target Health Weeks`**
 *(Actualmente `Target Health Weeks` = 530, gobernable vía votación)*
 
-### Frecuencia de Pagos (Claiming) y Auto-Compound
-El mecanismo de Auto-Compound es estrictamente manual y voluntario. Cuando el usuario decide reinvertir sus utilidades, el Smart Contract generará posiciones independientes ("Stake Laddering"), inyectando las ganancias por defecto en una nueva posición de Staking FLEXIBLE (1.0x).
+### Frecuencia de Pagos (Claiming) y Auto-Compound Activo (El Ritual Semanal)
+El mecanismo de Auto-Compound NO es un proceso pasivo en background, sino una acción de ejecución requerida por el usuario de forma periódica. Cuando el usuario decide ejecutar el "Ritual Semanal" para reinvertir sus utilidades, la interfaz de la dApp le permite enrutar estas ganancias por defecto hacia una nueva posición de Staking FLEXIBLE o iniciar un "Stake Laddering" independiente para cada reinversión.
 - **Regla de Frecuencia**: Las posiciones FLEXIBLES (que no tengan ningún bloqueo activo asociado a la wallet) pueden reclamar el Base Yield o hacer Auto-Compound en cualquier momento (diario, por minuto). 
 - Sin embargo, las posiciones BLOQUEADAS (30 días a 3 años) deben respetar el ciclo de la época, por lo cual **solo pueden reclamar o hacer Auto-Compound una vez por semana (7 días de enfriamiento mínimo entre retiros)**.
 
