@@ -198,11 +198,21 @@ export default function StakingTerminal() {
                 RewardPool Yield 
                 <span className="text-green-400 text-[9px] bg-green-500/10 px-2.5 py-1 rounded-full border border-green-500/30 tracking-[0.2em] font-black shadow-[0_0_10px_rgba(74,222,128,0.2)]">ACTIVE</span>
               </h3>
-              <div className="mb-8"></div>
+              <div className="mb-4"></div>
               
-              <div className="text-4xl md:text-5xl font-mono font-bold text-white mb-10 group-hover:text-red-50 transition-colors drop-shadow-md z-10">
-                {baseYieldPending.toFixed(2)} <span className="text-xl text-zinc-600">$JNS</span>
+              <div className="text-[10px] font-black uppercase text-green-500/80 tracking-[0.2em] mb-1">Pending Yield:</div>
+              <div className="text-4xl md:text-5xl font-mono font-bold text-green-400 mb-2 drop-shadow-[0_0_15px_rgba(74,222,128,0.2)] z-10">
+                {baseYieldPending.toFixed(2)} <span className="text-xl text-green-500/50">$JNS</span>
               </div>
+
+              {hasLockedPositions && daysUntilNextClaim > 0 && (
+                <div className="text-[10px] font-mono font-bold text-orange-400 bg-orange-500/10 border border-orange-500/20 px-3 py-2 rounded-lg mb-6 shadow-inner z-10">
+                  ⏳ Weekly Epoch closes in: {daysUntilNextClaim} Days
+                </div>
+              )}
+              {(!hasLockedPositions || daysUntilNextClaim === 0) && (
+                <div className="mb-6"></div>
+              )}
               
               <div className="flex flex-col gap-3 mt-auto z-10">
                 <button 
@@ -210,18 +220,24 @@ export default function StakingTerminal() {
                   disabled={hasLockedPositions && daysUntilNextClaim > 0}
                   className="w-full py-4 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-colors border border-zinc-700/50 hover:border-zinc-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {(hasLockedPositions && daysUntilNextClaim > 0) ? `Unlocks in ${daysUntilNextClaim} days` : "Claim Yield"}
+                  Claim Yield
                 </button>
+                
+                <div className="bg-[#050505] border border-zinc-800/80 rounded-xl p-3 shadow-inner">
+                  <label className="block text-[8px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-2">Auto-Compound Routing</label>
+                  <select className="w-full bg-[#0a0a0a] border border-zinc-700 text-zinc-300 text-[10px] font-bold uppercase tracking-[0.1em] rounded-lg p-2 focus:outline-none focus:border-red-500/50">
+                    <option value="flexible">Route to Flexible (1.0x)</option>
+                    <option value="ladder">Ladder to 3 Years (3.2x)</option>
+                  </select>
+                </div>
+
                 <button 
                   onClick={() => sendGaslessTransaction("0xStaking", "0xAutoCompound")}
                   disabled={hasLockedPositions && daysUntilNextClaim > 0}
                   className="w-full py-4 bg-red-600/90 hover:bg-red-500 text-white font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-all shadow-[0_0_20px_rgba(220,38,38,0.2)] hover:shadow-[0_0_30px_rgba(220,38,38,0.4)] transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
                 >
-                  {(hasLockedPositions && daysUntilNextClaim > 0) ? `Unlocks in ${daysUntilNextClaim} days` : "Auto-Compound"}
+                  Auto-Compound
                 </button>
-                <p className="text-[8px] text-zinc-500 mt-2 px-1 leading-relaxed">
-                  * Transparent Execution: Auto-compounding creates an independent lock (Stake Laddering). It maximizes your $JNSX multiplier without resetting your original deposit's unlock date. Weekly Epochs apply to locked stakes.
-                </p>
               </div>
             </motion.div>
 
@@ -315,6 +331,13 @@ export default function StakingTerminal() {
                   </tr>
                 </tbody>
               </table>
+            </div>
+            
+            <div className="mt-4 border-t border-zinc-800/80 pt-4">
+              <p className="text-[9px] text-zinc-500 italic flex items-center gap-2">
+                <svg className="w-3 h-3 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                * Positions marked as FLEXIBLE can be unstaked instantly with 0% time penalty.
+              </p>
             </div>
           </motion.div>
 

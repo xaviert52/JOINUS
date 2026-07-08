@@ -74,3 +74,15 @@
   * **Governance Filters**: El periodo de votación oficial es de 7 Días. Se requiere pasar por un "Temperature Check" (Off-chain) y superar el "Proposal Threshold" (On-chain, requiriendo un mínimo de Poder de Voto en $JNSX) para someter propuestas formales. Las propuestas exitosas pagarán un "Bounty" al creador utilizando una curva decreciente.
 - **Motivo**: Las épocas semanales reducen el ruido de los reclamos diarios y promueven la estabilidad limitando los retiros de posiciones bloqueadas. Los filtros de gobernanza previenen el spam, y los bounties premian a los pioneros constructores de la DAO.
 - **Estado**: Aceptado.
+
+### ADR-012: Gasless Paymaster Economics (ERC-4337)
+- **Decisión**: La integración de Abstracción de Cuenta (Pimlico / ERC-4337) actuará como la estrategia central de adquisición de usuarios del protocolo. La DAO o la Billetera de Operaciones fundará y mantendrá el contrato Paymaster.
+- **Motivo**: El ROI justificado para la DAO es la eliminación total de la fricción (especialmente para usuarios no nativos o con bajo balance de ETH), incrementando masivamente el TVL, la accesibilidad y la retención bajo la filosofía: "Los bancos te cobran comisiones, nosotros pagamos tu gas".
+- **Estado**: Aceptado.
+
+### ADR-013: Auto-Compound Routing
+- **Decisión**: El mecanismo de Auto-Compound requiere ejecución manual (Ritual Semanal). Al ejecutarlo, el contrato (y la interfaz) exigen que el usuario elija la ruta de reinversión:
+  * **Ruta A (Compound to Flexible)**: Permite mantener la liquidez total sobre el interés recién generado (1.0x).
+  * **Ruta B (Stake Laddering)**: Permite re-bloquear las ganancias al plazo máximo disponible (ej. 3 Años) para maximizar asintóticamente el multiplicador (3.2x).
+- **Motivo**: Transfiere la soberanía del flujo de capital al usuario y desmitifica los procesos oscuros de "auto-compounding mágico" de la antigua era DeFi.
+- **Estado**: Aceptado.
