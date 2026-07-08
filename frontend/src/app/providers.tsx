@@ -13,7 +13,7 @@ import {
   rabbyWallet,
   coinbaseWallet,
 } from '@rainbow-me/rainbowkit/wallets';
-import { arbitrum, arbitrumSepolia } from 'wagmi/chains';
+import { arbitrum, arbitrumSepolia, hardhat } from 'wagmi/chains';
 import { WagmiProvider, http } from 'wagmi';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@rainbow-me/rainbowkit/styles.css';
@@ -24,10 +24,11 @@ const queryClient = new QueryClient();
 const config = getDefaultConfig({
   appName: 'JNS Ecosistema',
   projectId: 'YOUR_PROJECT_ID',
-  chains: [arbitrum, arbitrumSepolia],
+  chains: [hardhat, arbitrumSepolia, arbitrum],
   transports: {
-    [arbitrum.id]: http(),
+    [hardhat.id]: http(),
     [arbitrumSepolia.id]: http(),
+    [arbitrum.id]: http(),
   },
   wallets: [
     {

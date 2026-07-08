@@ -170,6 +170,9 @@ export default function StakingTerminal() {
                 <button className="w-full py-4 bg-red-600/90 hover:bg-red-500 text-white font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-all shadow-[0_0_20px_rgba(220,38,38,0.2)] hover:shadow-[0_0_30px_rgba(220,38,38,0.4)] transform hover:-translate-y-0.5">
                   Auto-Compound
                 </button>
+                <p className="text-[8px] text-zinc-500 mt-2 px-1 leading-relaxed">
+                  * Transparent Execution: Auto-compounding creates an independent lock (Stake Laddering). It maximizes your $JNSX multiplier without resetting your original deposit's unlock date.
+                </p>
               </div>
             </div>
 
