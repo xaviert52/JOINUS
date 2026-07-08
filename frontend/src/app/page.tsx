@@ -1,6 +1,25 @@
 import Link from 'next/link';
+import { useReadContract } from 'wagmi';
+import { formatEther } from 'viem';
+import { JNS_STAKING_ADDRESS, JNS_STAKING_ABI, JNS_TOKEN_ADDRESS, JNS_TOKEN_ABI } from '@/config/contracts';
 
 export default function Home() {
+  const { data: tvlData } = useReadContract({
+    address: JNS_STAKING_ADDRESS,
+    abi: JNS_STAKING_ABI,
+    functionName: 'totalJNSLocked',
+  });
+
+  const { data: burnedData } = useReadContract({
+    address: JNS_TOKEN_ADDRESS,
+    abi: JNS_TOKEN_ABI,
+    functionName: 'balanceOf',
+    args: ['0x0000000000000000000000000000000000000000'],
+  });
+
+  const formattedTVL = tvlData ? Number(formatEther(tvlData as bigint)).toLocaleString(undefined, { maximumFractionDigits: 2 }) : '0.00';
+  const formattedBurned = burnedData ? Number(formatEther(burnedData as bigint)).toLocaleString(undefined, { maximumFractionDigits: 2 }) : '0';
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-10 relative z-10">
       
@@ -38,7 +57,7 @@ export default function Home() {
         {/* Stat 1: TVL */}
         <div className="group bg-[#0a0a0a]/80 backdrop-blur-2xl border border-zinc-800/80 rounded-2xl p-8 flex flex-col justify-center items-center text-center shadow-2xl hover:border-red-500/40 transition-all duration-500 hover:-translate-y-2">
           <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mb-4">Total Value Locked</h3>
-          <p className="text-4xl md:text-5xl font-mono font-bold text-white mb-3 group-hover:text-red-50 transition-colors drop-shadow-md">$0.00</p>
+          <p className="text-4xl md:text-5xl font-mono font-bold text-white mb-3 group-hover:text-red-50 transition-colors drop-shadow-md">{formattedTVL} JNS</p>
           <p className="text-[10px] text-red-500/90 font-bold tracking-[0.2em] uppercase">Secured by 3-Day Timelock</p>
         </div>
 
@@ -49,13 +68,16 @@ export default function Home() {
           <p className="text-4xl md:text-5xl font-mono font-bold text-green-400 mb-3 flex items-center gap-2 drop-shadow-[0_0_15px_rgba(74,222,128,0.2)]">
             15.00%
           </p>
-          <p className="text-[10px] text-zinc-500 font-bold tracking-[0.2em] uppercase">Powered by DAPPs Revenue</p>
+          <p className="text-[10px] text-zinc-500 font-bold tracking-[0.2em] uppercase mb-2">Funded by Genesis Pool</p>
+          <Link href="/docs/apy" className="text-[9px] text-zinc-500 hover:text-red-400 transition-colors underline">
+            How our APY works &rarr;
+          </Link>
         </div>
 
         {/* Stat 3: Burned */}
         <div className="group bg-[#0a0a0a]/80 backdrop-blur-2xl border border-zinc-800/80 rounded-2xl p-8 flex flex-col justify-center items-center text-center shadow-2xl hover:border-red-500/40 transition-all duration-500 hover:-translate-y-2">
           <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mb-4">$JNS Burned</h3>
-          <p className="text-4xl md:text-5xl font-mono font-bold text-white mb-3 group-hover:text-red-50 transition-colors drop-shadow-md">0 JNS</p>
+          <p className="text-4xl md:text-5xl font-mono font-bold text-white mb-3 group-hover:text-red-50 transition-colors drop-shadow-md">{formattedBurned} JNS</p>
           <p className="text-[10px] text-zinc-500 font-bold tracking-[0.2em] uppercase">Perpetual Deflation Engine</p>
         </div>
       </section>
