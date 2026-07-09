@@ -76,91 +76,99 @@ export default function StakingTerminal() {
             Deposit & Mint
           </h2>
 
-          {/* Amount Input */}
-          <div className="mb-10">
-            <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-4">Amount to Stake</label>
-            <div className="relative group/input">
-              <input 
-                type="number"
-                value={stakeAmount}
-                onChange={(e) => setStakeAmount(e.target.value)}
-                placeholder="0.0"
-                className="w-full bg-[#050505] border border-zinc-800 text-white text-4xl font-mono font-bold p-6 rounded-2xl focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all placeholder:text-zinc-800 shadow-inner"
-              />
-              <button 
-                onClick={() => setStakeAmount(jnsBalance.toString())}
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-zinc-900 hover:bg-zinc-800 text-red-400 text-[10px] font-black px-4 py-2.5 rounded-lg uppercase tracking-[0.2em] transition-all hover:shadow-[0_0_15px_rgba(239,68,68,0.2)]"
-              >
-                Max
-              </button>
-            </div>
-          </div>
-
-          {/* Time Lock Selector */}
-          <div className="mb-10">
-            <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-4">Time Lock Commitment</label>
-            <div className="grid grid-cols-2 gap-3">
-              {LOCK_OPTIONS.map((lock) => (
-                <button
-                  key={lock.label}
-                  onClick={() => setSelectedLock(lock)}
-                  className={`py-4 px-4 rounded-xl border text-xs font-bold uppercase tracking-wider transition-all
-                    ${selectedLock.label === lock.label 
-                      ? 'bg-red-500/10 border-red-500/50 text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.15)] scale-[1.02]' 
-                      : 'bg-zinc-950/50 border-zinc-800/50 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300 hover:bg-zinc-900'
-                    } ${lock.isVip ? 'col-span-2 bg-gradient-to-r' : ''} 
-                    ${lock.isVip && selectedLock.label !== lock.label ? 'from-zinc-950/50 to-red-950/10 border-red-900/30 text-zinc-400' : ''}
-                    ${lock.isVip && selectedLock.label === lock.label ? 'from-red-500/15 to-red-900/10 border-red-500/60 text-red-400' : ''}
-                  `}
-                >
-                  <div className="flex items-center justify-between">
-                    <span>{lock.label}</span>
-                    <span className={`text-[10px] font-black ${selectedLock.label === lock.label ? 'text-red-500 drop-shadow-[0_0_5px_rgba(239,68,68,0.8)]' : 'text-zinc-600'}`}>
-                      {lock.multiplier.toFixed(1)}x {lock.isVip && '★'}
-                    </span>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Projection Box */}
-          <div className="bg-[#050505] border border-zinc-800 rounded-2xl p-6 mb-10 flex justify-between items-center shadow-inner">
-            <span className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.2em]">You will receive:</span>
-            <span className="text-2xl font-mono font-bold text-white tracking-wider">{projectedJNSX} <span className="text-red-500 text-lg">$JNSX</span></span>
-          </div>
-
-          <div className="mt-auto flex flex-col gap-4">
-            <div className="flex items-center justify-between p-4 bg-[#050505] rounded-2xl border border-zinc-800">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            {/* Lado Izquierdo */}
+            <div className="flex flex-col justify-between h-full">
               <div>
-                <div className="flex items-center gap-2 group/tooltip relative">
-                  <p className="text-xs font-black uppercase text-white tracking-[0.2em] flex items-center gap-2">
-                    Gasless Mode
-                    <span className="bg-red-500 text-[9px] px-2.5 py-1 rounded-full text-white">DAO Sponsored</span>
-                  </p>
-                  <span className="text-zinc-500 hover:text-white cursor-help">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  </span>
-                  <div className="absolute bottom-full left-0 mb-2 w-64 bg-zinc-900 border border-zinc-700 text-zinc-300 text-[9px] p-3 rounded-xl opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none z-20">
-                    The DAO's Paymaster contract uses a 3% withdrawal tax pool to sponsor ETH gas fees ONLY for Voting and Auto-Compounding.
+                {/* Amount Input */}
+                <div className="mb-8">
+                  <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-4">Amount to Stake</label>
+                  <div className="relative group/input">
+                    <input 
+                      type="number"
+                      value={stakeAmount}
+                      onChange={(e) => setStakeAmount(e.target.value)}
+                      placeholder="0.0"
+                      className="w-full bg-[#050505] border border-zinc-800 text-white text-4xl font-mono font-bold p-6 rounded-2xl focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all placeholder:text-zinc-800 shadow-inner"
+                    />
+                    <button 
+                      onClick={() => setStakeAmount(jnsBalance.toString())}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-zinc-900 hover:bg-zinc-800 text-red-400 text-[10px] font-black px-4 py-2.5 rounded-lg uppercase tracking-[0.2em] transition-all hover:shadow-[0_0_15px_rgba(239,68,68,0.2)]"
+                    >
+                      Max
+                    </button>
                   </div>
                 </div>
-                <p className="text-[10px] text-zinc-400 mt-1.5 uppercase tracking-widest font-bold">Pay 0 ETH for Gas (ERC-4337)</p>
-                <p className="text-[9px] text-zinc-500 mt-1 italic">Withdrawals require user gas.</p>
+
+                {/* Projection Box */}
+                <div className="bg-[#050505] border border-zinc-800 rounded-2xl p-6 mb-8 flex justify-between items-center shadow-inner">
+                  <span className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.2em]">You will receive:</span>
+                  <span className="text-2xl font-mono font-bold text-white tracking-wider">{projectedJNSX} <span className="text-red-500 text-lg">$JNSX</span></span>
+                </div>
               </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" checked={isGaslessMode} onChange={() => setIsGaslessMode(!isGaslessMode)} className="sr-only peer" />
-                <div className="w-11 h-6 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-500"></div>
-              </label>
+
+              <div className="mt-auto flex flex-col gap-4">
+                <div className="flex items-center justify-between p-4 bg-[#050505] rounded-2xl border border-zinc-800">
+                  <div>
+                    <div className="flex items-center gap-2 group/tooltip relative">
+                      <p className="text-sm font-black uppercase text-white tracking-[0.2em] flex items-center gap-2">
+                        Gasless Mode
+                        <span className="bg-red-500 text-[9px] px-2.5 py-1 rounded-full text-white">DAO Sponsored</span>
+                      </p>
+                      <span className="text-zinc-500 hover:text-white cursor-help">
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      </span>
+                      <div className="absolute bottom-full left-0 mb-2 w-72 bg-zinc-900 border border-zinc-700 text-zinc-300 text-[9px] p-3 rounded-xl opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none z-20">
+                        The DAO's Paymaster holds an ETH pool funded by ecosystem product revenues to sponsor your network gas fees for Voting and Auto-Compounding. You pay 0 ETH.
+                      </div>
+                    </div>
+                    <p className="text-[10px] text-zinc-400 mt-1.5 uppercase tracking-widest font-bold">Pay 0 ETH for Gas (ERC-4337)</p>
+                    <p className="text-[9px] text-zinc-500 mt-1 italic">Withdrawals require user gas.</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" checked={isGaslessMode} onChange={() => setIsGaslessMode(!isGaslessMode)} className="sr-only peer" />
+                    <div className="w-11 h-6 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-500"></div>
+                  </label>
+                </div>
+
+                <button 
+                  onClick={() => sendGaslessTransaction("0xStakingContract", "0xLockData")}
+                  disabled={isSponsoring}
+                  className="w-full py-5 bg-red-600 hover:bg-red-500 text-white font-black rounded-2xl uppercase tracking-[0.2em] text-sm transition-all shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSponsoring ? "Sponsoring Tx..." : "Lock & Mint"}
+                </button>
+              </div>
             </div>
 
-            <button 
-              onClick={() => sendGaslessTransaction("0xStakingContract", "0xLockData")}
-              disabled={isSponsoring}
-              className="w-full py-5 bg-red-600 hover:bg-red-500 text-white font-black rounded-2xl uppercase tracking-[0.2em] text-sm transition-all shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSponsoring ? "Sponsoring Tx..." : "Lock & Mint"}
-            </button>
+            {/* Lado Derecho */}
+            <div className="flex flex-col">
+              {/* Time Lock Selector */}
+              <div className="h-full">
+                <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-4">Time Lock Commitment</label>
+                <div className="grid grid-cols-2 gap-3 h-[calc(100%-2rem)]">
+                  {LOCK_OPTIONS.map((lock) => (
+                    <button
+                      key={lock.label}
+                      onClick={() => setSelectedLock(lock)}
+                      className={`py-4 px-4 rounded-xl border text-xs font-bold uppercase tracking-wider transition-all flex flex-col justify-center items-center gap-1
+                        ${selectedLock.label === lock.label 
+                          ? 'bg-red-500/10 border-red-500/50 text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.15)] scale-[1.02]' 
+                          : 'bg-zinc-950/50 border-zinc-800/50 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300 hover:bg-zinc-900'
+                        } ${lock.isVip ? 'col-span-2 bg-gradient-to-r flex-row justify-between' : ''} 
+                        ${lock.isVip && selectedLock.label !== lock.label ? 'from-zinc-950/50 to-red-950/10 border-red-900/30 text-zinc-400' : ''}
+                        ${lock.isVip && selectedLock.label === lock.label ? 'from-red-500/15 to-red-900/10 border-red-500/60 text-red-400' : ''}
+                      `}
+                    >
+                      <span className="text-center w-full">{lock.label}</span>
+                      <span className={`text-[10px] font-black ${selectedLock.label === lock.label ? 'text-red-500 drop-shadow-[0_0_5px_rgba(239,68,68,0.8)]' : 'text-zinc-600'}`}>
+                        {lock.multiplier.toFixed(1)}x {lock.isVip && '★'}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </motion.div>
 
@@ -223,7 +231,12 @@ export default function StakingTerminal() {
                   <label className="block text-[8px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-2">Auto-Compound Routing</label>
                   <select className="w-full bg-[#0a0a0a] border border-zinc-700 text-zinc-300 text-[10px] font-bold uppercase tracking-[0.1em] rounded-lg p-2 focus:outline-none focus:border-red-500/50">
                     <option value="flexible">Route to Flexible (1.0x)</option>
-                    <option value="ladder">Ladder to 3 Years (3.2x)</option>
+                    <option value="30days">Route to 30 Days (1.1x)</option>
+                    <option value="90days">Route to 90 Days (1.3x)</option>
+                    <option value="180days">Route to 180 Days (1.6x)</option>
+                    <option value="1year">Route to 1 Year (2.0x ★)</option>
+                    <option value="2years">Route to 2 Years (2.6x ★)</option>
+                    <option value="3years">Route to 3 Years (3.2x ★)</option>
                   </select>
                 </div>
 
@@ -253,7 +266,7 @@ export default function StakingTerminal() {
                 ${extraordinaryDividends.toFixed(2)} <span className="text-xl text-zinc-600">USDC</span>
               </div>
               
-              <div className="mb-8 p-4 bg-[#050505] border border-zinc-800/80 rounded-xl flex items-center justify-between shadow-inner z-10">
+              <div className="mb-8 p-4 bg-[#050505] border border-zinc-800/80 rounded-xl flex flex-col items-start gap-2 shadow-inner z-10">
                 <span className="text-[9px] text-zinc-500 font-black uppercase tracking-[0.2em]">Civic Duty Status</span>
                 {isCivicDutyMet ? (
                   <span className="text-[10px] font-black text-green-400 tracking-[0.15em] drop-shadow-[0_0_8px_rgba(74,222,128,0.4)]">VERIFIED (70%+)</span>

@@ -72,6 +72,7 @@
   * **Claiming Frequency**: Las posiciones FLEXIBLES pueden reclamar/retirar o hacer Auto-Compound en cualquier momento. Las posiciones BLOQUEADAS (30 días a 3 años) solo pueden reclamar o hacer Auto-Compound una vez por semana.
   * **Auto-Compound Activo (El Ritual Semanal)**: El Auto-Compound NO es un proceso pasivo en background. Es una acción de ejecución estrictamente requerida por el usuario. El UI de la dApp permite enrutar estos dividendos reclamados a nuevas posiciones Flexibles o iniciar un "Stake Laddering" independiente.
   * **Governance Filters**: El periodo de votación oficial es estrictamente de 7 Días en bloques (blocks). Se requiere pasar por un "Temperature Check" (Off-chain en Discord) y superar el "Proposal Threshold" (On-chain, requiriendo un mínimo de 10,000 $JNSX) para someter propuestas formales. Las propuestas exitosas pagarán un "Bounty" al creador utilizando una curva decreciente.
+  * **Cálculo Justo de Civismo**: La asistencia cívica del usuario (Civic Duty) se calcula de forma relativa y justa, tomando como punto de partida su `registrationEpoch` (el ciclo en el que depositó por primera vez). Se prohíbe promediar su asistencia frente a épocas pasadas donde no existía su posición.
 - **Motivo**: Las épocas semanales reducen el ruido de los reclamos diarios y promueven la estabilidad limitando los retiros de posiciones bloqueadas. Los filtros de gobernanza previenen el spam, y los bounties premian a los pioneros constructores de la DAO.
 - **Estado**: Aceptado.
 
@@ -87,9 +88,9 @@
 - **Motivo**: Transfiere la soberanía del flujo de capital al usuario y desmitifica los procesos oscuros de "auto-compounding mágico" de la antigua era DeFi.
 - **Estado**: Aceptado.
 
-### ADR-014: Auto-Financiamiento del Paymaster
-- **Decisión**: El pool del Paymaster se alimentará en fases avanzadas tomando una fracción del 3% de tax cobrado a los usuarios que ejecutan retiros líquidos (Claims), convirtiéndolo algorítmicamente a $ETH para subsidiar a los que hacen Auto-Compound y votan.
-- **Motivo**: Crea un círculo virtuoso de auto-sostenibilidad. Quienes retiran liquidez y diluyen la escasez del token financian el gas de aquellos que componen y fortalecen la red.
+### ADR-014: Financiamiento del Paymaster mediante Producto
+- **Decisión**: El pool del Paymaster ERC-4337 se fundará exclusivamente con un porcentaje de las utilidades de moneda dura (ETH/USDC) generadas por el Casino (The Arena) y el Yield Aggregator. El sistema se auto-sustenta sin emitir ni vender tokens nativos.
+- **Motivo**: Crea un ecosistema auto-sostenible donde los ingresos reales de los productos financian la experiencia del usuario (gasless mode), evitando cualquier presión de venta inflacionaria sobre el token nativo.
 - **Estado**: Aceptado.
 
 ### ADR-015: Aislamiento de Riesgo y Transparencia UX

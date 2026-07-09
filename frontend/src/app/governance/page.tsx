@@ -37,7 +37,7 @@ export default function GovernanceTerminal() {
             <p className="text-[9px] text-zinc-500 font-black uppercase tracking-[0.2em] mb-1">Voting Power (JNSX)</p>
             <p className="text-3xl font-mono font-bold text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,0.4)]">{votingPower.toLocaleString()}</p>
           </div>
-          <div className="border-t border-zinc-800/80 pt-3 flex justify-between items-center">
+          <div className="border-t border-zinc-800/80 pt-3 flex flex-col items-start gap-2">
             <p className="text-[9px] text-zinc-500 font-black uppercase tracking-[0.2em]">Civic Duty</p>
             <p className="text-[10px] font-black text-green-400 tracking-[0.1em] shadow-inner">{civicDutyEpoch}</p>
           </div>
