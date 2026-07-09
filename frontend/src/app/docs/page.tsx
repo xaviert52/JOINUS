@@ -17,18 +17,18 @@ export default function DocsTerminal() {
           <div className="bg-[#0a0a0a]/80 border border-zinc-800/80 backdrop-blur-xl rounded-2xl p-6 shadow-2xl sticky top-28">
             <h2 className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
-              Index Directory
+              Directory
             </h2>
             
             <nav className="flex flex-col gap-4">
               <div className="space-y-2">
                 <p className="text-[9px] text-zinc-600 font-bold uppercase tracking-widest mb-3">Specifications</p>
-                <Link href="#governance-balance" className="block text-xs font-medium text-red-400 hover:text-red-300 transition-colors border-l-2 border-red-500 pl-3 py-1 bg-red-500/5">
+                <a href="#governance-balance" className="block text-xs font-medium text-red-400 hover:text-red-300 transition-colors border-l-2 border-red-500 pl-3 py-1 bg-red-500/5">
                   Governance Balance (08)
-                </Link>
-                <Link href="#zk-proofs" className="block text-xs font-medium text-zinc-400 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
+                </a>
+                <a href="#zk-proofs" className="block text-xs font-medium text-zinc-400 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
                   ZK-Proofs Integration
-                </Link>
+                </a>
               </div>
 
               <div className="space-y-2 pt-4 border-t border-zinc-800/50">
@@ -102,7 +102,7 @@ export default function DocsTerminal() {
                   </div>
                 </div>
 
-                <div className="bg-red-950/10 border-l-4 border-red-600 p-8 rounded-r-2xl relative overflow-hidden">
+                <div id="zk-proofs" className="bg-red-950/10 border-l-4 border-red-600 p-8 rounded-r-2xl relative overflow-hidden mt-6">
                   <div className="absolute top-0 right-0 p-4 opacity-10">
                     <svg className="w-24 h-24 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                   </div>

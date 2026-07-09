@@ -192,8 +192,15 @@
 - **Motivo**: Previene retiros globales por error y falsas urgencias. La matemática dinámica hace la salida anticipada más justa a medida que se acerca el vencimiento, premiando la permanencia del usuario.
 - **Estado**: Aceptado.
 
-### ADR-016: Distribución de Ingresos de Productos (Revisado)
-- **Decisión**: NINGÚN producto (DEX, Lending, etc.) enviará el 100% de sus comisiones al RewardPool. Todos seguirán la matriz de rentabilidad base: 35% Ops/Devs, 30% Dividendos Cívicos, 13% RewardPool, 10% Hedge Fund, 10% Burn, 2% Paymaster Gas Fund. Los disparadores de Keepers para la Fase 6 estarán basados en el rendimiento del Hedge Fund.
+### ADR-016: Distribución de Ingresos de Productos (Revisado Fase 5)
+- **Decisión**: NINGÚN producto (DEX, Lending, etc.) enviará el 100% de sus comisiones al RewardPool. Todos seguirán la matriz de rentabilidad base:
+  - 35% Operaciones y Nómina Técnica.
+  - 30% Dividendos Cívicos.
+  - 15% RewardPool de la Comunidad.
+  - 13% Fondo de la Casa y Hedge Fund (Garantiza el pago a los ganadores de The Arena, y el capital inactivo genera yield en el Hedge Fund).
+  - 5% Buyback & Burn Perpetuo.
+  - 2% Paymaster Gas Fund.
+  **Paymaster Health Runway:** `Health = ETH Balance / Avg Gas Spend (Last 6 Months in weeks)`. Si el indicador baja de 3 meses (12 semanas), el contrato/UI emitirá una alerta a la DAO para inyectar fondos a discreción. Los disparadores de Keepers para la Fase 6 estarán basados en el rendimiento del Hedge Fund.
 - **Motivo**: Estandariza la distribución de ingresos para todos los productos del ecosistema, garantizando sustentabilidad, recompensas equitativas y fondeo explícito del Paymaster.
 - **Estado**: Aceptado.
 

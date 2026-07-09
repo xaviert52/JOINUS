@@ -13,7 +13,14 @@ Las recompensas distribuidas a los stakers se dividen en dos flujos independient
 
 1. **RewardPool General (APY Dinámico en $JNS):**
    - El 2% de retención del tax transaccional se envía ÚNICA Y EXCLUSIVAMENTE a la dirección de la bóveda del RewardPool General de la DAO. Ningún usuario recibe distribuciones directas del mercado. El Smart Contract calcula un APY dinámico. Reclamar este Base Yield a la wallet incurre en el 3% de Tax normal. El Compound es 100% Tax-Free.
-   - **Ecosistema Modular y Distribución**: El RewardPool actúa como un "Agujero Negro de Valor" alimentándose de TODOS los futuros módulos del Ecosistema Modular (Casino, Launchpad, Lending Hub, etc.). Todos seguirán la matriz de rentabilidad base: 35% Ops/Devs, 30% Dividendos Cívicos, 13% RewardPool, 10% Hedge Fund, 10% Burn, 2% Paymaster Gas Fund. Los disparadores de Keepers para la Fase 6 estarán basados en el rendimiento del Hedge Fund.
+   - **Ecosistema Modular y Distribución**: El RewardPool actúa como un "Agujero Negro de Valor" alimentándose de TODOS los futuros módulos del Ecosistema Modular (Casino, Launchpad, Lending Hub, etc.). Todos seguirán la matriz de rentabilidad base:
+     - 35% Operaciones y Nómina Técnica.
+     - 30% Dividendos Cívicos.
+     - 15% RewardPool de la Comunidad.
+     - 13% Fondo de la Casa y Hedge Fund (Garantiza el pago a los ganadores de The Arena, y el capital inactivo genera yield en el Hedge Fund).
+     - 5% Buyback & Burn Perpetuo.
+     - 2% Paymaster Gas Fund.
+     **Paymaster Health Runway:** `Health = ETH Balance / Avg Gas Spend (Last 6 Months in weeks)`. Si el indicador baja de 3 meses (12 semanas), el contrato/UI emitirá una alerta a la DAO para inyectar fondos a discreción. Los disparadores de Keepers para la Fase 6 estarán basados en el rendimiento del Hedge Fund.
    - El saldo acumulado en este pool se distribuye asintóticamente a los stakers.
 
 2. **Bóveda de Dividendos Extraordinarios (Excedente Limpio B2B en $ETH o $USDC):**

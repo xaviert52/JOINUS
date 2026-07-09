@@ -77,8 +77,8 @@ export default function StakingTerminal() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            {/* Lado Izquierdo */}
-            <div className="flex flex-col justify-between h-full order-last md:order-first">
+            {/* Lado Derecho (Amount to Stake) */}
+            <div className="flex flex-col justify-between h-full order-last md:order-last">
               <div>
                 {/* Amount Input */}
                 <div className="mb-8">
@@ -141,8 +141,8 @@ export default function StakingTerminal() {
               </div>
             </div>
 
-            {/* Lado Derecho */}
-            <div className="flex flex-col order-first md:order-last">
+            {/* Lado Izquierdo (Time Lock Selector) */}
+            <div className="flex flex-col order-first md:order-first">
               {/* Time Lock Selector */}
               <div className="h-full">
                 <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-4">Time Lock Commitment</label>

@@ -1,16 +1,33 @@
 'use client';
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export function Navbar() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <nav className="fixed top-0 w-full z-50 bg-[#050505]/80 backdrop-blur-xl border-b border-zinc-800/80 p-4 transition-all">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Izquierda: Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <Image src="/logo.png" alt="JOINUS Logo" width={145} height={60} className="object-contain group-hover:scale-105 transition-transform" />
-        </Link>
+        {/* Izquierda: Menú Hamburguesa y Logo */}
+        <div className="flex items-center gap-4">
+          <button 
+            className="md:hidden text-zinc-400 hover:text-white"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              {isMobileMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+          <Link href="/" className="flex items-center gap-3 group">
+            <Image src="/logo.png" alt="JOINUS Logo" width={145} height={60} className="object-contain group-hover:scale-105 transition-transform" />
+          </Link>
+        </div>
         
         {/* Centro: Enlaces minimalistas */}
         <div className="hidden md:flex items-center space-x-10 text-sm font-bold uppercase tracking-[0.15em] text-zinc-400">
@@ -48,7 +65,7 @@ export function Navbar() {
         {/* Derecha: Web3 Wallet Connector & Socials */}
         <div className="flex items-center space-x-6">
           <div className="hidden lg:flex items-center space-x-4 text-xs font-black uppercase tracking-widest text-zinc-500">
-            <a href="https://discord.gg/joinus" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+            <a href="https://discord.gg/qKhFb4rT3Y" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
               Discord
             </a>
             <a href="https://x.com/JOINUSonX" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
@@ -67,6 +84,21 @@ export function Navbar() {
           </div>
         </div>
       </div>
+
+      {/* Menú Mobile */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed top-full left-0 w-full h-[calc(100vh-73px)] bg-[#050505] border-t border-zinc-800/80 p-6 flex flex-col gap-6 font-bold uppercase tracking-[0.15em] text-sm overflow-y-auto z-40">
+          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white text-zinc-400">Dashboard</Link>
+          <Link href="/staking" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white text-zinc-400">Staking</Link>
+          <Link href="/products" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white text-zinc-400">Products</Link>
+          <Link href="/governance" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white text-zinc-400">Governance</Link>
+          <Link href="/docs" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-white text-zinc-400">Documentation</Link>
+          <div className="mt-8 pt-8 border-t border-zinc-800 flex gap-6 text-xs">
+            <a href="https://discord.gg/qKhFb4rT3Y" target="_blank" rel="noopener noreferrer" className="hover:text-white text-zinc-500">Discord</a>
+            <a href="https://x.com/JOINUSonX" target="_blank" rel="noopener noreferrer" className="hover:text-white text-zinc-500">X</a>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

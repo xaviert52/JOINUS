@@ -34,10 +34,12 @@ export default function Home() {
     args: ['0x4444444444444444444444444444444444444444'],
   });
 
-  const totalTVL = (tvlData ? Number(formatEther(tvlData as bigint)) : 0) + 
+  const JNS_PRICE_USD = 0.10; // Precio simulado temporalmente
+  const totalTVL_JNS = (tvlData ? Number(formatEther(tvlData as bigint)) : 0) + 
                    (hedgeFundData ? Number(formatEther(hedgeFundData as bigint)) : 0) + 
                    (opsData ? Number(formatEther(opsData as bigint)) : 0);
-  const formattedTVL = totalTVL.toLocaleString(undefined, { maximumFractionDigits: 2 });
+  const totalTVL_USD = totalTVL_JNS * JNS_PRICE_USD;
+  const formattedTVL = totalTVL_USD.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
   const formattedBurned = burnedData ? Number(formatEther(burnedData as bigint)).toLocaleString(undefined, { maximumFractionDigits: 2 }) : '0';
 
   return (
@@ -90,7 +92,7 @@ export default function Home() {
           className="group bg-[#0a0a0a]/80 backdrop-blur-2xl border border-zinc-800/80 rounded-2xl p-8 flex flex-col justify-center items-center text-center shadow-2xl hover:border-red-500/40 transition-colors duration-500"
         >
           <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mb-4">Total Value Locked</h3>
-          <p className="text-4xl md:text-5xl font-mono font-bold text-white mb-3 group-hover:text-red-50 transition-colors drop-shadow-md">{formattedTVL} JNS</p>
+          <p className="text-4xl md:text-5xl font-mono font-bold text-white mb-3 group-hover:text-red-50 transition-colors drop-shadow-md">{formattedTVL}</p>
           <p className="text-[10px] text-red-500/90 font-bold tracking-[0.2em] uppercase">Secured by 3-Day Timelock</p>
         </motion.div>
 
@@ -115,21 +117,7 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* GLOBAL EARNINGS & PROOF OF YIELD LEDGER */}
-      <section className="mb-20">
-        <div className="bg-[#050505] border border-zinc-800/80 rounded-2xl p-8 shadow-inner font-mono">
-          <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mb-6">Global Earnings & Proof of Yield</h3>
-          <div className="space-y-3 mb-8">
-            <p className="text-xs text-zinc-400">1,500 USDC — July 2026: 30% Net Revenue from The Arena Contract Vault</p>
-            <p className="text-xs text-zinc-500">850 USDC — June 2026: 30% Net Revenue from Lending Protocol Fees</p>
-          </div>
-          <div className="pt-4 border-t border-zinc-800/50">
-            <p className="text-[9px] text-zinc-600 italic leading-relaxed">
-              * Operational Note: Developer and Executive technical salaries are permanently routed to independent designated professional role wallets, completely isolated from founder personal protocol capital reserves.
-            </p>
-          </div>
-        </div>
-      </section>
+
 
       {/* ECOSISTEMA (CARDS) */}
       <section className="mb-20">
@@ -151,7 +139,7 @@ export default function Home() {
             <p className="text-zinc-400 text-sm leading-relaxed mb-8 font-medium">
               Participate in liquid staking with $JNSX. Choose lock-up periods of up to 365 days to multiply your Base Yield and interact with the Dual Vault.
             </p>
-            <Link href="/staking" className="text-red-500 font-black text-[10px] tracking-[0.2em] uppercase hover:text-red-400 flex items-center gap-2 group-hover:gap-4 transition-all">
+            <Link href="/products" className="text-red-500 font-black text-[10px] tracking-[0.2em] uppercase hover:text-red-400 flex items-center gap-2 group-hover:gap-4 transition-all">
               Launch App <span className="text-lg leading-none">&rarr;</span>
             </Link>
           </div>
@@ -184,6 +172,17 @@ export default function Home() {
             <Link href="/products" className="text-red-500 font-black text-[10px] tracking-[0.2em] uppercase hover:text-red-400 flex items-center gap-2 group-hover:gap-4 transition-all">
               Launch App <span className="text-lg leading-none">&rarr;</span>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* GLOBAL EARNINGS & PROOF OF YIELD LEDGER */}
+      <section className="mb-20">
+        <div className="bg-[#050505] border border-zinc-800/80 rounded-2xl p-8 shadow-inner font-mono">
+          <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mb-6">Global Earnings & Proof of Yield</h3>
+          <div className="space-y-3">
+            <p className="text-xs text-zinc-400">1,500 USDC — July 2026: 30% Net Revenue from The Arena Contract Vault</p>
+            <p className="text-xs text-zinc-500">850 USDC — June 2026: 30% Net Revenue from Lending Protocol Fees</p>
           </div>
         </div>
       </section>

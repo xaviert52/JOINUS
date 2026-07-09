@@ -88,6 +88,24 @@ describe("JNSStaking (Phase 3)", function () {
       const jnsxBalance = await jnsStaking.balanceOf(user2.address);
       expect(jnsxBalance).to.equal(depositAmount.mul(32).div(10)); // 3.2x
     });
+
+    it("Should allow a 30 DAYS lock and mint 1.1x JNSX", async function () {
+      const depositAmount = ethers.utils.parseEther("100");
+      await jnsStaking.connect(user2).deposit(depositAmount, 1);
+      expect(await jnsStaking.balanceOf(user2.address)).to.equal(depositAmount.mul(11).div(10)); // 1.1x
+    });
+
+    it("Should allow a 90 DAYS lock and mint 1.3x JNSX", async function () {
+      const depositAmount = ethers.utils.parseEther("100");
+      await jnsStaking.connect(user2).deposit(depositAmount, 2);
+      expect(await jnsStaking.balanceOf(user2.address)).to.equal(depositAmount.mul(13).div(10)); // 1.3x
+    });
+
+    it("Should allow a 180 DAYS lock and mint 1.6x JNSX", async function () {
+      const depositAmount = ethers.utils.parseEther("100");
+      await jnsStaking.connect(user2).deposit(depositAmount, 3);
+      expect(await jnsStaking.balanceOf(user2.address)).to.equal(depositAmount.mul(16).div(10)); // 1.6x
+    });
   });
 
   describe("Governance Checkpointing (DT-006)", function () {
@@ -175,7 +193,36 @@ describe("JNSStaking (Phase 3)", function () {
       await jnsStaking.connect(user2).withdraw(ethers.utils.parseEther("200"), 0);
 
       const balanceAfter = await jnsToken.balanceOf(user2.address);
-      expect(balanceAfter.sub(balanceBefore)).to.equal(ethers.utils.parseEther("75")); // 25% penalty -> 75 returned
+      
+      // Since time hasn't moved much, timeLeft is close to totalLockTime (365 days)
+      // Penalty is slightly less than 25% -> approx 75 returned
+      const expectedReturn = ethers.utils.parseEther("75");
+      const tolerance = ethers.utils.parseEther("0.0001");
+      expect(balanceAfter.sub(balanceBefore)).to.be.closeTo(expectedReturn, tolerance); 
+    });
+
+    it("Should calculate dynamic progressive penalty based on time left", async function () {
+      const amount = ethers.utils.parseEther("100");
+      await jnsStaking.connect(user1).deposit(amount, 4); // 365 days
+
+      // Fast forward half the time (182.5 days)
+      await ethers.provider.send("evm_increaseTime", [182.5 * 24 * 60 * 60]);
+      await ethers.provider.send("evm_mine");
+
+      const balanceBefore = await jnsToken.balanceOf(user1.address);
+      
+      // Withdraw 200 JNSX
+      await jnsStaking.connect(user1).withdraw(ethers.utils.parseEther("200"), 0);
+
+      const balanceAfter = await jnsToken.balanceOf(user1.address);
+      const returnedAmount = balanceAfter.sub(balanceBefore);
+      
+      // Penalty should be around 12.5% (half of 25%) -> 87.5 returned
+      // Allowing a small tolerance for block timestamp variances
+      const expectedReturn = ethers.utils.parseEther("87.5");
+      const tolerance = ethers.utils.parseEther("0.1"); // 0.1 JNS tolerance
+      
+      expect(returnedAmount).to.be.closeTo(expectedReturn, tolerance);
     });
   });
 

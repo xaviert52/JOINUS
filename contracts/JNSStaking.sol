@@ -213,7 +213,10 @@ contract JNSStaking is
 
         uint256 penalty = 0;
         if (block.timestamp < stake.unlockTime) {
-            penalty = (amountJNS * _getPenaltyRate(stake.lockType)) / 100;
+            uint256 timeLeft = stake.unlockTime - block.timestamp;
+            uint256 totalLockTime = _getDuration(stake.lockType);
+            // Penalty = (Days Left / Total Lock Days) * 25%
+            penalty = (amountJNS * timeLeft * 25) / (totalLockTime * 100);
         }
 
         uint256 amountToUser = amountJNS - penalty;
@@ -379,15 +382,6 @@ contract JNSStaking is
         return 0; // FLEXIBLE
     }
 
-    function _getPenaltyRate(LockType _lockType) internal pure returns (uint256) {
-        if (_lockType == LockType.DAYS_30) return 10;
-        if (_lockType == LockType.DAYS_90) return 15;
-        if (_lockType == LockType.DAYS_180) return 20;
-        if (_lockType == LockType.DAYS_365) return 25;
-        if (_lockType == LockType.DAYS_730) return 25; // Cap at 25%
-        if (_lockType == LockType.DAYS_1095) return 25; // Cap at 25%
-        return 0; // FLEXIBLE
-    }
 
     function getVotingPower(address account) external view returns (uint256) {
         return getVotes(account);

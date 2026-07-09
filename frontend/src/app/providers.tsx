@@ -42,16 +42,19 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider 
-          locale="en-US"
-          theme={darkTheme({
-            accentColor: '#dc2626', // red-600
-            accentColorForeground: 'white',
-            borderRadius: 'small',
-          })}
-        >
-          {children}
-        </RainbowKitProvider>
+        <div className="[&_button]:!font-normal [&_button]:!font-mono">
+          <RainbowKitProvider 
+            locale="en-US"
+            initialChain={arbitrum}
+            theme={darkTheme({
+              accentColor: '#dc2626', // red-600
+              accentColorForeground: 'white',
+              borderRadius: 'small',
+            })}
+          >
+            {children}
+          </RainbowKitProvider>
+        </div>
       </QueryClientProvider>
     </WagmiProvider>
   );
