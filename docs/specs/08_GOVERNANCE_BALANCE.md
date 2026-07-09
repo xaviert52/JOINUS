@@ -24,13 +24,13 @@ Las recompensas distribuidas a los stakers se dividen en dos flujos independient
 ### Reglas de Asignación de la Bóveda de Dividendos
 Los fondos de la Bóveda de Dividendos se asignan de forma meritocrática bajo dos condiciones estrictas on-chain:
 1. **Sin Restricción de Convicción Temporal:** El usuario puede poseer el Liquid Staking Token (LST) **$JNSX** en cualquier bloqueo (incluso Flexible).
-2. **Participación Democrática Activa (Quórum de Voto > 70%):** El contrato de distribución cruzará los balances de staking con el registro histórico de votaciones del **JNSGovernorzk.sol**. Solo se considerarán aptas las direcciones que registren participación en más del 70% de las propuestas del período evaluado.
+2. **Participación Democrática Activa (Quórum de Voto > 70%):** El contrato de distribución cruzará los balances de staking con el registro histórico de votaciones del **JNSGovernorzk.sol**. Solo se considerarán aptas las direcciones que registren participación en más del 70% de las propuestas del período evaluado. Si un usuario retira sus fondos del Staking, las Épocas (Epochs) en las que no posea un balance activo de $JNSX NO se computarán en su denominador de asistencia, calculando el % de Civismo únicamente sobre el tiempo real de permanencia on-chain.
 
 Este mecanismo mitiga el parasitismo financiero (free-riding) y premia de manera directa y tangible a los usuarios alineados a largo plazo con la gobernanza y solvencia del Hub.
 
 ### Filtros de Gobernanza y Ciclos de Votación
 Para asegurar una democracia madura, se imponen las siguientes reglas:
-- **Periodo de Votación**: 7 Días inmutables en el Governor (Weekly Epochs).
+- **Periodo de Votación**: 8 Días inmutables en el Governor (Weekly Epochs).
 - **Proposal Threshold (Umbral de Propuesta)**: Para someter una propuesta oficial on-chain, se requiere un mínimo de Poder de Voto en $JNSX, validando el compromiso del proponente.
 - **Temperature Check**: Todo proposal debe superar primero un sondeo off-chain en la comunidad para filtrar spam.
 
@@ -68,8 +68,8 @@ La Emisión Semanal está regulada por la fórmula asintótica para mantener el 
 ### Frecuencia de Pagos (Claiming) y Auto-Compound Activo (El Ritual Semanal)
 El mecanismo de Auto-Compound NO es un proceso pasivo en background, sino una acción de ejecución requerida por el usuario de forma periódica. Queda fijado que el "Ritual Semanal" no confisca fondos. Si un usuario no ejecuta Claim o Compound el domingo, el yield de cualquier candado no reclamado se acumula de forma segura bloque a bloque de manera perpetua en el mapeo del contrato. Cuando el usuario decide ejecutar el "Ritual Semanal" para reinvertir sus utilidades, la interfaz de la dApp le permite enrutar estas ganancias por defecto hacia una nueva posición de Staking FLEXIBLE o iniciar un "Stake Laddering" independiente para cada reinversión eligiendo entre los 7 niveles de candado (desde 1.0x hasta 3.2x). Adicionalmente, el Paymaster ERC-4337 patrocinará única y exclusivamente transacciones de Civismo y Retención (Votar con pruebas ZK y hacer Auto-Compound). Las funciones de retiro de capital (Withdraw/Early Unstake) exigirán que el usuario pague su propio gas.
 
-### Auto-Financiamiento del Paymaster
-El pool del Paymaster se alimentará en fases avanzadas tomando una fracción del 3% de tax cobrado a los usuarios que ejecutan retiros líquidos (Claims). Dicho tax se convierte algorítmicamente a $ETH para subsidiar el gas de los actores benéficos que hacen Auto-Compound y votan, creando un modelo económico de retención circular.
+### Paymaster & Tubería Directa del Casino
+El pool del Paymaster ERC-4337 se fundará exclusivamente con un porcentaje de las utilidades de moneda dura (ETH/USDC) generadas por el Casino (The Arena) y el Yield Aggregator. El sistema se auto-sustenta sin emitir ni vender tokens nativos. Adicionalmente, el saldo `Available to Withdraw` del RewardPool Yield estará conectado nativamente por Smart Contract con el Casino (The Arena) para permitir apuestas directas Tax-Free. Para proteger los fondos de ETH del Paymaster al inicio, se establece que los bots de Auto-Compound (Keepers) se retrasan a la Fase 6, dejando temporalmente la delegación a cargo del usuario.
 
 ### Transparencia de UI y Aislamiento de Acciones Destructivas
 Para salvaguardar el capital de los usuarios:

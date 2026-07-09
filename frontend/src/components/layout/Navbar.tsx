@@ -40,10 +40,21 @@ export function Navbar() {
           <Link href="/governance" className="hover:text-white transition-colors">
             Governance
           </Link>
+          <Link href="/docs" className="hover:text-white transition-colors">
+            Docs
+          </Link>
         </div>
 
-        {/* Derecha: Web3 Wallet Connector */}
-        <div className="flex items-center space-x-4">
+        {/* Derecha: Web3 Wallet Connector & Socials */}
+        <div className="flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-4 text-xs font-black uppercase tracking-widest text-zinc-500">
+            <a href="https://discord.gg/joinus" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+              Discord
+            </a>
+            <a href="https://x.com/JOINUSonX" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+              X
+            </a>
+          </div>
           <ConnectButton 
             accountStatus={{
               smallScreen: 'avatar',

@@ -71,8 +71,8 @@
 - **Decisión**: El ecosistema cierra recompensas en ciclos de 7 días (Weekly Epochs) para fomentar el pensamiento a largo plazo. 
   * **Claiming Frequency**: Las posiciones FLEXIBLES pueden reclamar/retirar o hacer Auto-Compound en cualquier momento. Las posiciones BLOQUEADAS (30 días a 3 años) solo pueden reclamar o hacer Auto-Compound una vez por semana.
   * **Auto-Compound Activo (El Ritual Semanal)**: El Auto-Compound NO es un proceso pasivo en background. Es una acción de ejecución estrictamente requerida por el usuario. El UI de la dApp permite enrutar estos dividendos reclamados a nuevas posiciones Flexibles o iniciar un "Stake Laddering" independiente.
-  * **Governance Filters**: El periodo de votación oficial es estrictamente de 7 Días en bloques (blocks). Se requiere pasar por un "Temperature Check" (Off-chain en Discord) y superar el "Proposal Threshold" (On-chain, requiriendo un mínimo de 10,000 $JNSX) para someter propuestas formales. Las propuestas exitosas pagarán un "Bounty" al creador utilizando una curva decreciente.
-  * **Cálculo Justo de Civismo**: La asistencia cívica del usuario (Civic Duty) se calcula de forma relativa y justa, tomando como punto de partida su `registrationEpoch` (el ciclo en el que depositó por primera vez). Se prohíbe promediar su asistencia frente a épocas pasadas donde no existía su posición.
+  * **Governance Filters**: El periodo de votación oficial es estrictamente de 8 Días en bloques (blocks). Se requiere pasar por un "Temperature Check" (Off-chain en Discord) y superar el "Proposal Threshold" (On-chain, requiriendo un mínimo de 10,000 $JNSX) para someter propuestas formales. Las propuestas exitosas pagarán un "Bounty" al creador utilizando una curva decreciente.
+  * **Cálculo Justo de Civismo (Civismo Dinámico)**: La asistencia cívica del usuario (Civic Duty) se calcula de forma relativa y justa, tomando como punto de partida su `registrationEpoch` (el ciclo en el que depositó por primera vez). Si un usuario retira sus fondos del Staking, las Épocas (Epochs) en las que no posea un balance activo de $JNSX NO se computarán en su denominador de asistencia, calculando el % de Civismo únicamente sobre el tiempo real de permanencia on-chain.
 - **Motivo**: Las épocas semanales reducen el ruido de los reclamos diarios y promueven la estabilidad limitando los retiros de posiciones bloqueadas. Los filtros de gobernanza previenen el spam, y los bounties premian a los pioneros constructores de la DAO.
 - **Estado**: Aceptado.
 
@@ -88,9 +88,9 @@
 - **Motivo**: Transfiere la soberanía del flujo de capital al usuario y desmitifica los procesos oscuros de "auto-compounding mágico" de la antigua era DeFi.
 - **Estado**: Aceptado.
 
-### ADR-014: Financiamiento del Paymaster mediante Producto
-- **Decisión**: El pool del Paymaster ERC-4337 se fundará exclusivamente con un porcentaje de las utilidades de moneda dura (ETH/USDC) generadas por el Casino (The Arena) y el Yield Aggregator. El sistema se auto-sustenta sin emitir ni vender tokens nativos.
-- **Motivo**: Crea un ecosistema auto-sostenible donde los ingresos reales de los productos financian la experiencia del usuario (gasless mode), evitando cualquier presión de venta inflacionaria sobre el token nativo.
+### ADR-014: Paymaster & Tubería Directa del Casino
+- **Decisión**: El pool del Paymaster ERC-4337 se fundará exclusivamente con un porcentaje de las utilidades de moneda dura (ETH/USDC) generadas por el Casino (The Arena) y el Yield Aggregator. El sistema se auto-sustenta sin emitir ni vender tokens nativos. Adicionalmente, el saldo `Available to Withdraw` del RewardPool Yield estará conectado nativamente por Smart Contract con el Casino (The Arena) para permitir apuestas directas Tax-Free. Para proteger los fondos de ETH del Paymaster al inicio, se establece que los bots de Auto-Compound (Keepers) se retrasan a la Fase 6, dejando temporalmente la delegación a cargo del usuario.
+- **Motivo**: Crea un ecosistema auto-sostenible donde los ingresos reales de los productos financian la experiencia del usuario (gasless mode). La tubería Tax-Free hacia el Casino aumenta drásticamente el volumen de apuestas sin fricción.
 - **Estado**: Aceptado.
 
 ### ADR-015: Aislamiento de Riesgo y Transparencia UX
