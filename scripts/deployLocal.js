@@ -1,48 +1,83 @@
 const hre = require("hardhat");
+const fs = require("fs");
+const path = require("path");
 
 async function main() {
   const [deployer] = await hre.ethers.getSigners();
   console.log("Deploying contracts with the account:", deployer.address);
 
-  // 1. Deploy JNSToken (ERC20 UUPS Upgradeable)
-  const JNSToken = await hre.ethers.getContractFactory("JNSToken");
-  const jnsToken = await hre.upgrades.deployProxy(JNSToken, [deployer.address], { kind: 'uups' });
-  await jnsToken.waitForDeployment();
-  const tokenAddress = await jnsToken.getAddress();
-  console.log("JNSToken deployed to:", tokenAddress);
-
-  // 2. Deploy JNSTimelock
-  const minDelay = 259200; // 3 days
+  // 1. Deploy JNSTimelock
+  const minDelay = 259200; // 3 days in seconds
   const proposers = [];
   const executors = [];
   const admin = deployer.address;
   const JNSTimelock = await hre.ethers.getContractFactory("JNSTimelock");
-  const timelock = await JNSTimelock.deploy(minDelay, proposers, executors, admin);
-  await timelock.waitForDeployment();
-  const timelockAddress = await timelock.getAddress();
+  const timelock = await hre.upgrades.deployProxy(
+    JNSTimelock,
+    [minDelay, proposers, executors, admin],
+    { initializer: "initialize", unsafeAllow: ["constructor"] }
+  );
+  await timelock.deployed();
+  const timelockAddress = timelock.address;
   console.log("JNSTimelock deployed to:", timelockAddress);
 
-  // 3. Deploy JNSStaking
+  // 2. Deploy JNS_Treasury
+  const JNS_Treasury = await hre.ethers.getContractFactory("JNS_Treasury");
+  const treasury = await JNS_Treasury.deploy();
+  await treasury.deployed();
+  const treasuryAddress = treasury.address;
+  console.log("JNS_Treasury deployed to:", treasuryAddress);
+
+  // 3. Deploy JNSToken (ERC20 UUPS Upgradeable)
+  const JNSToken = await hre.ethers.getContractFactory("JNSToken");
+  const jnsToken = await hre.upgrades.deployProxy(
+    JNSToken, 
+    ["JOINUS", "JNS", deployer.address, treasuryAddress], 
+    { initializer: "initialize", kind: 'uups', unsafeAllow: ["constructor"] }
+  );
+  await jnsToken.deployed();
+  const tokenAddress = jnsToken.address;
+  console.log("JNSToken deployed to:", tokenAddress);
+
+  // 4. Deploy JNSStaking
   const JNSStaking = await hre.ethers.getContractFactory("JNSStaking");
-  const staking = await hre.upgrades.deployProxy(JNSStaking, [tokenAddress, timelockAddress], { kind: 'uups' });
-  await staking.waitForDeployment();
-  const stakingAddress = await staking.getAddress();
+  const staking = await hre.upgrades.deployProxy(
+    JNSStaking, 
+    [deployer.address, tokenAddress], 
+    { initializer: "initialize", kind: 'uups', unsafeAllow: ["constructor"] }
+  );
+  await staking.deployed();
+  const stakingAddress = staking.address;
   console.log("JNSStaking deployed to:", stakingAddress);
 
-  // 4. Deploy JNSGovernorzk
+  // 5. Deploy JNSGovernorzk
+  const MockSemaphore = await hre.ethers.getContractFactory("MockSemaphore");
+  const semaphore = await MockSemaphore.deploy();
+  await semaphore.deployed();
+  const semaphoreAddress = semaphore.address;
+  
   const JNSGovernorzk = await hre.ethers.getContractFactory("JNSGovernorzk");
-  const governor = await JNSGovernorzk.deploy(stakingAddress, timelockAddress);
-  await governor.waitForDeployment();
-  const governorAddress = await governor.getAddress();
+  const governor = await hre.upgrades.deployProxy(
+    JNSGovernorzk, 
+    [stakingAddress, semaphoreAddress, 1, deployer.address, deployer.address], 
+    { initializer: "initialize", unsafeAllow: ["constructor"] }
+  );
+  await governor.deployed();
+  const governorAddress = governor.address;
   console.log("JNSGovernorzk deployed to:", governorAddress);
 
   console.log("\n=======================================================");
   console.log("🚀 LOCALHOST DEPLOYMENT COMPLETE!");
-  console.log("Add these addresses to frontend/.env.local:");
-  console.log(`NEXT_PUBLIC_JNS_TOKEN_ADDRESS="${tokenAddress}"`);
-  console.log(`NEXT_PUBLIC_JNS_STAKING_ADDRESS="${stakingAddress}"`);
-  console.log(`NEXT_PUBLIC_JNS_TIMELOCK_ADDRESS="${timelockAddress}"`);
-  console.log(`NEXT_PUBLIC_JNS_GOVERNOR_ADDRESS="${governorAddress}"`);
+  
+  // Auto-inject .env to frontend
+  const envPath = path.join(__dirname, "..", "frontend", ".env");
+  const envContent = `NEXT_PUBLIC_JNS_TOKEN_ADDRESS="${tokenAddress}"
+NEXT_PUBLIC_JNS_STAKING_ADDRESS="${stakingAddress}"
+NEXT_PUBLIC_JNS_TIMELOCK_ADDRESS="${timelockAddress}"
+NEXT_PUBLIC_JNS_GOVERNOR_ADDRESS="${governorAddress}"
+`;
+  fs.writeFileSync(envPath, envContent);
+  console.log(`Auto-injected contract addresses into ${envPath}`);
   console.log("=======================================================\n");
 }
 

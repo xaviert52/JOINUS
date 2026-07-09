@@ -92,7 +92,7 @@ export default function Home() {
           className="group bg-[#0a0a0a]/80 backdrop-blur-2xl border border-zinc-800/80 rounded-2xl p-8 flex flex-col justify-center items-center text-center shadow-2xl hover:border-red-500/40 transition-colors duration-500"
         >
           <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mb-4">Total Value Locked</h3>
-          <p className="text-4xl md:text-5xl font-mono font-bold text-white mb-3 group-hover:text-red-50 transition-colors drop-shadow-md">{formattedTVL}</p>
+          <p suppressHydrationWarning className="text-4xl md:text-5xl font-mono font-bold text-white mb-3 group-hover:text-red-50 transition-colors drop-shadow-md">{formattedTVL}</p>
           <p className="text-[10px] text-red-500/90 font-bold tracking-[0.2em] uppercase">Secured by 3-Day Timelock</p>
         </motion.div>
 

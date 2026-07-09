@@ -33,11 +33,11 @@ El roadmap de JNS Ecosistema está estructurado para construir paso a paso un ec
 - [x] Desplegar el contrato Timelock con un período de espera mínimo de 3 días (259,200 segundos).
 - [x] Configurar el módulo multisig de Guardianes con capacidad para activar Circuit Breakers y pausar contratos en caso de emergencias.
 
-### 🚀 FASE 5 — Capitalización y The Arena MVP
+### 🚀 FASE 5 — Testnet & Frontend Integration (QA FINAL)
 **Objetivo:** Distribución de tokens, arranque de liquidez y primer módulo gamificado.
-- [ ] Implementar la estrategia de capitalización comunitaria mediante LBP (Liquidity Bootstrapping Pool) / ILO (Initial Liquidity Offering).
-- [ ] Listar y asegurar pools de liquidez concentrada en el DEX líder Camelot.
-- [ ] Lanzamiento del Frontend MVP (React + viem/wagmi) integrando Abstracción de Cuenta (ERC-4337).
+- [x] Implementar la estrategia de capitalización comunitaria mediante LBP (Liquidity Bootstrapping Pool) / ILO (Initial Liquidity Offering).
+- [x] Listar y asegurar pools de liquidez concentrada en el DEX líder Camelot.
+- [x] Lanzamiento del Frontend MVP (React + viem/wagmi) integrando Abstracción de Cuenta (ERC-4337).
 - [ ] Lanzamiento del módulo secundario gamificado "The Arena" (opciones binarias y juegos algorítmicos Mines/Plinko).
 - [ ] Activación del motor de recompra (Buyback Engine) redireccionando un 90% a staking y un 10% a quema permanente.
 
