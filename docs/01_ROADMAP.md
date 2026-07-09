@@ -47,3 +47,12 @@ El roadmap de JNS Ecosistema está estructurado para construir paso a paso un ec
 - [ ] Abrir el Hedge Fund DeFi operando con el 30% del TVL autorizado de locks largos de convicción.
 - [ ] Habilitar el módulo multicadena de Yield Routing para optimizar la rentabilidad líquida institucional.
 - [ ] Desplegar el **Lending Hub**, permitiendo a los usuarios usar su poder de voto ($JNSX no transferible) como colateral interno para pedir préstamos líquidos en USDC.
+
+---
+
+### 🗳️ DAO Genesis Proposals (The Founder's Path)
+El capital del Hedge Fund y Liquidity no se moverá por código autocrático, sino a través de las primeras 3 propuestas de la DAO:
+
+- **PIP-001**: Activación de Liquidez DEX (Camelot).
+- **PIP-002**: Inversión del Hedge Fund en RWA (Ondo Finance) para Risk-Free Yield.
+- **PIP-003**: Activación de Keepers de Auto-Compound financiados por el yield de PIP-002.

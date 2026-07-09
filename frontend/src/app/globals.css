@@ -22,3 +22,9 @@
 [data-rk] h1, [data-rk] h2, [data-rk] h3, [data-rk] button {
   font-weight: 500 !important; /* Máximo Medium para títulos, NUNCA bold grueso */
 }
+
+.title-brutalist {
+  font-family: 'Impact', 'Arial Black', sans-serif !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.05em;
+}
