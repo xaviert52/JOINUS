@@ -139,8 +139,8 @@ export default function Home() {
             <p className="text-zinc-400 text-sm leading-relaxed mb-8 font-medium">
               Participate in liquid staking with $JNSX. Choose lock-up periods of up to 365 days to multiply your Base Yield and interact with the Dual Vault.
             </p>
-            <Link href="/products" className="text-red-500 font-black text-[10px] tracking-[0.2em] uppercase hover:text-red-400 flex items-center gap-2 group-hover:gap-4 transition-all">
-              Launch App <span className="text-lg leading-none">&rarr;</span>
+            <Link href="/staking" className="text-red-500 font-black text-[10px] tracking-[0.2em] uppercase hover:text-red-400 flex items-center gap-2 group-hover:gap-4 transition-all">
+              Launch <span className="text-lg leading-none">&rarr;</span>
             </Link>
           </div>
 
@@ -155,7 +155,7 @@ export default function Home() {
               Exercise your voting power anonymously through Zero-Knowledge Proofs (Semaphore). Prevent Sybil attacks and guarantee true decentralization.
             </p>
             <Link href="/governance" className="text-red-500 font-black text-[10px] tracking-[0.2em] uppercase hover:text-red-400 flex items-center gap-2 group-hover:gap-4 transition-all">
-              Launch App <span className="text-lg leading-none">&rarr;</span>
+              Launch <span className="text-lg leading-none">&rarr;</span>
             </Link>
           </div>
 
@@ -170,7 +170,7 @@ export default function Home() {
               The decentralized financial engine that injects real capital into the DAO. We provide institutional infrastructure where "the house" always shares the flow.
             </p>
             <Link href="/products" className="text-red-500 font-black text-[10px] tracking-[0.2em] uppercase hover:text-red-400 flex items-center gap-2 group-hover:gap-4 transition-all">
-              Launch App <span className="text-lg leading-none">&rarr;</span>
+              Launch <span className="text-lg leading-none">&rarr;</span>
             </Link>
           </div>
         </div>

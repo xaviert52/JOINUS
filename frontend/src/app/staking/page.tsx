@@ -119,11 +119,10 @@ export default function StakingTerminal() {
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                       </span>
                       <div className="absolute bottom-full left-0 mb-2 w-72 bg-zinc-900 border border-zinc-700 text-zinc-300 text-[9px] p-3 rounded-xl opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none z-20">
-                        The DAO's Paymaster holds an ETH pool funded by product revenues to sponsor your network gas fees for Voting and Compounding. You pay 0 ETH.
+                        The DAO's Paymaster holds an ETH pool funded by product revenues to sponsor your network gas fees for Voting and Compounding. Withdrawals require user gas.
                       </div>
                     </div>
                     <p className="text-[10px] text-zinc-400 mt-1.5 uppercase tracking-widest font-bold">Pay 0 ETH for Gas (ERC-4337)</p>
-                    <p className="text-[9px] text-zinc-500 mt-1 italic">Withdrawals require user gas.</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" checked={isGaslessMode} onChange={() => setIsGaslessMode(!isGaslessMode)} className="sr-only peer" />

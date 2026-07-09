@@ -200,7 +200,7 @@
   - 13% Fondo de la Casa y Hedge Fund (Garantiza el pago a los ganadores de The Arena, y el capital inactivo genera yield en el Hedge Fund).
   - 5% Buyback & Burn Perpetuo.
   - 2% Paymaster Gas Fund.
-  **Paymaster Health Runway:** `Health = ETH Balance / Avg Gas Spend (Last 6 Months in weeks)`. Si el indicador baja de 3 meses (12 semanas), el contrato/UI emitirá una alerta a la DAO para inyectar fondos a discreción. Los disparadores de Keepers para la Fase 6 estarán basados en el rendimiento del Hedge Fund.
+  **Paymaster Health Runway:** Paymaster Health = Balance ETH en Paymaster / Gasto Promedio de Gas de los últimos 6 meses (medido en semanas). Si el indicador marca menos de 3 meses de vida operativa, el sistema alerta a la DAO para inyectar capital. Los disparadores de Keepers para la Fase 6 estarán basados en el rendimiento del Hedge Fund.
 - **Motivo**: Estandariza la distribución de ingresos para todos los productos del ecosistema, garantizando sustentabilidad, recompensas equitativas y fondeo explícito del Paymaster.
 - **Estado**: Aceptado.
 

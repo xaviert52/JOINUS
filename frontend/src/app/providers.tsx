@@ -45,11 +45,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <div className="[&_button]:!font-normal [&_button]:!font-mono">
           <RainbowKitProvider 
             locale="en-US"
-            initialChain={arbitrum}
+            initialChain={hardhat}
             theme={darkTheme({
               accentColor: '#dc2626', // red-600
               accentColorForeground: 'white',
               borderRadius: 'small',
+              fontStack: 'system',
             })}
           >
             {children}
