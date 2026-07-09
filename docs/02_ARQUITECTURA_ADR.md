@@ -18,7 +18,7 @@
 - **Estado**: Aceptado.
 
 ### ADR-002: Tarifas en Transferencias (Tax Token)
-- **Decisión**: Configurar formalmente el Tax del 3% (1% quema permanente). El 2% de retención se envía ÚNICA Y EXCLUSIVAMENTE al RewardPool General de la DAO. Ningún usuario recibe distribuciones directas del mercado. El Smart Contract calcula un APY dinámico. Reclamar este Base Yield a la wallet incurre en el 3% de Tax normal. El Auto-Compound es 100% Tax-Free e inyecta las ganancias por defecto en una nueva posición de Staking FLEXIBLE (1.0x), dando liquidez inmediata sobre los rendimientos.
+- **Decisión**: Configurar formalmente el Tax del 3% (1% quema permanente). El 2% de retención se envía ÚNICA Y EXCLUSIVAMENTE al RewardPool General de la DAO. Ningún usuario recibe distribuciones directas del mercado. El Smart Contract calcula un APY dinámico. Reclamar este Base Yield a la wallet incurre en el 3% de Tax normal. El Compound es 100% Tax-Free e inyecta las ganancias por defecto en una nueva posición de Staking FLEXIBLE (1.0x), dando liquidez inmediata sobre los rendimientos.
 - **Motivo**: Genera presión deflacionaria y centraliza el yield en el contrato de staking protegiendo jurídicamente a la DAO de distribuciones automáticas.
 - **Estado**: Aceptado.
 
@@ -69,31 +69,41 @@
 
 ### ADR-011: Weekly Epochs, Claiming Frequency & Governance Filters
 - **Decisión**: El ecosistema cierra recompensas en ciclos de 7 días (Weekly Epochs) para fomentar el pensamiento a largo plazo. 
-  * **Claiming Frequency**: Las posiciones FLEXIBLES pueden reclamar/retirar o hacer Auto-Compound en cualquier momento. Las posiciones BLOQUEADAS (30 días a 3 años) solo pueden reclamar o hacer Auto-Compound una vez por semana.
-  * **Auto-Compound Activo (El Ritual Semanal)**: El Auto-Compound NO es un proceso pasivo en background. Es una acción de ejecución estrictamente requerida por el usuario. El UI de la dApp permite enrutar estos dividendos reclamados a nuevas posiciones Flexibles o iniciar un "Stake Laddering" independiente.
+  * **Claiming Frequency**: Las posiciones FLEXIBLES pueden reclamar/retirar o hacer Compound en cualquier momento. Las posiciones BLOQUEADAS (30 días a 3 años) solo pueden reclamar o hacer Compound una vez por semana.
+  * **Compound Activo (El Ritual Semanal)**: El Compound NO es un proceso pasivo en background. Es una acción de ejecución estrictamente requerida por el usuario. El UI de la dApp permite enrutar estos dividendos reclamados a nuevas posiciones Flexibles o iniciar un "Stake Laddering" independiente.
   * **Governance Filters**: El periodo de votación oficial es estrictamente de 8 Días en bloques (blocks). Se requiere pasar por un "Temperature Check" (Off-chain en Discord) y superar el "Proposal Threshold" (On-chain, requiriendo un mínimo de 10,000 $JNSX) para someter propuestas formales. Las propuestas exitosas pagarán un "Bounty" al creador utilizando una curva decreciente.
   * **Cálculo Justo de Civismo (Civismo Dinámico)**: La asistencia cívica del usuario (Civic Duty) se calcula de forma relativa y justa, tomando como punto de partida su `registrationEpoch` (el ciclo en el que depositó por primera vez). Si un usuario retira sus fondos del Staking, las Épocas (Epochs) en las que no posea un balance activo de $JNSX NO se computarán en su denominador de asistencia, calculando el % de Civismo únicamente sobre el tiempo real de permanencia on-chain.
 - **Motivo**: Las épocas semanales reducen el ruido de los reclamos diarios y promueven la estabilidad limitando los retiros de posiciones bloqueadas. Los filtros de gobernanza previenen el spam, y los bounties premian a los pioneros constructores de la DAO.
 - **Estado**: Aceptado.
 
 ### ADR-012: Gasless Paymaster Economics (ERC-4337) y Subsidio Selectivo
-- **Decisión**: La integración de Abstracción de Cuenta (Pimlico / ERC-4337) actuará como la estrategia central de adquisición de usuarios del protocolo. La DAO o la Billetera de Operaciones fundará y mantendrá el contrato Paymaster. Sin embargo, el Paymaster patrocinará única y exclusivamente transacciones de Civismo y Retención (Votar con pruebas ZK y hacer Auto-Compound). Las funciones de retiro de capital (Withdraw/Early Unstake) exigirán que el usuario pague su propio gas.
+- **Decisión**: La integración de Abstracción de Cuenta (Pimlico / ERC-4337) actuará como la estrategia central de adquisición de usuarios del protocolo. La DAO o la Billetera de Operaciones fundará y mantendrá el contrato Paymaster. Sin embargo, el Paymaster patrocinará única y exclusivamente transacciones de Civismo y Retención (Votar con pruebas ZK y hacer Compound). Las funciones de retiro de capital (Withdraw/Early Unstake) exigirán que el usuario pague su propio gas.
 - **Motivo**: El ROI justificado para la DAO es la eliminación total de la fricción (especialmente para usuarios no nativos o con bajo balance de ETH) en las acciones constructivas para el TVL, mientras el usuario asume los costos de salida o retiro.
 - **Estado**: Aceptado.
 
-### ADR-013: Auto-Compound Routing y Acumulación Perpetua
-- **Decisión**: El mecanismo de Auto-Compound requiere ejecución manual (Ritual Semanal). Queda fijado que el "Ritual Semanal" no confisca fondos. Si un usuario no ejecuta Claim o Compound el domingo, las recompensas (yield de cualquier candado no reclamado) se acumulan de forma segura bloque a bloque de manera perpetua en el mapeo del Smart Contract. Al ejecutarlo, el contrato (y la interfaz) exigen que el usuario elija la ruta de reinversión:
+### ADR-013: Compound Routing y Acumulación Perpetua
+- **Decisión**: El mecanismo de Compound requiere ejecución manual (Ritual Semanal). Queda fijado que el "Ritual Semanal" no confisca fondos. Si un usuario no ejecuta Claim o Compound el domingo, las recompensas (yield de cualquier candado no reclamado) se acumulan de forma segura bloque a bloque de manera perpetua en el mapeo del Smart Contract. Al ejecutarlo, el contrato (y la interfaz) exigen que el usuario elija la ruta de reinversión:
   * **Ruta A (Compound to Flexible)**: Permite mantener la liquidez total sobre el interés recién generado (1.0x).
   * **Ruta B (Stake Laddering)**: Permite re-bloquear las ganancias al plazo elegido (desde 30 Días hasta 3 Años) para escalar asintóticamente el multiplicador (hasta 3.2x).
-- **Motivo**: Transfiere la soberanía del flujo de capital al usuario y desmitifica los procesos oscuros de "auto-compounding mágico" de la antigua era DeFi.
+- **Motivo**: Transfiere la soberanía del flujo de capital al usuario y desmitifica los procesos oscuros de "Compounding mágico" de la antigua era DeFi.
 - **Estado**: Aceptado.
 
 ### ADR-014: Paymaster & Tubería Directa del Casino
-- **Decisión**: El pool del Paymaster ERC-4337 se fundará exclusivamente con un porcentaje de las utilidades de moneda dura (ETH/USDC) generadas por el Casino (The Arena) y el Yield Aggregator. El sistema se auto-sustenta sin emitir ni vender tokens nativos. Adicionalmente, el saldo `Available to Withdraw` del RewardPool Yield estará conectado nativamente por Smart Contract con el Casino (The Arena) para permitir apuestas directas Tax-Free. Para proteger los fondos de ETH del Paymaster al inicio, se establece que los bots de Auto-Compound (Keepers) se retrasan a la Fase 6, dejando temporalmente la delegación a cargo del usuario.
+- **Decisión**: El pool del Paymaster ERC-4337 se fundará exclusivamente con un porcentaje de las utilidades de moneda dura (ETH/USDC) generadas por el Casino (The Arena) y el Yield Aggregator. El sistema se auto-sustenta sin emitir ni vender tokens nativos. Adicionalmente, el saldo `Available to Withdraw` del RewardPool Yield estará conectado nativamente por Smart Contract con el Casino (The Arena) para permitir apuestas directas Tax-Free. Para proteger los fondos de ETH del Paymaster al inicio, se establece que los bots de Compound (Keepers) se retrasan a la Fase 6, dejando temporalmente la delegación a cargo del usuario.
 - **Motivo**: Crea un ecosistema auto-sostenible donde los ingresos reales de los productos financian la experiencia del usuario (gasless mode). La tubería Tax-Free hacia el Casino aumenta drásticamente el volumen de apuestas sin fricción.
 - **Estado**: Aceptado.
 
 ### ADR-015: Aislamiento de Riesgo y Transparencia UX
 - **Decisión**: La función de Early Unstake estará aislada únicamente dentro del modal de detalles individuales de cada posición activa. Adicionalmente, el castigo (Early Unstake Penalty) ya no es un 25% fijo (flat). Escala proporcionalmente al tiempo faltante usando la fórmula: `Penalty % = (Days Left / Total Lock Days) * 25%`.
 - **Motivo**: Previene retiros globales por error y falsas urgencias. La matemática dinámica hace la salida anticipada más justa a medida que se acerca el vencimiento, premiando la permanencia del usuario.
+- **Estado**: Aceptado.
+
+### ADR-016: Distribución de Ingresos de Productos
+- **Decisión**: NINGÚN producto (DEX, Lending, etc.) enviará el 100% de sus comisiones al RewardPool. Todos seguirán la matriz de rentabilidad base: 35% Ops/Devs, 30% Dividendos Cívicos, 15% RewardPool, 10% Hedge Fund, 10% Burn.
+- **Motivo**: Estandariza la distribución de ingresos para todos los productos del ecosistema, garantizando sustentabilidad y recompensas equitativas.
+- **Estado**: Aceptado.
+
+### ADR-017: Voto Facultativo Flexible
+- **Decisión**: Para los usuarios que ÚNICAMENTE poseen posiciones "Flexible", el voto es Facultativo. Su inasistencia a las urnas no penalizará su "Civic Duty Score".
+- **Motivo**: No forzar participación a stakers puramente líquidos, mientras se mantiene el incentivo de Civic Duty para aquellos que bloquean tokens buscando máximos rendimientos y gobernanza.
 - **Estado**: Aceptado.

@@ -60,7 +60,7 @@ export default function ApyAnalytics() {
                 <div>
                   <h4 className="text-white font-bold mb-2">Self-Regulating Runway (Auto-Throttle)</h4>
                   <p className="text-zinc-400 text-sm leading-relaxed">
-                    The pool mathematically targets a 10.2-year lifespan (100% Health). It adjusts emissions dynamically per week. If the pool health drops below 100%, the absolute emissions are proportionally throttled down, forcing a mathematical replenish until the 10.2 years target is restored.
+                    The pool mathematically targets a 10.2-year lifespan (530 Weeks) (100% Health). It adjusts emissions dynamically per week. If the pool health drops below 100%, the absolute emissions are proportionally throttled down, forcing a mathematical replenish until the 10.2 years target is restored.
                   </p>
                 </div>
               </div>
@@ -110,6 +110,35 @@ export default function ApyAnalytics() {
                   </blockquote>
                 </div>
               </div>
+
+              <div className="flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center shrink-0 mt-1">
+                  <span className="text-purple-500 text-xs font-black">05</span>
+                </div>
+                <div>
+                  <h4 className="text-white font-bold mb-2">Dynamic Early Unstake Penalty</h4>
+                  <div className="bg-[#050505] p-4 rounded-xl border border-zinc-800/80 my-3">
+                    <code className="text-purple-400 font-mono text-xs md:text-sm">
+                      Penalty % = (Days Left / Total Lock Days) * 25%
+                    </code>
+                  </div>
+                  <p className="text-zinc-400 text-sm leading-relaxed">
+                    Breaking a time lock incurs a variable penalty that scales proportionally to the remaining time. The maximum burn is 25%. This prevents false urgency and rewards users for waiting out the majority of their lock.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center shrink-0 mt-1">
+                  <span className="text-cyan-500 text-xs font-black">06</span>
+                </div>
+                <div>
+                  <h4 className="text-white font-bold mb-2">Compound Routing</h4>
+                  <p className="text-zinc-400 text-sm leading-relaxed">
+                    Instead of arbitrary reinvestment, the DAO grants sovereignty via Compound Routing. When claiming yield, users route funds across 7 options: from <span className="text-cyan-400 font-bold">Flexible (1.0x)</span> to <span className="text-cyan-400 font-bold">3 Years (3.2x)</span>, unlocking massive yield acceleration on new dividends.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -127,7 +156,7 @@ export default function ApyAnalytics() {
               
               <div>
                 <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Current Target Divisor</p>
-                <p className="text-xl font-mono font-bold text-zinc-300">10.2 Years <span className="text-xs text-zinc-600">(3723 Days)</span></p>
+                <p className="text-xl font-mono font-bold text-zinc-300">10.2 Years <span className="text-xs text-zinc-600">(530 Weeks)</span></p>
               </div>
 
               <div className="pt-6 border-t border-zinc-800/80">

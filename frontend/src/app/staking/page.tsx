@@ -119,7 +119,7 @@ export default function StakingTerminal() {
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                       </span>
                       <div className="absolute bottom-full left-0 mb-2 w-72 bg-zinc-900 border border-zinc-700 text-zinc-300 text-[9px] p-3 rounded-xl opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none z-20">
-                        The DAO's Paymaster holds an ETH pool funded by ecosystem product revenues to sponsor your network gas fees for Voting and Auto-Compounding. You pay 0 ETH.
+                        The DAO's Paymaster holds an ETH pool funded by product revenues to sponsor your network gas fees for Voting and Compounding. You pay 0 ETH.
                       </div>
                     </div>
                     <p className="text-[10px] text-zinc-400 mt-1.5 uppercase tracking-widest font-bold">Pay 0 ETH for Gas (ERC-4337)</p>
@@ -228,7 +228,7 @@ export default function StakingTerminal() {
                 </button>
                 
                 <div className="bg-[#050505] border border-zinc-800/80 rounded-xl p-3 shadow-inner">
-                  <label className="block text-[8px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-2">Auto-Compound Routing</label>
+                  <label className="block text-[8px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-2">Compound Routing</label>
                   <select className="w-full bg-[#0a0a0a] border border-zinc-700 text-zinc-300 text-[10px] font-bold uppercase tracking-[0.1em] rounded-lg p-2 focus:outline-none focus:border-red-500/50">
                     <option value="flexible">Route to Flexible (1.0x)</option>
                     <option value="30days">Route to 30 Days (1.1x)</option>
@@ -245,7 +245,7 @@ export default function StakingTerminal() {
                   disabled={hasLockedPositions && daysUntilNextClaim > 0}
                   className="w-full py-4 bg-red-600/90 hover:bg-red-500 text-white font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-all shadow-[0_0_20px_rgba(220,38,38,0.2)] hover:shadow-[0_0_30px_rgba(220,38,38,0.4)] transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
                 >
-                  Auto-Compound
+                  Compound
                 </button>
               </div>
             </motion.div>
@@ -385,7 +385,7 @@ export default function StakingTerminal() {
             </div>
 
             <div className="bg-[#050505] border border-zinc-800/80 rounded-xl p-4 shadow-inner">
-              <label className="block text-[8px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-3">Auto-Compound Routing</label>
+              <label className="block text-[8px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-3">Compound Routing</label>
               <select 
                 defaultValue={selectedStake.lockValue}
                 className="w-full bg-[#0a0a0a] border border-zinc-700 text-zinc-300 text-[10px] font-bold uppercase tracking-[0.1em] rounded-lg p-2.5 focus:outline-none focus:border-white/20 transition-colors cursor-pointer"

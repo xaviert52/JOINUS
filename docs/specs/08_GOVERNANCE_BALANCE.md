@@ -12,13 +12,13 @@ Para incentivar la participación activa y evitar la apatía política en el eco
 Las recompensas distribuidas a los stakers se dividen en dos flujos independientes gestionados por contratos inteligentes:
 
 1. **RewardPool General (APY Dinámico en $JNS):**
-   - El 2% de retención del tax transaccional se envía ÚNICA Y EXCLUSIVAMENTE a la dirección de la bóveda del RewardPool General de la DAO. Ningún usuario recibe distribuciones directas del mercado. El Smart Contract calcula un APY dinámico. Reclamar este Base Yield a la wallet incurre en el 3% de Tax normal. El Auto-Compound es 100% Tax-Free.
+   - El 2% de retención del tax transaccional se envía ÚNICA Y EXCLUSIVAMENTE a la dirección de la bóveda del RewardPool General de la DAO. Ningún usuario recibe distribuciones directas del mercado. El Smart Contract calcula un APY dinámico. Reclamar este Base Yield a la wallet incurre en el 3% de Tax normal. El Compound es 100% Tax-Free.
    - **Ecosistema Modular**: Adicionalmente, el RewardPool actúa como un "Agujero Negro de Valor" alimentándose de TODOS los futuros módulos del Ecosistema Modular (Casino, Launchpad, Lending Hub, etc.), engordando constantemente la emisión asintótica pasiva.
    - El saldo acumulado en este pool se distribuye asintóticamente a los stakers.
 
 2. **Bóveda de Dividendos Extraordinarios (Excedente Limpio B2B en $ETH o $USDC):**
    - Se alimenta de los ingresos extraordinarios netos del DeFi Venture Hub (B2B Yield Routing Engine y tarifas del Launchpad).
-   - Estos fondos se almacenan en una bóveda separada y no sufren auto-compound automático.
+   - Estos fondos se almacenan en una bóveda separada y no sufren Compound automático.
    - Se distribuyen a CUALQUIER staker de Alta Participación Cívica para reclamarse de forma directa en monedas duras líquidas ($ETH o $USDC), independientemente de su tiempo de bloqueo.
 
 ### Reglas de Asignación de la Bóveda de Dividendos
@@ -65,18 +65,18 @@ La Emisión Semanal está regulada por la fórmula asintótica para mantener el 
 **`Weekly Emission = Current RewardPool Balance / Target Health Weeks`**
 *(Actualmente `Target Health Weeks` = 530, gobernable vía votación)*
 
-### Frecuencia de Pagos (Claiming) y Auto-Compound Activo (El Ritual Semanal)
-El mecanismo de Auto-Compound NO es un proceso pasivo en background, sino una acción de ejecución requerida por el usuario de forma periódica. Queda fijado que el "Ritual Semanal" no confisca fondos. Si un usuario no ejecuta Claim o Compound el domingo, el yield de cualquier candado no reclamado se acumula de forma segura bloque a bloque de manera perpetua en el mapeo del contrato. Cuando el usuario decide ejecutar el "Ritual Semanal" para reinvertir sus utilidades, la interfaz de la dApp le permite enrutar estas ganancias por defecto hacia una nueva posición de Staking FLEXIBLE o iniciar un "Stake Laddering" independiente para cada reinversión eligiendo entre los 7 niveles de candado (desde 1.0x hasta 3.2x). Adicionalmente, el Paymaster ERC-4337 patrocinará única y exclusivamente transacciones de Civismo y Retención (Votar con pruebas ZK y hacer Auto-Compound). Las funciones de retiro de capital (Withdraw/Early Unstake) exigirán que el usuario pague su propio gas.
+### Frecuencia de Pagos (Claiming) y Compound Activo (El Ritual Semanal)
+El mecanismo de Compound NO es un proceso pasivo en background, sino una acción de ejecución requerida por el usuario de forma periódica. Queda fijado que el "Ritual Semanal" no confisca fondos. Si un usuario no ejecuta Claim o Compound el domingo, el yield de cualquier candado no reclamado se acumula de forma segura bloque a bloque de manera perpetua en el mapeo del contrato. Cuando el usuario decide ejecutar el "Ritual Semanal" para reinvertir sus utilidades, la interfaz de la dApp le permite enrutar estas ganancias por defecto hacia una nueva posición de Staking FLEXIBLE o iniciar un "Stake Laddering" independiente para cada reinversión eligiendo entre los 7 niveles de candado (desde 1.0x hasta 3.2x). Adicionalmente, el Paymaster ERC-4337 patrocinará única y exclusivamente transacciones de Civismo y Retención (Votar con pruebas ZK y hacer Compound). Las funciones de retiro de capital (Withdraw/Early Unstake) exigirán que el usuario pague su propio gas.
 
 ### Paymaster & Tubería Directa del Casino
-El pool del Paymaster ERC-4337 se fundará exclusivamente con un porcentaje de las utilidades de moneda dura (ETH/USDC) generadas por el Casino (The Arena) y el Yield Aggregator. El sistema se auto-sustenta sin emitir ni vender tokens nativos. Adicionalmente, el saldo `Available to Withdraw` del RewardPool Yield estará conectado nativamente por Smart Contract con el Casino (The Arena) para permitir apuestas directas Tax-Free. Para proteger los fondos de ETH del Paymaster al inicio, se establece que los bots de Auto-Compound (Keepers) se retrasan a la Fase 6, dejando temporalmente la delegación a cargo del usuario.
+El pool del Paymaster ERC-4337 se fundará exclusivamente con un porcentaje de las utilidades de moneda dura (ETH/USDC) generadas por el Casino (The Arena) y el Yield Aggregator. El sistema se auto-sustenta sin emitir ni vender tokens nativos. Adicionalmente, el saldo `Available to Withdraw` del RewardPool Yield estará conectado nativamente por Smart Contract con el Casino (The Arena) para permitir apuestas directas Tax-Free. Para proteger los fondos de ETH del Paymaster al inicio, se establece que los bots de Compound (Keepers) se retrasan a la Fase 6, dejando temporalmente la delegación a cargo del usuario.
 
 ### Transparencia de UI y Aislamiento de Acciones Destructivas
 Para salvaguardar el capital de los usuarios:
 - **Aislamiento y Penalidad Dinámica**: La opción de Early Unstake está aislada atómicamente a nivel de interfaz. Solo puede ser ejecutada desde el Modal Individual de Detalles. El castigo de retiro prematuro (Early Unstake Penalty) ya no es un 25% fijo; escala proporcionalmente al tiempo faltante usando la fórmula: `Penalty % = (Days Left / Total Lock Days) * 25%`. Esto hace la salida anticipada más justa a medida que se acerca el vencimiento.
 - **Saldos Dinámicos**: Los rendimientos del RewardPool (Base Yield) no se renderizan como un solo bloque engañoso. Se desglosan en (a) Disponible para retirar, (b) Acumulado en este ciclo y (c) Temporizador de Epoch. Todo en paleta monocromática (blanco/gris) para evitar falsa urgencia psicológica (colores verdes/rojos).
-- **Regla de Frecuencia**: Las posiciones FLEXIBLES (que no tengan ningún bloqueo activo asociado a la wallet) pueden reclamar el Base Yield o hacer Auto-Compound en cualquier momento (diario, por minuto). 
-- Sin embargo, las posiciones BLOQUEADAS (30 días a 3 años) deben respetar el ciclo de la época, por lo cual **solo pueden reclamar o hacer Auto-Compound una vez por semana (7 días de enfriamiento mínimo entre retiros)**.
+- **Regla de Frecuencia**: Las posiciones FLEXIBLES (que no tengan ningún bloqueo activo asociado a la wallet) pueden reclamar el Base Yield o hacer Compound en cualquier momento (diario, por minuto). 
+- Sin embargo, las posiciones BLOQUEADAS (30 días a 3 años) deben respetar el ciclo de la época, por lo cual **solo pueden reclamar o hacer Compound una vez por semana (7 días de enfriamiento mínimo entre retiros)**.
 
 ### Razón de Diseño
 Se descarta la utilización de una votación cuadrática simple debido al riesgo latente de desincentivar y ahuyentar a los grandes proveedores de capital (ballenas) ante la fuga de liquidez en un entorno multicadena. No obstante, al mantener multiplicadores temporales significativos (hasta 2.0x), se concede una ventaja proporcional y competitiva al inversor minorista dispuesto a bloquear su capital por un año completo, contrarrestando el peso bruto del capital oportunista a corto plazo.

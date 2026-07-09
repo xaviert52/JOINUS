@@ -39,8 +39,8 @@ export default function DocsTerminal() {
                 <Link href="/docs/whitepaper" className="block text-xs font-medium text-zinc-400 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
                   Whitepaper
                 </Link>
-                <Link href="#tokenomics" className="block text-xs font-medium text-zinc-400 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
-                  Deflationary Engine
+                <Link href="/tokenomics" className="block text-xs font-medium text-zinc-400 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
+                  Live Tokenomics
                 </Link>
               </div>
             </nav>

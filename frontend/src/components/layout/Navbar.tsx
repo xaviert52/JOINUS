@@ -43,6 +43,9 @@ export function Navbar() {
           <Link href="/docs" className="hover:text-white transition-colors">
             Docs
           </Link>
+          <Link href="/tokenomics" className="hover:text-white transition-colors">
+            Tokenomics
+          </Link>
         </div>
 
         {/* Derecha: Web3 Wallet Connector & Socials */}
