@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { useStaking } from '@/hooks/useStaking';
 import { useGaslessTx } from '@/hooks/useGaslessTx';
 import { parseEther, formatEther } from 'viem';
@@ -62,7 +63,9 @@ export default function StakingTerminal() {
   const handleDeposit = async () => {
     if (!stakeAmount || parseFloat(stakeAmount) <= 0) return;
     
-    if (isGaslessMode) {
+    const isLocalhost = typeof window !== 'undefined' && (window as any).ethereum?.networkVersion === '31337';
+    
+    if (isGaslessMode && !isLocalhost) {
       const res = await sendGaslessTransaction("0xStakingContract" as `0x${string}`, "0xLockData" as `0x${string}`);
       if (!res.success) {
         setIsGaslessMode(false);
@@ -292,45 +295,41 @@ export default function StakingTerminal() {
         {/* COL 2: EXTRAORDINARY USDC */}
         <motion.div 
           whileHover={{ scale: 1.02 }}
-          className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 hover:border-green-500/40 transition-colors duration-500 flex flex-col group relative overflow-hidden h-full"
+          className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 hover:border-zinc-500/40 transition-colors duration-500 flex flex-col group relative overflow-hidden h-full"
         >
-          <div className="absolute inset-0 bg-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+          <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
           <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3 flex justify-between items-center z-10">
-            Civic Dividends (USDC)
+            Civic Dividends
             {isCivicDutyMet ? (
-              <span className="text-green-400 text-[9px] bg-green-950/30 px-2.5 py-1 rounded-full border border-green-900/50 tracking-[0.2em] font-black shadow-inner">ELIGIBLE</span>
+              <span className="text-white text-[9px] bg-zinc-800/50 px-2.5 py-1 rounded-full border border-zinc-700/50 tracking-[0.2em] font-black shadow-inner">ELIGIBLE</span>
             ) : (
               <span className="text-zinc-500 text-[9px] bg-zinc-900/50 px-2.5 py-1 rounded-full border border-zinc-800 tracking-[0.2em] font-black">INELIGIBLE</span>
             )}
           </h3>
           <div className="mb-4"></div>
           
-          <div className="bg-[#050505] p-5 rounded-2xl border border-zinc-800/80 mb-6 shadow-inner relative z-10">
-            <div className="flex justify-between items-end mb-2">
-              <div className="text-[9px] font-black uppercase text-zinc-500 tracking-[0.2em]">Ready to Claim:</div>
+          <div className="bg-[#050505] p-5 rounded-2xl border border-zinc-800/80 mb-6 shadow-inner relative z-10 flex flex-col items-center text-center">
+            <div className="text-[9px] font-black uppercase text-zinc-500 tracking-[0.2em] mb-2">Ready to Claim:</div>
+            <div className="text-3xl font-mono font-bold text-white drop-shadow-md mb-4">
+              {extraordinaryDividends.toFixed(2)} <span className="text-sm text-zinc-500">$USDC</span>
             </div>
-            <div className="text-3xl font-mono font-bold text-white drop-shadow-md">
-              {extraordinaryDividends.toFixed(2)} <span className="text-sm text-green-500">$USDC</span>
-            </div>
-            
-            <div className="mt-4 pt-4 border-t border-zinc-800/80 flex items-center gap-3">
-              <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_5px_rgba(74,222,128,0.8)]"></div>
-              <p className="text-[9px] text-zinc-400 uppercase tracking-widest font-bold">Generated from The Arena</p>
-            </div>
+            <p className="text-[10px] text-zinc-400 font-bold max-w-[90%] mx-auto leading-relaxed">
+              To be eligible you must have over 70% civic duty attendance. To check your real-time civic status, review the <Link href="/governance" className="text-zinc-400 underline hover:text-red-500 transition-colors">Governance</Link> terminal.
+            </p>
           </div>
 
           <div className="flex-1"></div>
 
           {!isCivicDutyMet && (
-            <div className="text-[9px] uppercase tracking-widest text-red-400 bg-red-950/20 border border-red-900/30 p-4 rounded-xl mb-6 shadow-inner z-10">
-              <span className="font-black">Warning:</span> You have missed more than 30% of votes this epoch. Dividends forfeited.
+            <div className="text-[9px] uppercase tracking-widest text-zinc-400 bg-zinc-900/50 border border-zinc-800 p-4 rounded-xl mb-6 shadow-inner z-10 text-center">
+              <span className="font-black text-white">Warning:</span> You have missed more than 30% of votes this epoch. Dividends forfeited.
             </div>
           )}
 
           <div className="flex flex-col gap-3 z-10">
             <button 
               disabled={!isCivicDutyMet}
-              className="w-full py-4 bg-green-600/90 hover:bg-green-500 text-white font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-all shadow-[0_0_20px_rgba(74,222,128,0.2)] hover:shadow-[0_0_30px_rgba(74,222,128,0.4)] transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+              className="w-full py-4 bg-white hover:bg-zinc-200 text-black font-black rounded-xl uppercase tracking-[0.2em] text-[10px] transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
             >
               Claim USDC
             </button>

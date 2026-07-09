@@ -46,3 +46,4 @@ El roadmap de JNS Ecosistema está estructurado para construir paso a paso un ec
 - [ ] Lanzar el Launchpad formal con tarifas de incubación (Incubation Fees) automatizadas.
 - [ ] Abrir el Hedge Fund DeFi operando con el 30% del TVL autorizado de locks largos de convicción.
 - [ ] Habilitar el módulo multicadena de Yield Routing para optimizar la rentabilidad líquida institucional.
+- [ ] Desplegar el **Lending Hub**, permitiendo a los usuarios usar su poder de voto ($JNSX no transferible) como colateral interno para pedir préstamos líquidos en USDC.

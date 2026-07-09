@@ -213,3 +213,8 @@
 - **Decisión**: El total supply de 10,000,000 $JNS será minteado inicialmente por la dirección deployer, pero será inmediatamente distribuido on-chain a las bóvedas reales (Liquidity, Treasury, Team, Incentives, Community) y 2,500,000 $JNS serán inyectados directamente al contrato inteligente `JNSStaking` en el momento de despliegue.
 - **Motivo**: Prevenir que el Supply total permanezca pasivo en una sola cuenta y permitir a los Trackers de Tokenomics leer de la blockchain de forma 100% auditable y fidedigna desde el minuto cero, habilitando la distribución de recompensas en Staking de manera autónoma.
 - **Estado**: Aceptado.
+
+### ADR-019: Integración Lending Base y Cualidad Líquida (Fase 6)
+- **Decisión**: El token `$JNSX` (recibo del Staking) se establece oficialmente como **intransferible** para proteger el *Skin in the Game* cívico de los stakers. La cualidad "Líquida" del protocolo (Liquid Staking) no proviene de intercambiar `$JNSX` en un DEX, sino del *Compound Routing* hacia posiciones flexibles. Adicionalmente, el ecosistema desplegará su propio *Lending Hub*. Los usuarios podrán usar su poder de voto (`$JNSX` no transferible) como colateral interno para pedir préstamos líquidos en USDC.
+- **Motivo**: Esto resuelve el paradigma del Liquid Staking (liberando valor líquido para el usuario) sin comprometer la seguridad de la gobernanza, previniendo que actores externos acumulen poder de voto sin bloquear JNS.
+- **Estado**: Aceptado.

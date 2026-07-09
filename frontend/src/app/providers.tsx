@@ -10,6 +10,7 @@ import {
   metaMaskWallet,
   walletConnectWallet,
   coinbaseWallet,
+  injectedWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 import { hardhat } from 'wagmi/chains';
 import { createConfig, WagmiProvider, http } from 'wagmi';
@@ -22,7 +23,7 @@ const connectors = connectorsForWallets(
   [
     {
       groupName: 'Recommended',
-      wallets: [metaMaskWallet, walletConnectWallet, coinbaseWallet],
+      wallets: [injectedWallet, metaMaskWallet, walletConnectWallet, coinbaseWallet],
     },
   ],
   {
