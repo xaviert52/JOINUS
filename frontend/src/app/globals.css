@@ -13,3 +13,12 @@
     color: hsl(var(--foreground));
   }
 }
+
+/* RainbowKit Typography Override */
+[data-rk] * {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  font-weight: 400 !important; /* Purgar Bold/Negritas */
+}
+[data-rk] h1, [data-rk] h2, [data-rk] h3, [data-rk] button {
+  font-weight: 500 !important; /* Máximo Medium para títulos, NUNCA bold grueso */
+}
