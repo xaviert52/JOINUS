@@ -57,7 +57,7 @@ export default function Home() {
 
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-200 to-zinc-600 drop-shadow-2xl">
           THE FINANCIAL <br/>
-          <span className="font-extrabold font-mono bg-clip-text bg-gradient-to-r from-red-500 to-red-900 drop-shadow-[0_0_20px_rgba(220,38,38,0.5)]">REVOLUTION</span>
+          <span className="font-black font-mono bg-clip-text bg-gradient-to-r from-red-500 to-red-900 drop-shadow-[0_0_20px_rgba(220,38,38,0.5)]">REVOLUTION</span>
         </h1>
         <p className="text-zinc-400 text-lg md:text-xl max-w-2xl font-medium tracking-wide leading-relaxed">
           Liquid Staking & DeFi Venture Hub. <span className="text-red-400">Institutional grade Zero-Knowledge Governance</span> on Arbitrum.

@@ -98,7 +98,11 @@ Deploy to Arbitrum Sepolia (Testnet)
      - Funds are managed transparently and allocated based on governance decisions.
      
 ### Contributing
-We welcome contributions! Please fork the repository and submit a pull request.
+Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+
+### Community
+Join the revolution and participate in the DAO:
+- **Discord:** [Join us on Discord](https://discord.gg/qKhFb4rT3Y)
 
 ### License
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

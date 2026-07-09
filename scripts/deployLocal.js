@@ -86,10 +86,20 @@ async function main() {
   const liqAmount = hre.ethers.utils.parseEther("2500000");       // 2.5M to Liquidity
   const launchpadAmount = hre.ethers.utils.parseEther("1000000"); // 1.0M to Launchpad
   const hedgeFundAmount = hre.ethers.utils.parseEther("1000000"); // 1.0M to Hedge Fund
-  const founderAmount = hre.ethers.utils.parseEther("700000");    // 0.7M to Founder
+  const founderLiquidAmount = hre.ethers.utils.parseEther("350000"); // 0.35M direct to Founder
+  const founderVestingAmount = hre.ethers.utils.parseEther("350000"); // 0.35M to Vesting Wallet
   const devsAmount = hre.ethers.utils.parseEther("800000");       // 0.8M to Devs & Advisors
   const incAmount = hre.ethers.utils.parseEther("1000000");       // 1.0M to Incentives/Paymaster
   const commAmount = hre.ethers.utils.parseEther("500000");       // 0.5M to Community
+
+  // Deploy VestingWallet for Founder (3 years duration)
+  const currentBlock = await hre.ethers.provider.getBlock("latest");
+  const startTime = currentBlock.timestamp;
+  const duration = 3 * 365 * 24 * 60 * 60; // 3 years in seconds
+  const FounderVesting = await hre.ethers.getContractFactory("FounderVesting");
+  const founderVesting = await FounderVesting.deploy(founderWallet.address, startTime, duration);
+  await founderVesting.deployed();
+  console.log("FounderVesting deployed to:", founderVesting.address);
 
   await jnsToken.transfer(stakingAddress, stakeAmount);
   console.log("Transferred 2.5M $JNS to Staking (RewardPool)");
@@ -103,8 +113,11 @@ async function main() {
   await jnsToken.transfer(hedgeFundWallet.address, hedgeFundAmount);
   console.log("Transferred 1.0M $JNS to Hedge Fund Wallet");
 
-  await jnsToken.transfer(founderWallet.address, founderAmount);
-  console.log("Transferred 0.7M $JNS to Founder Wallet");
+  await jnsToken.transfer(founderWallet.address, founderLiquidAmount);
+  console.log("Transferred 0.35M $JNS to Founder Wallet (Liquid)");
+
+  await jnsToken.transfer(founderVesting.address, founderVestingAmount);
+  console.log("Transferred 0.35M $JNS to Founder Vesting Contract");
 
   await jnsToken.transfer(devsWallet.address, devsAmount);
   console.log("Transferred 0.8M $JNS to Devs & Advisors Wallet");
@@ -138,6 +151,7 @@ NEXT_PUBLIC_LIQUIDITY_WALLET="${liquidityWallet.address}"
 NEXT_PUBLIC_LAUNCHPAD_WALLET="${launchpadWallet.address}"
 NEXT_PUBLIC_HEDGE_FUND_WALLET="${hedgeFundWallet.address}"
 NEXT_PUBLIC_FOUNDER_WALLET="${founderWallet.address}"
+NEXT_PUBLIC_FOUNDER_VESTING_ADDRESS="${founderVesting.address}"
 NEXT_PUBLIC_DEVS_WALLET="${devsWallet.address}"
 NEXT_PUBLIC_INCENTIVES_WALLET="${incentivesWallet.address}"
 NEXT_PUBLIC_COMMUNITY_WALLET="${communityWallet.address}"

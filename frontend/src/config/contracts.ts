@@ -5,9 +5,13 @@ export const JNS_STAKING_ADDRESS = (process.env.NEXT_PUBLIC_JNS_STAKING_ADDRESS 
 
 export const JNS_TOKEN_ABI = parseAbi([
   'function balanceOf(address account) external view returns (uint256)',
-  'function totalSupply() external view returns (uint256)'
+  'function totalSupply() external view returns (uint256)',
+  'function approve(address spender, uint256 amount) external returns (bool)'
 ]);
 
 export const JNS_STAKING_ABI = parseAbi([
-  'function totalJNSLocked() external view returns (uint256)'
+  'struct StakeInfo { uint256 amount; uint256 jnsxAmount; uint256 unlockTime; uint256 multiplier; uint256 durationInDays; bool isVip; }',
+  'function totalJNSLocked() external view returns (uint256)',
+  'function deposit(uint256 amount, uint256 durationInDays) external',
+  'function getUserStakes(address account) external view returns (StakeInfo[])'
 ]);

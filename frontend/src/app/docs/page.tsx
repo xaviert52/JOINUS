@@ -61,7 +61,7 @@ export default function DocsTerminal() {
           <div className="space-y-12">
             
             {/* GOVERNANCE BALANCE SPECS */}
-            <section id="governance-balance" className="scroll-mt-32 bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
+            <section id="governance-balance" className="scroll-mt-24 bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
               
               <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
