@@ -49,11 +49,12 @@ export default function StakingTerminal() {
 
   useEffect(() => {
     if (isApproveSuccess && stakeAmount) {
+      const lockTypeIndex = LOCK_OPTIONS.findIndex(l => l.label === selectedLock.label);
       writeDeposit({
         address: JNS_STAKING_ADDRESS as `0x${string}`,
         abi: JNS_STAKING_ABI,
         functionName: 'deposit',
-        args: [parseEther(stakeAmount), BigInt(selectedLock.days)]
+        args: [parseEther(stakeAmount), BigInt(lockTypeIndex)]
       }, {
         onSuccess: () => setStakeAmount('')
       });
@@ -63,22 +64,14 @@ export default function StakingTerminal() {
   const handleDeposit = async () => {
     if (!stakeAmount || parseFloat(stakeAmount) <= 0) return;
     
-    const isLocalhost = typeof window !== 'undefined' && (window as any).ethereum?.networkVersion === '31337';
-    
-    if (isGaslessMode && !isLocalhost) {
-      const res = await sendGaslessTransaction("0xStakingContract" as `0x${string}`, "0xLockData" as `0x${string}`);
-      if (!res.success) {
-        setIsGaslessMode(false);
-        alert("Paymaster not responding locally. Gasless deactivated. Please use standard signature.");
-      }
-    } else {
-      writeApprove({
-        address: JNS_TOKEN_ADDRESS as `0x${string}`,
-        abi: JNS_TOKEN_ABI,
-        functionName: 'approve',
-        args: [JNS_STAKING_ADDRESS as `0x${string}`, parseEther(stakeAmount)],
-      });
-    }
+    // Gasless flow temporarily disabled for local development per founder instructions
+    // Execute standard Web3 approve transaction first
+    writeApprove({
+      address: JNS_TOKEN_ADDRESS as `0x${string}`,
+      abi: JNS_TOKEN_ABI,
+      functionName: 'approve',
+      args: [JNS_STAKING_ADDRESS as `0x${string}`, parseEther(stakeAmount)],
+    });
   };
 
   return (

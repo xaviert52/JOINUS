@@ -1,6 +1,28 @@
+'use client';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function DocsTerminal() {
+  const [activeId, setActiveId] = useState('governance-balance');
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveId(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-20% 0px -60% 0px' }
+    );
+
+    const elements = document.querySelectorAll('section[id], div[id="zk-proofs"]');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 pt-8 relative z-10">
       
@@ -14,7 +36,7 @@ export default function DocsTerminal() {
         
         {/* SIDEBAR NAVIGATION */}
         <aside className="lg:w-1/4 flex flex-col gap-6">
-          <div className="bg-[#0a0a0a]/80 border border-zinc-800/80 backdrop-blur-xl rounded-2xl p-6 shadow-2xl sticky top-28">
+          <div className="bg-[#0a0a0a]/80 border border-zinc-800/80 backdrop-blur-xl rounded-2xl p-6 shadow-2xl sticky top-32 h-fit">
             <h2 className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
               Directory
@@ -23,23 +45,23 @@ export default function DocsTerminal() {
             <nav className="flex flex-col gap-4">
               <div className="space-y-2">
                 <p className="text-[9px] text-zinc-600 font-bold uppercase tracking-widest mb-3">Specifications</p>
-                <a href="#governance-balance" className="block text-xs font-medium text-red-400 hover:text-red-300 transition-colors border-l-2 border-red-500 pl-3 py-1 bg-red-500/5">
+                <a href="#governance-balance" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeId === 'governance-balance' ? 'text-white border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-white'}`}>
                   Governance Balance (08)
                 </a>
-                <a href="#zk-proofs" className="block text-xs font-medium text-zinc-400 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
+                <a href="#zk-proofs" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeId === 'zk-proofs' ? 'text-white border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-white'}`}>
                   ZK-Proofs Integration
                 </a>
               </div>
 
               <div className="space-y-2 pt-4 border-t border-zinc-800/50">
                 <p className="text-[9px] text-zinc-600 font-bold uppercase tracking-widest mb-3">Architecture (ADR)</p>
-                <Link href="/docs/apy" className="block text-xs font-medium text-zinc-400 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
+                <a href="#apy" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeId === 'apy' ? 'text-white border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-white'}`}>
                   APY & RewardPool
-                </Link>
-                <Link href="/docs/whitepaper" className="block text-xs font-medium text-zinc-400 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
+                </a>
+                <Link href="/docs/whitepaper" className="block text-xs font-medium text-zinc-500 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
                   Whitepaper
                 </Link>
-                <Link href="/tokenomics" className="block text-xs font-medium text-zinc-400 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
+                <Link href="/tokenomics" className="block text-xs font-medium text-zinc-500 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
                   Live Tokenomics
                 </Link>
               </div>

@@ -84,14 +84,6 @@
 ### ADR-013: Compound Routing y Acumulación Perpetua
 - **Decisión**: El mecanismo de Compound requiere ejecución manual (Ritual Semanal). Queda fijado que el "Ritual Semanal" no confisca fondos. Si un usuario no ejecuta Claim o Compound el domingo, las recompensas (yield de cualquier candado no reclamado) se acumulan de forma segura bloque a bloque de manera perpetua en el mapeo del Smart Contract. Al ejecutarlo, el contrato (y la interfaz) exigen que el usuario elija la ruta de reinversión:
   * **Ruta A (Compound to Flexible)**: Permite mantener la liquidez total sobre el interés recién generado (1.0x).
-  * **Ruta B (Stake Laddering)**: Permite re-bloquear las ganancias al plazo elegido (desde 30 Días hasta 3 Años) para escalar asintóticamente el multiplicador (hasta 3.2x).
-- **Motivo**: Transfiere la soberanía del flujo de capital al usuario y desmitifica los procesos oscuros de "Compounding mágico" de la antigua era DeFi.
-- **Estado**: Aceptado.
-
-### ADR-014: Paymaster & Tubería Directa del Casino
-- **Decisión**: El pool del Paymaster ERC-4337 se fundará exclusivamente con un porcentaje de las utilidades de moneda dura (ETH/USDC) generadas por el Casino (The Arena) y el Yield Aggregator. El sistema se auto-sustenta sin emitir ni vender tokens nativos. Adicionalmente, el saldo `Available to Withdraw` del RewardPool Yield estará conectado nativamente por Smart Contract con el Casino (The Arena) para permitir apuestas directas Tax-Free. Para proteger los fondos de ETH del Paymaster al inicio, se establece que los bots de Compound (Keepers) se retrasan a la Fase 6, dejando temporalmente la delegación a cargo del usuario.
-- **Motivo**: Crea un ecosistema auto-sostenible donde los ingresos reales de los productos financian la experiencia del usuario (gasless mode). La tubería Tax-Free hacia el Casino aumenta drásticamente el volumen de apuestas sin fricción.
-- **Estado**: Aceptado.
 # 02 — Arquitectura y Decisiones (ADR)
 
 ## 1. Principios Inmutables
@@ -176,14 +168,14 @@
 - **Estado**: Aceptado.
 
 ### ADR-013: Compound Routing y Acumulación Perpetua
-- **Decisión**: El mecanismo de Compound requiere ejecución manual (Ritual Semanal). Queda fijado que el "Ritual Semanal" no confisca fondos. Si un usuario no ejecuta Claim o Compound el domingo, las recompensas (yield de cualquier candado no reclamado) se acumulan de forma segura bloque a bloque de manera perpetua en el mapeo del Smart Contract. Al ejecutarlo, el contrato (y la interfaz) exigen que el usuario elija la ruta de reinversión:
+- **Decisión**: El mecanismo de Compound requiere ejecución manual (Ritual Semanal). Queda fijado que el "Ritual Semanal" no confisca fondos. Si un usuario no ejecuta Claim o Compound el domingo, las recompensas (yield de cualquier candado no reclamado) se acumulan de forma segura bloque a bloque de manera perpetua en el mapeo del Smart Contract. El capital no se enruta a Flexible automáticamente por defecto. Durante el Ritual de Compound, el usuario DEBE elegir activamente en un selector el destino de su rendimiento, pudiendo escoger las 7 opciones que van desde Flexible hasta Lock de 3 Años. Al ejecutarlo, el contrato (y la interfaz) exigen que el usuario elija la ruta de reinversión:
   * **Ruta A (Compound to Flexible)**: Permite mantener la liquidez total sobre el interés recién generado (1.0x).
   * **Ruta B (Stake Laddering)**: Permite re-bloquear las ganancias al plazo elegido (desde 30 Días hasta 3 Años) para escalar asintóticamente el multiplicador (hasta 3.2x).
 - **Motivo**: Transfiere la soberanía del flujo de capital al usuario y desmitifica los procesos oscuros de "Compounding mágico" de la antigua era DeFi.
 - **Estado**: Aceptado.
 
 ### ADR-014: Paymaster & Tubería Directa del Casino
-- **Decisión**: El pool del Paymaster ERC-4337 se fundará exclusivamente con un porcentaje de las utilidades de moneda dura (ETH/USDC) generadas por el Casino (The Arena) y the Yield Aggregator. El sistema se auto-sustenta sin emitir ni vender tokens nativos. Adicionalmente, el saldo `Available to Withdraw` del RewardPool Yield estará conectado nativamente por Smart Contract con el Casino (The Arena) para permitir apuestas directas Tax-Free. Para proteger los fondos de ETH del Paymaster al inicio, se establece que los bots de Compound (Keepers) se retrasan a la Fase 6, dejando temporalmente la delegación a cargo del usuario.
+- **Decisión**: El pool del Paymaster ERC-4337 se fundará exclusivamente con un porcentaje de las utilidades de moneda dura (ETH/USDC) generadas por el Casino (The Arena) y el Yield Aggregator. El sistema se auto-sustenta sin emitir ni vender tokens nativos. Adicionalmente, el saldo `Available to Withdraw` del RewardPool Yield estará conectado nativamente por Smart Contract con el Casino (The Arena) para permitir apuestas directas Tax-Free. Para proteger los fondos de ETH del Paymaster al inicio, se establece que los bots de Compound (Keepers) se retrasan a la Fase 6, dejando temporalmente la delegación a cargo del usuario.
 - **Motivo**: Crea un ecosistema auto-sostenible donde los ingresos reales de los productos financian la experiencia del usuario (gasless mode). La tubería Tax-Free hacia el Casino aumenta drásticamente el volumen de apuestas sin fricción.
 - **Estado**: Aceptado.
 

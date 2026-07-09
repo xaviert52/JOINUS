@@ -34,9 +34,9 @@ export function useStaking() {
   const stakes = (stakesRaw as any[]) || [];
   const hasLockedPositions = stakes.length > 0;
   
-  // Mocks for now until full integration
-  const baseYieldPending = 120.5;
-  const extraordinaryDividends = 450.0;
+  // Values pending real contract integration
+  const baseYieldPending = 0;
+  const extraordinaryDividends = 0;
   const isCivicDutyMet = true;
   
   let lockedJNS = 0;
