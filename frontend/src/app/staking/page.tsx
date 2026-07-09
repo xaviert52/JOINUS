@@ -415,14 +415,34 @@ export default function StakingTerminal() {
               </button>
             </div>
             
-            {selectedStake.type !== 'Flexible' && (
+            {selectedStake.type !== 'Flexible' ? (
               <div className="w-full border border-red-900/30 bg-red-950/10 rounded-xl p-4 flex flex-col gap-3">
-                <div className="flex justify-between items-center text-[9px] uppercase tracking-widest font-black">
-                  <span className="text-zinc-500">Early Unstake Penalty:</span>
-                  <span className="text-red-500">25.0% Burn</span>
+                <div className="flex flex-col gap-1 text-[9px] uppercase tracking-widest font-black">
+                  <div className="flex justify-between items-center">
+                    <span className="text-zinc-500">Early Unstake Penalty:</span>
+                    <span className="text-red-500">12.5% Burn</span>
+                  </div>
+                  <span className="text-zinc-600 text-[8px] text-right">(Proportional to time left)</span>
                 </div>
                 <button className="w-full py-3 bg-red-900/20 text-red-500 hover:bg-red-900/40 hover:text-red-400 border border-red-900/50 text-[9px] font-black uppercase tracking-[0.2em] rounded-lg transition-all shadow-[0_0_10px_rgba(239,68,68,0.05)]">
                   Force Early Unstake
+                </button>
+              </div>
+            ) : (
+              <div className="w-full border border-zinc-800/80 bg-[#050505] rounded-xl p-4 flex flex-col gap-3 shadow-inner">
+                <label className="block text-[8px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-1">Withdraw Amount</label>
+                <div className="relative">
+                  <input 
+                    type="number" 
+                    placeholder="0.00" 
+                    className="w-full bg-zinc-900 border border-zinc-800 text-white font-mono text-lg rounded-lg p-3 focus:outline-none focus:border-zinc-500 transition-colors"
+                  />
+                  <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-zinc-800 hover:bg-zinc-700 text-white text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded transition-colors">
+                    MAX
+                  </button>
+                </div>
+                <button className="w-full py-3 bg-zinc-200 text-black hover:bg-white font-black uppercase tracking-[0.2em] text-[9px] rounded-lg transition-all mt-1">
+                  Withdraw Partial / Full
                 </button>
               </div>
             )}

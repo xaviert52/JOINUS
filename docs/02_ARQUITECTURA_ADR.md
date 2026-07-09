@@ -94,8 +94,6 @@
 - **Estado**: Aceptado.
 
 ### ADR-015: Aislamiento de Riesgo y Transparencia UX
-- **Decisión**: 
-  1. **Aislamiento de Retiro Anticipado**: Las acciones destructivas de capital (Early Unstake) se gestionan de forma atómica e individual dentro de cada posición en el Modal de Detalles, eliminando controles globales centralizados. 
-  2. **Transparencia en Saldos Dinámicos**: El Reward Yield se desglosa visualmente en tres balances limpios con texto en blanco: Capital disponible a retirar, Acumulado del ciclo actual y Temporizador del Epoch en gris.
-- **Motivo**: Previene accidentes (fat-finger errors) al obligar al usuario a inspeccionar la posición individual antes de quemar capital y evita confusiones visuales sobre qué liquidez es exigible inmediatamente.
+- **Decisión**: La función de Early Unstake estará aislada únicamente dentro del modal de detalles individuales de cada posición activa. Adicionalmente, el castigo (Early Unstake Penalty) ya no es un 25% fijo (flat). Escala proporcionalmente al tiempo faltante usando la fórmula: `Penalty % = (Days Left / Total Lock Days) * 25%`.
+- **Motivo**: Previene retiros globales por error y falsas urgencias. La matemática dinámica hace la salida anticipada más justa a medida que se acerca el vencimiento, premiando la permanencia del usuario.
 - **Estado**: Aceptado.

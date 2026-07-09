@@ -85,7 +85,7 @@ export default function Home() {
             15.00%
           </p>
           <p className="text-[10px] text-zinc-500 font-bold tracking-[0.2em] uppercase mb-2">Funded by Genesis Pool</p>
-          <Link href="/docs/apy" className="text-[9px] text-zinc-500 hover:text-red-400 transition-colors underline">
+          <Link href="/docs/apy" className="relative z-20 pointer-events-auto text-[9px] text-zinc-500 hover:text-red-400 transition-colors underline">
             How our APY works &rarr;
           </Link>
         </div>

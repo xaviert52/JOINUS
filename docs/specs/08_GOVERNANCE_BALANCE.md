@@ -73,7 +73,7 @@ El pool del Paymaster ERC-4337 se fundará exclusivamente con un porcentaje de l
 
 ### Transparencia de UI y Aislamiento de Acciones Destructivas
 Para salvaguardar el capital de los usuarios:
-- **Aislamiento de Retiros**: La opción de Early Unstake está aislada atómicamente a nivel de interfaz. Solo puede ser ejecutada desde el Modal Individual de Detalles de una posición activa específica, previniendo así retiros globales por error.
+- **Aislamiento y Penalidad Dinámica**: La opción de Early Unstake está aislada atómicamente a nivel de interfaz. Solo puede ser ejecutada desde el Modal Individual de Detalles. El castigo de retiro prematuro (Early Unstake Penalty) ya no es un 25% fijo; escala proporcionalmente al tiempo faltante usando la fórmula: `Penalty % = (Days Left / Total Lock Days) * 25%`. Esto hace la salida anticipada más justa a medida que se acerca el vencimiento.
 - **Saldos Dinámicos**: Los rendimientos del RewardPool (Base Yield) no se renderizan como un solo bloque engañoso. Se desglosan en (a) Disponible para retirar, (b) Acumulado en este ciclo y (c) Temporizador de Epoch. Todo en paleta monocromática (blanco/gris) para evitar falsa urgencia psicológica (colores verdes/rojos).
 - **Regla de Frecuencia**: Las posiciones FLEXIBLES (que no tengan ningún bloqueo activo asociado a la wallet) pueden reclamar el Base Yield o hacer Auto-Compound en cualquier momento (diario, por minuto). 
 - Sin embargo, las posiciones BLOQUEADAS (30 días a 3 años) deben respetar el ciclo de la época, por lo cual **solo pueden reclamar o hacer Auto-Compound una vez por semana (7 días de enfriamiento mínimo entre retiros)**.

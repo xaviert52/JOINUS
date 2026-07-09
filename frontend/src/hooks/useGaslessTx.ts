@@ -4,7 +4,7 @@ import { paymasterClient } from '../config/pimlico';
 // import { createSmartAccountClient } from 'permissionless';
 
 export function useGaslessTx() {
-  const [isGaslessMode, setIsGaslessMode] = useState(false);
+  const [isGaslessMode, setIsGaslessMode] = useState(true);
   const [isSponsoring, setIsSponsoring] = useState(false);
 
   // Lógica principal para enrutamiento Gasless usando Pimlico Paymaster (ERC-4337)
