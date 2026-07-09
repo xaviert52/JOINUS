@@ -13,7 +13,7 @@ Las recompensas distribuidas a los stakers se dividen en dos flujos independient
 
 1. **RewardPool General (APY Dinámico en $JNS):**
    - El 2% de retención del tax transaccional se envía ÚNICA Y EXCLUSIVAMENTE a la dirección de la bóveda del RewardPool General de la DAO. Ningún usuario recibe distribuciones directas del mercado. El Smart Contract calcula un APY dinámico. Reclamar este Base Yield a la wallet incurre en el 3% de Tax normal. El Compound es 100% Tax-Free.
-   - **Ecosistema Modular**: Adicionalmente, el RewardPool actúa como un "Agujero Negro de Valor" alimentándose de TODOS los futuros módulos del Ecosistema Modular (Casino, Launchpad, Lending Hub, etc.), engordando constantemente la emisión asintótica pasiva.
+   - **Ecosistema Modular y Distribución**: El RewardPool actúa como un "Agujero Negro de Valor" alimentándose de TODOS los futuros módulos del Ecosistema Modular (Casino, Launchpad, Lending Hub, etc.). Todos seguirán la matriz de rentabilidad base: 35% Ops/Devs, 30% Dividendos Cívicos, 13% RewardPool, 10% Hedge Fund, 10% Burn, 2% Paymaster Gas Fund. Los disparadores de Keepers para la Fase 6 estarán basados en el rendimiento del Hedge Fund.
    - El saldo acumulado en este pool se distribuye asintóticamente a los stakers.
 
 2. **Bóveda de Dividendos Extraordinarios (Excedente Limpio B2B en $ETH o $USDC):**
@@ -24,7 +24,7 @@ Las recompensas distribuidas a los stakers se dividen en dos flujos independient
 ### Reglas de Asignación de la Bóveda de Dividendos
 Los fondos de la Bóveda de Dividendos se asignan de forma meritocrática bajo dos condiciones estrictas on-chain:
 1. **Sin Restricción de Convicción Temporal:** El usuario puede poseer el Liquid Staking Token (LST) **$JNSX** en cualquier bloqueo (incluso Flexible).
-2. **Participación Democrática Activa (Quórum de Voto > 70%):** El contrato de distribución cruzará los balances de staking con el registro histórico de votaciones del **JNSGovernorzk.sol**. Solo se considerarán aptas las direcciones que registren participación en más del 70% de las propuestas del período evaluado. Si un usuario retira sus fondos del Staking, las Épocas (Epochs) en las que no posea un balance activo de $JNSX NO se computarán en su denominador de asistencia, calculando el % de Civismo únicamente sobre el tiempo real de permanencia on-chain.
+2. **Participación Democrática Activa (Quórum de Voto > 70%):** El contrato de distribución cruzará los balances de staking con el registro histórico de votaciones del **JNSGovernorzk.sol**. Solo se considerarán aptas las direcciones que registren participación en más del 70% de las propuestas del período evaluado. Si un usuario retira sus fondos del Staking, las Épocas (Epochs) en las que no posea un balance activo de $JNSX NO se computarán en su denominador de asistencia, calculando el % de Civismo únicamente sobre el tiempo real de permanencia on-chain. Adicionalmente, el voto para stakers puramente Flexibles es facultativo; su score cívico queda neutro si deciden no participar, pero si votan, acceden proporcionalmente a los USDC trimestrales del Casino.
 
 Este mecanismo mitiga el parasitismo financiero (free-riding) y premia de manera directa y tangible a los usuarios alineados a largo plazo con la gobernanza y solvencia del Hub.
 

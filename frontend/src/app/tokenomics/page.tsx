@@ -72,6 +72,9 @@ export default function TokenomicsTracker() {
       </div>
 
       <div className="mb-14 border-b border-zinc-800/80 pb-8 pt-6">
+        <Link href="/docs" className="text-zinc-500 hover:text-white uppercase tracking-[0.2em] text-[10px] font-black flex items-center gap-2 mb-6 w-max transition-colors">
+          &larr; Back to Documentation
+        </Link>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase text-white flex flex-col md:flex-row md:items-center gap-4">
           <span className="w-3 h-10 bg-red-500 rounded-sm shadow-[0_0_15px_rgba(239,68,68,0.8)] hidden md:block"></span>
           LIVE TOKENOMICS TRACKER

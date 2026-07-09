@@ -32,7 +32,7 @@ const config = getDefaultConfig({
   },
   wallets: [
     {
-      groupName: 'Criptografía Institucional',
+      groupName: 'Institutional Cryptography',
       wallets: [metaMaskWallet, rabbyWallet, walletConnectWallet, coinbaseWallet, injectedWallet],
     },
   ],

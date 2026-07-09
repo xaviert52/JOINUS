@@ -78,7 +78,7 @@ export default function StakingTerminal() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {/* Lado Izquierdo */}
-            <div className="flex flex-col justify-between h-full">
+            <div className="flex flex-col justify-between h-full order-last md:order-first">
               <div>
                 {/* Amount Input */}
                 <div className="mb-8">
@@ -142,7 +142,7 @@ export default function StakingTerminal() {
             </div>
 
             {/* Lado Derecho */}
-            <div className="flex flex-col">
+            <div className="flex flex-col order-first md:order-last">
               {/* Time Lock Selector */}
               <div className="h-full">
                 <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-4">Time Lock Commitment</label>
@@ -267,7 +267,13 @@ export default function StakingTerminal() {
               </div>
               
               <div className="mb-8 p-4 bg-[#050505] border border-zinc-800/80 rounded-xl flex flex-col items-start gap-2 shadow-inner z-10">
-                <span className="text-[9px] text-zinc-500 font-black uppercase tracking-[0.2em]">Civic Duty Status</span>
+                <span className="text-[9px] text-zinc-500 font-black uppercase tracking-[0.2em] flex items-center gap-1 group/tooltip relative w-max">
+                  Civic Duty Status
+                  <span className="cursor-help bg-zinc-800 text-zinc-400 rounded-full w-3.5 h-3.5 flex items-center justify-center text-[8px]">i</span>
+                  <div className="absolute bottom-full left-0 mb-2 w-48 bg-zinc-900 border border-zinc-700 text-zinc-300 text-[9px] p-2 rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none z-20 normal-case tracking-normal shadow-xl">
+                    Verify your real-time cryptographic attendance score and epochs under the Governance terminal.
+                  </div>
+                </span>
                 {isCivicDutyMet ? (
                   <span className="text-[10px] font-black text-green-400 tracking-[0.15em] drop-shadow-[0_0_8px_rgba(74,222,128,0.4)]">VERIFIED (70%+)</span>
                 ) : (
@@ -429,20 +435,19 @@ export default function StakingTerminal() {
                 </button>
               </div>
             ) : (
-              <div className="w-full border border-zinc-800/80 bg-[#050505] rounded-xl p-4 flex flex-col gap-3 shadow-inner">
-                <label className="block text-[8px] font-black text-zinc-500 uppercase tracking-[0.2em] mb-1">Withdraw Amount</label>
-                <div className="relative">
+              <div className="w-full border border-zinc-800 bg-[#050505] rounded p-4 flex flex-col gap-3">
+                <div className="relative group/input">
                   <input 
                     type="number" 
-                    placeholder="0.00" 
-                    className="w-full bg-zinc-900 border border-zinc-800 text-white font-mono text-lg rounded-lg p-3 focus:outline-none focus:border-zinc-500 transition-colors"
+                    placeholder="0.0" 
+                    className="w-full bg-zinc-900 border border-zinc-800 text-white font-mono text-lg rounded p-3 focus:outline-none focus:border-zinc-500 transition-colors placeholder:text-zinc-700"
                   />
                   <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-zinc-800 hover:bg-zinc-700 text-white text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded transition-colors">
                     MAX
                   </button>
                 </div>
-                <button className="w-full py-3 bg-zinc-200 text-black hover:bg-white font-black uppercase tracking-[0.2em] text-[9px] rounded-lg transition-all mt-1">
-                  Withdraw Partial / Full
+                <button className="w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[9px] font-black uppercase tracking-[0.2em] rounded transition-all">
+                  WITHDRAW PARTIAL / FULL
                 </button>
               </div>
             )}

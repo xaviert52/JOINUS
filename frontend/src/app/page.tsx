@@ -20,7 +20,24 @@ export default function Home() {
     args: ['0x0000000000000000000000000000000000000000'],
   });
 
-  const formattedTVL = tvlData ? Number(formatEther(tvlData as bigint)).toLocaleString(undefined, { maximumFractionDigits: 2 }) : '0.00';
+  const { data: hedgeFundData } = useReadContract({
+    address: JNS_TOKEN_ADDRESS,
+    abi: JNS_TOKEN_ABI,
+    functionName: 'balanceOf',
+    args: ['0x2222222222222222222222222222222222222222'],
+  });
+
+  const { data: opsData } = useReadContract({
+    address: JNS_TOKEN_ADDRESS,
+    abi: JNS_TOKEN_ABI,
+    functionName: 'balanceOf',
+    args: ['0x4444444444444444444444444444444444444444'],
+  });
+
+  const totalTVL = (tvlData ? Number(formatEther(tvlData as bigint)) : 0) + 
+                   (hedgeFundData ? Number(formatEther(hedgeFundData as bigint)) : 0) + 
+                   (opsData ? Number(formatEther(opsData as bigint)) : 0);
+  const formattedTVL = totalTVL.toLocaleString(undefined, { maximumFractionDigits: 2 });
   const formattedBurned = burnedData ? Number(formatEther(burnedData as bigint)).toLocaleString(undefined, { maximumFractionDigits: 2 }) : '0';
 
   return (
@@ -85,7 +102,7 @@ export default function Home() {
             15.00%
           </p>
           <p className="text-[10px] text-zinc-500 font-bold tracking-[0.2em] uppercase mb-2">Funded by Genesis Pool</p>
-          <Link href="/docs/apy" className="relative z-20 pointer-events-auto text-[9px] text-zinc-500 hover:text-red-400 transition-colors underline">
+          <Link href="/docs/apy" className="relative z-30 block cursor-pointer pointer-events-auto text-[9px] text-zinc-400 hover:text-red-500 transition-colors underline">
             How our APY works &rarr;
           </Link>
         </div>
@@ -97,6 +114,22 @@ export default function Home() {
           <p className="text-[10px] text-zinc-500 font-bold tracking-[0.2em] uppercase">Perpetual Deflation Engine</p>
         </div>
       </motion.section>
+
+      {/* GLOBAL EARNINGS & PROOF OF YIELD LEDGER */}
+      <section className="mb-20">
+        <div className="bg-[#050505] border border-zinc-800/80 rounded-2xl p-8 shadow-inner font-mono">
+          <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mb-6">Global Earnings & Proof of Yield</h3>
+          <div className="space-y-3 mb-8">
+            <p className="text-xs text-zinc-400">1,500 USDC — July 2026: 30% Net Revenue from The Arena Contract Vault</p>
+            <p className="text-xs text-zinc-500">850 USDC — June 2026: 30% Net Revenue from Lending Protocol Fees</p>
+          </div>
+          <div className="pt-4 border-t border-zinc-800/50">
+            <p className="text-[9px] text-zinc-600 italic leading-relaxed">
+              * Operational Note: Developer and Executive technical salaries are permanently routed to independent designated professional role wallets, completely isolated from founder personal protocol capital reserves.
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* ECOSISTEMA (CARDS) */}
       <section className="mb-20">

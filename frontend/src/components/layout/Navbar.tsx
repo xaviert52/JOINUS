@@ -41,10 +41,7 @@ export function Navbar() {
             Governance
           </Link>
           <Link href="/docs" className="hover:text-white transition-colors">
-            Docs
-          </Link>
-          <Link href="/tokenomics" className="hover:text-white transition-colors">
-            Tokenomics
+            Documentation
           </Link>
         </div>
 
@@ -58,14 +55,16 @@ export function Navbar() {
               X
             </a>
           </div>
-          <ConnectButton 
-            accountStatus={{
-              smallScreen: 'avatar',
-              largeScreen: 'full',
-            }}
-            chainStatus="icon"
-            showBalance={false}
-          />
+          <div className="[&_button]:!text-[10px] [&_button]:!font-black [&_button]:!uppercase [&_button]:!tracking-widest">
+            <ConnectButton 
+              accountStatus={{
+                smallScreen: 'avatar',
+                largeScreen: 'full',
+              }}
+              chainStatus="icon"
+              showBalance={false}
+            />
+          </div>
         </div>
       </div>
     </nav>
