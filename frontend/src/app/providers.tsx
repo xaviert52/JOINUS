@@ -38,6 +38,7 @@ const config = createConfig({
   transports: {
     [hardhat.id]: http(),
   },
+  multiInjectedProviderDiscovery: true, // Habilitar EIP-6963 explícitamente para solucionar problemas en Brave
 });
 
 export function Providers({ children }: { children: React.ReactNode }) {

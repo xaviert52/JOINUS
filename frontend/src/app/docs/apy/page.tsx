@@ -1,6 +1,36 @@
+'use client';
+
 import Link from 'next/link';
+import { useReadContract } from 'wagmi';
+
+const JNS_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_JNS_TOKEN_ADDRESS || "0x0000000000000000000000000000000000000000";
+const JNS_STAKING_ADDRESS = process.env.NEXT_PUBLIC_JNS_STAKING_ADDRESS || "0x0000000000000000000000000000000000000000";
+
+const ERC20_ABI = [
+  {
+    "constant": true,
+    "inputs": [{ "name": "_owner", "type": "address" }],
+    "name": "balanceOf",
+    "outputs": [{ "name": "balance", "type": "uint256" }],
+    "type": "function"
+  }
+];
 
 export default function ApyAnalytics() {
+  const { data: poolBalanceData, isError, isLoading } = useReadContract({
+    address: JNS_TOKEN_ADDRESS as `0x${string}`,
+    abi: ERC20_ABI,
+    functionName: 'balanceOf',
+    args: [JNS_STAKING_ADDRESS as `0x${string}`],
+    query: {
+      enabled: Boolean(JNS_TOKEN_ADDRESS && JNS_STAKING_ADDRESS)
+    }
+  });
+
+  const rewardPoolBalance = poolBalanceData ? Number(poolBalanceData) / 1e18 : 0;
+  // 530 Weeks = ~10.2 Years target divisor
+  const annualEmission = rewardPoolBalance / 10.2;
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 pt-8 relative z-10">
       
@@ -143,15 +173,17 @@ export default function ApyAnalytics() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: VISUALIZER (MOCK) */}
+        {/* RIGHT COLUMN: VISUALIZER (ON-CHAIN) */}
         <div className="lg:col-span-5">
           <div className="bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 shadow-2xl sticky top-28">
-            <h3 className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em] mb-6">Live Simulation</h3>
+            <h3 className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em] mb-6">Live On-Chain Engine State</h3>
             
             <div className="space-y-8">
               <div>
                 <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">RewardPool Balance</p>
-                <p className="text-3xl font-mono font-bold text-white drop-shadow-md">2,500,000 <span className="text-sm text-zinc-600">$JNS</span></p>
+                <p className="text-3xl font-mono font-bold text-white drop-shadow-md">
+                  {isLoading ? 'SYNCING...' : isError ? 'ERROR' : rewardPoolBalance.toLocaleString()} <span className="text-sm text-zinc-600">$JNS</span>
+                </p>
               </div>
               
               <div>
@@ -161,7 +193,9 @@ export default function ApyAnalytics() {
 
               <div className="pt-6 border-t border-zinc-800/80">
                 <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Resulting Base Emission</p>
-                <p className="text-4xl font-mono font-bold text-green-400 drop-shadow-[0_0_15px_rgba(74,222,128,0.3)]">250,000 <span className="text-sm text-green-500/50">$JNS / Year</span></p>
+                <p className="text-4xl font-mono font-bold text-green-400 drop-shadow-[0_0_15px_rgba(74,222,128,0.3)]">
+                  {isLoading ? 'SYNCING...' : isError ? 'ERROR' : annualEmission.toLocaleString(undefined, { maximumFractionDigits: 0 })} <span className="text-sm text-green-500/50">$JNS / Year</span>
+                </p>
               </div>
             </div>
           </div>

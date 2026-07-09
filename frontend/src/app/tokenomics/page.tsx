@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { useReadContract } from 'wagmi';
 
-// Mock ABI and addresses for the future
-const JNS_TOKEN_ADDRESS = "0x0000000000000000000000000000000000000000";
+// Use actual environment variables injected by deployLocal.js
+const JNS_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_JNS_TOKEN_ADDRESS || "0x0000000000000000000000000000000000000000";
+
 const ERC20_ABI = [
   {
     "constant": true,
@@ -17,44 +18,68 @@ const ERC20_ABI = [
 
 const VAULTS = [
   {
-    name: "Liquidity & Staking",
-    address: "0x1111111111111111111111111111111111111111",
-    allocation: 40,
-    amount: 4000000,
-    color: "bg-red-500",
-    description: "Initial DEX Liquidity and the Genesis Staking RewardPool."
-  },
-  {
-    name: "Ecosystem & Treasury",
-    address: "0x2222222222222222222222222222222222222222",
+    name: "Staking RewardPool",
+    address: process.env.NEXT_PUBLIC_JNS_STAKING_ADDRESS || "0x0000000000000000000000000000000000000000",
     allocation: 25,
     amount: 2500000,
+    color: "bg-red-500",
+    description: "Genesis RewardPool for yield and dividends."
+  },
+  {
+    name: "Initial Liquidity",
+    address: process.env.NEXT_PUBLIC_LIQUIDITY_WALLET || "0x1111111111111111111111111111111111111111",
+    allocation: 25,
+    amount: 2500000,
+    color: "bg-orange-500",
+    description: "Initial DEX Liquidity Bootstrapping."
+  },
+  {
+    name: "Launchpad",
+    address: process.env.NEXT_PUBLIC_LAUNCHPAD_WALLET || "0x2222222222222222222222222222222222222222",
+    allocation: 10,
+    amount: 1000000,
+    color: "bg-purple-500",
+    description: "Funds allocated for ecosystem token generation events."
+  },
+  {
+    name: "Hedge Fund",
+    address: process.env.NEXT_PUBLIC_HEDGE_FUND_WALLET || "0x3333333333333333333333333333333333333333",
+    allocation: 10,
+    amount: 1000000,
     color: "bg-zinc-300",
-    description: "Fund for future product development (The Arena, Lending Hub, etc.) and DAO operations."
+    description: "Treasury reserve for external yield generation and Casino bankroll."
   },
   {
-    name: "Community Incentives",
-    address: "0x3333333333333333333333333333333333333333",
-    allocation: 15,
-    amount: 1500000,
+    name: "Founder",
+    address: process.env.NEXT_PUBLIC_FOUNDER_WALLET || "0x4444444444444444444444444444444444444444",
+    allocation: 7,
+    amount: 700000,
+    color: "bg-blue-600",
+    description: "Founder allocation with a strict multi-year vesting schedule."
+  },
+  {
+    name: "Devs & Advisors",
+    address: process.env.NEXT_PUBLIC_DEVS_WALLET || "0x5555555555555555555555555555555555555555",
+    allocation: 8,
+    amount: 800000,
+    color: "bg-blue-400",
+    description: "Core contributors and strategic advisors."
+  },
+  {
+    name: "Incentives & Paymaster",
+    address: process.env.NEXT_PUBLIC_INCENTIVES_WALLET || "0x6666666666666666666666666666666666666666",
+    allocation: 10,
+    amount: 1000000,
     color: "bg-green-500",
-    description: "Airdrops, Zealy campaigns, and initial community bootstrapping."
+    description: "Airdrops, growth campaigns, and initial ERC-4337 gas sponsorship."
   },
   {
-    name: "Team & Advisors",
-    address: "0x4444444444444444444444444444444444444444",
-    allocation: 10,
-    amount: 1000000,
-    color: "bg-blue-500",
-    description: "Core contributors and strategic advisors. Locked with a strict vesting schedule."
-  },
-  {
-    name: "Initial Burn",
-    address: "0x5555555555555555555555555555555555555555",
-    allocation: 10,
-    amount: 1000000,
+    name: "Community",
+    address: process.env.NEXT_PUBLIC_COMMUNITY_WALLET || "0x7777777777777777777777777777777777777777",
+    allocation: 5,
+    amount: 500000,
     color: "bg-yellow-500",
-    description: "Permanently removed from circulating supply at TGE to create immediate deflation."
+    description: "Community-driven initiatives and Zealy campaigns."
   }
 ];
 
@@ -136,47 +161,42 @@ export default function TokenomicsTracker() {
 
 function VaultCard({ vault, totalSupply }: { vault: any, totalSupply: number }) {
   // Configured architecture for live wagmi reads:
-  const { data: balanceData } = useReadContract({
+  const { data: balanceData, isError, isLoading } = useReadContract({
     address: JNS_TOKEN_ADDRESS as `0x${string}`,
     abi: ERC20_ABI,
     functionName: 'balanceOf',
     args: [vault.address as `0x${string}`],
     query: {
-      enabled: false // Disabled mock call to prevent errors on uninitialized addresses
+      enabled: Boolean(JNS_TOKEN_ADDRESS && vault.address)
     }
   });
 
-  // Fallback to static mock amount for UI presentation
-  const amountToDisplay = balanceData ? Number(balanceData) / 1e18 : vault.amount;
-  const currentPercentage = ((amountToDisplay / totalSupply) * 100).toFixed(1);
+  // Display the on-chain live data if available, else 0.
+  const amountToDisplay = balanceData ? Number(balanceData) / 1e18 : 0;
+  const currentAllocation = ((amountToDisplay / totalSupply) * 100).toFixed(1);
 
   return (
-    <div className="bg-[#0a0a0a] border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between hover:border-zinc-700 transition-colors group">
-      <div>
-        <div className="flex justify-between items-start mb-4">
-          <h3 className="text-white font-black uppercase text-sm tracking-widest flex items-center gap-3">
-            <span className={`w-3 h-3 rounded-full ${vault.color} shadow-[0_0_10px_rgba(0,0,0,0.5)]`}></span>
-            {vault.name}
-          </h3>
-          <span className="text-zinc-500 font-mono text-[10px] bg-zinc-900 px-2 py-1 rounded">Target: {vault.allocation}%</span>
+    <div className="group bg-[#0a0a0a] border border-zinc-800/60 rounded-2xl p-6 hover:border-zinc-700 transition-colors">
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex items-center gap-3">
+          <span className={`w-3 h-3 rounded-sm ${vault.color}`}></span>
+          <div>
+            <h3 className="text-white font-bold tracking-wide uppercase text-sm">{vault.name}</h3>
+            <p className="text-zinc-500 font-mono text-[10px] truncate max-w-[150px] sm:max-w-[200px]" title={vault.address}>
+              {vault.address}
+            </p>
+          </div>
         </div>
-        <p className="text-xs text-zinc-500 leading-relaxed font-medium mb-6">
-          {vault.description}
-        </p>
+        <div className="text-right">
+          <p className="text-white font-mono font-bold text-lg">{amountToDisplay.toLocaleString()}</p>
+          <p className="text-zinc-500 text-[10px] font-bold tracking-widest uppercase mt-1">
+            {isLoading ? 'SYNCING...' : isError ? 'ERROR' : `${currentAllocation}%`}
+          </p>
+        </div>
       </div>
-      <div className="pt-4 border-t border-zinc-800/50">
-        <div className="flex justify-between items-end mb-2">
-          <span className="text-[9px] font-black text-zinc-600 uppercase tracking-widest">Live Balance</span>
-          <span className="text-white font-mono font-bold text-lg">{amountToDisplay.toLocaleString()} <span className="text-[10px] text-zinc-500">$JNS</span></span>
-        </div>
-        {/* Mini progress bar for individual vault health relative to its allocation */}
-        <div className="w-full h-1 bg-zinc-900 rounded-full overflow-hidden">
-          <div className={`h-full ${vault.color}`} style={{ width: '100%' }}></div>
-        </div>
-        <p className="text-[8px] text-zinc-600 uppercase tracking-widest mt-2 text-right">
-          Currently holds {currentPercentage}% of Total Supply
-        </p>
-      </div>
+      <p className="text-zinc-400 text-xs leading-relaxed border-t border-zinc-800/50 pt-4 mt-2">
+        {vault.description}
+      </p>
     </div>
   );
 }

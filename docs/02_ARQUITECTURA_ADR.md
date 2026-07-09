@@ -208,3 +208,8 @@
 - **Decisión**: Para los usuarios que ÚNICAMENTE poseen posiciones "Flexible", el voto es Facultativo. Su inasistencia a las urnas no penalizará su "Civic Duty Score" (queda neutro), pero si votan, acceden proporcionalmente a los USDC trimestrales del Casino.
 - **Motivo**: No forzar participación a stakers puramente líquidos, mientras se mantiene el incentivo de Civic Duty y acceso a rendimientos externos si deciden involucrarse.
 - **Estado**: Aceptado.
+
+### ADR-018: Distribución Física del Supply Génesis (10M)
+- **Decisión**: El total supply de 10,000,000 $JNS será minteado inicialmente por la dirección deployer, pero será inmediatamente distribuido on-chain a las bóvedas reales (Liquidity, Treasury, Team, Incentives, Community) y 2,500,000 $JNS serán inyectados directamente al contrato inteligente `JNSStaking` en el momento de despliegue.
+- **Motivo**: Prevenir que el Supply total permanezca pasivo en una sola cuenta y permitir a los Trackers de Tokenomics leer de la blockchain de forma 100% auditable y fidedigna desde el minuto cero, habilitando la distribución de recompensas en Staking de manera autónoma.
+- **Estado**: Aceptado.
