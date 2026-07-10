@@ -1,5 +1,6 @@
 'use client';
-import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
+import { useAccount, useReadContract, useWriteContract, useConfig, useWaitForTransactionReceipt } from 'wagmi';
+import { waitForTransactionReceipt } from '@wagmi/core';
 import { formatEther } from 'viem';
 import { JNS_TOKEN_ADDRESS, JNS_TOKEN_ABI, JNS_STAKING_ADDRESS, JNS_STAKING_ABI } from '@/config/contracts';
 
@@ -50,11 +51,8 @@ export function useStaking() {
     latestUnlockDate = new Date(maxUnlock * 1000);
   }
 
-  const { writeContract: writeApprove, data: approveHash, error: approveError, isPending: isApprovePending } = useWriteContract();
-  const { isLoading: isApproveConfirming, isSuccess: isApproveSuccess } = useWaitForTransactionReceipt({ hash: approveHash });
-
-  const { writeContract: writeDeposit, data: depositHash, error: depositError, isPending: isDepositPending } = useWriteContract();
-  const { isLoading: isDepositConfirming, isSuccess: isDepositSuccess } = useWaitForTransactionReceipt({ hash: depositHash });
+  const config = useConfig();
+  const { writeContractAsync, isPending: isWritePending } = useWriteContract();
 
   const refetchAll = () => {
     refetchJns();
@@ -76,19 +74,9 @@ export function useStaking() {
     daysUntilNextClaim: 5,
     
     // Write functions
-    writeApprove,
-    approveHash,
-    isApprovePending,
-    isApproveConfirming,
-    isApproveSuccess,
-    approveError,
-
-    writeDeposit,
-    depositHash,
-    isDepositPending,
-    isDepositConfirming,
-    isDepositSuccess,
-    depositError,
+    config,
+    writeContractAsync,
+    isWritePending,
 
     refetchAll
   };

@@ -8,16 +8,20 @@ export default function DocsTerminal() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
+        let visibleSection = null;
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
+            visibleSection = entry.target.id;
           }
         });
+        if (visibleSection) {
+          setActiveSection(visibleSection);
+        }
       },
-      { rootMargin: '-50% 0px -50% 0px' } // Cruza el centro de la pantalla
+      { rootMargin: '-30% 0px -70% 0px', threshold: 0 } // Ajuste del sweet spot
     );
 
-    const elements = document.querySelectorAll('section[id], div[id="zk-proofs"], section[id="asymptotic"]');
+    const elements = document.querySelectorAll('section[id], div[id="zk-proofs"]');
     elements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
@@ -59,9 +63,18 @@ export default function DocsTerminal() {
               <div className="space-y-2 pt-4 border-t border-zinc-800/50">
                 <p className="text-[9px] text-zinc-600 font-bold uppercase tracking-widest mb-3">Architecture (ADR)</p>
                 <a href="#apy" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'apy' ? 'text-white border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-white'}`}>
-                  APY & RewardPool
+                  ADR-009: APY & RewardPool
                 </a>
-                <Link href="/docs/whitepaper" className="block text-xs font-medium text-zinc-500 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
+                <a href="#adr-016" className="block text-xs font-medium text-zinc-500 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
+                  ADR-016: Paymaster Runway
+                </a>
+                <a href="#adr-019" className="block text-xs font-medium text-zinc-500 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
+                  ADR-019: Lending Hub Base
+                </a>
+                <a href="#adr-020" className="block text-xs font-medium text-zinc-500 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
+                  ADR-020: The Arena Spec
+                </a>
+                <Link href="/docs/whitepaper" className="block text-xs font-medium text-zinc-500 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1 mt-4">
                   Whitepaper
                 </Link>
                 <Link href="/tokenomics" className="block text-xs font-medium text-zinc-500 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
@@ -167,6 +180,10 @@ export default function DocsTerminal() {
               <div className="prose prose-invert prose-zinc max-w-none">
                 <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base">
                   The JOINUS economic model separates inflationary rewards from real yield. The <strong>Base APY</strong> is funded exclusively by the Genesis Pool and the Transactional Tax, whereas external dividends come from the Ecosystem Products.
+                  <br /><br />
+                  <Link href="/docs/apy" className="inline-block mt-2 text-red-500 hover:text-red-400 font-bold underline transition-colors">
+                    Understand how our Asymptotic APY works in real-time
+                  </Link>
                 </p>
 
                 <div className="flex flex-col gap-4 mt-10">

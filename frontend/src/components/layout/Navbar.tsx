@@ -25,7 +25,7 @@ export function Navbar() {
             </svg>
           </button>
           <Link href="/" className="flex items-center gap-3 group">
-            <Image src="/logo.png" alt="JOINUS Logo" width={145} height={60} className="object-contain group-hover:scale-105 transition-transform" />
+            <span className="text-zinc-300 title-brutalist text-3xl group-hover:text-white transition-colors">JOINUS!</span>
           </Link>
         </div>
         

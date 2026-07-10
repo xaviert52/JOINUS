@@ -7,6 +7,7 @@ import { useStaking } from '@/hooks/useStaking';
 import { useGaslessTx } from '@/hooks/useGaslessTx';
 import { parseEther, formatEther } from 'viem';
 import { useChainId } from 'wagmi';
+import { waitForTransactionReceipt } from '@wagmi/core';
 import { JNS_TOKEN_ADDRESS, JNS_TOKEN_ABI, JNS_STAKING_ADDRESS, JNS_STAKING_ABI } from '@/config/contracts';
 
 const LOCK_OPTIONS = [
@@ -32,11 +33,9 @@ export default function StakingTerminal() {
     hasLockedPositions,
     daysUntilNextClaim,
     stakes,
-    writeApprove,
-    isApprovePending,
-    isApproveSuccess,
-    writeDeposit,
-    isDepositPending
+    config,
+    writeContractAsync,
+    isWritePending
   } = useStaking();
 
   const [stakeAmount, setStakeAmount] = useState('');
@@ -49,35 +48,45 @@ export default function StakingTerminal() {
 
   const projectedJNSX = stakeAmount ? (parseFloat(stakeAmount) * selectedLock.multiplier).toFixed(2) : '0.00';
 
-  useEffect(() => {
-    if (isApproveSuccess && stakeAmount) {
-      const lockTypeIndex = LOCK_OPTIONS.findIndex(l => l.label === selectedLock.label);
-      writeDeposit({
-        address: JNS_STAKING_ADDRESS as `0x${string}`,
-        abi: JNS_STAKING_ABI,
-        functionName: 'deposit',
-        args: [parseEther(stakeAmount), lockTypeIndex]
-      }, {
-        onSuccess: () => setStakeAmount('')
-      });
-    }
-  }, [isApproveSuccess]);
-
+  // Flow asyncronous para Lock & Mint
   const handleDeposit = async () => {
     if (!stakeAmount || parseFloat(stakeAmount) <= 0) return;
     
+    const lockTypeIndex = LOCK_OPTIONS.findIndex(l => l.label === selectedLock.label);
+
     if (isGaslessMode && chainId !== 31337) {
       await sendGaslessTransaction(JNS_STAKING_ADDRESS as `0x${string}`, "0xDeposit" as `0x${string}`);
       return;
     }
 
-    // Bypass o fallback a estándar (chainId 31337 local o gasless desactivado)
-    writeApprove({
-      address: JNS_TOKEN_ADDRESS as `0x${string}`,
-      abi: JNS_TOKEN_ABI,
-      functionName: 'approve',
-      args: [JNS_STAKING_ADDRESS as `0x${string}`, parseEther(stakeAmount)],
-    });
+    try {
+      // 1. Convertir a Wei
+      const amountInWei = parseEther(stakeAmount);
+      
+      // 2. Disparar Approve y ESPERAR
+      const approveTx = await writeContractAsync({
+        address: JNS_TOKEN_ADDRESS as `0x${string}`,
+        abi: JNS_TOKEN_ABI,
+        functionName: 'approve',
+        args: [JNS_STAKING_ADDRESS as `0x${string}`, amountInWei],
+      });
+      
+      await waitForTransactionReceipt(config, { hash: approveTx });
+
+      // 3. Solo entonces disparar Deposit
+      const depositTx = await writeContractAsync({
+        address: JNS_STAKING_ADDRESS as `0x${string}`,
+        abi: JNS_STAKING_ABI,
+        functionName: 'deposit',
+        args: [amountInWei, lockTypeIndex],
+      });
+
+      await waitForTransactionReceipt(config, { hash: depositTx });
+      
+      setStakeAmount('');
+    } catch (e) {
+      console.error('Staking Error:', e);
+    }
   };
 
   return (
@@ -174,10 +183,10 @@ export default function StakingTerminal() {
 
                 <button 
                   onClick={handleDeposit}
-                  disabled={isSponsoring || !stakeAmount || parseFloat(stakeAmount) <= 0 || parseFloat(stakeAmount) > jnsBalance || isApprovePending || isDepositPending}
+                  disabled={isSponsoring || !stakeAmount || parseFloat(stakeAmount) <= 0 || parseFloat(stakeAmount) > jnsBalance || isWritePending}
                   className="w-full py-5 bg-red-600 hover:bg-red-500 text-white font-black rounded-2xl uppercase tracking-[0.2em] text-sm transition-all shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSponsoring ? "Sponsoring Tx..." : parseFloat(stakeAmount) > jnsBalance ? "Insufficient Balance" : (isApprovePending || isDepositPending) ? "Processing..." : "Lock & Mint"}
+                  {isSponsoring ? "Sponsoring Tx..." : parseFloat(stakeAmount) > jnsBalance ? "Insufficient Balance" : isWritePending ? "Processing..." : "Lock & Mint"}
                 </button>
               </div>
             </div>
