@@ -12,6 +12,6 @@ export const JNS_TOKEN_ABI = parseAbi([
 export const JNS_STAKING_ABI = parseAbi([
   'struct StakeInfo { uint256 amount; uint256 jnsxAmount; uint256 unlockTime; uint256 multiplier; uint256 durationInDays; bool isVip; }',
   'function totalJNSLocked() external view returns (uint256)',
-  'function deposit(uint256 amount, uint256 durationInDays) external',
+  'function deposit(uint256 amount, uint8 lockType) external',
   'function getUserStakes(address account) external view returns (StakeInfo[])'
 ]);

@@ -4,7 +4,9 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useStaking } from '@/hooks/useStaking';
+import { useGaslessTx } from '@/hooks/useGaslessTx';
 import { parseEther, formatEther } from 'viem';
+import { useChainId } from 'wagmi';
 import { JNS_TOKEN_ADDRESS, JNS_TOKEN_ABI, JNS_STAKING_ADDRESS, JNS_STAKING_ABI } from '@/config/contracts';
 
 const LOCK_OPTIONS = [
@@ -42,6 +44,9 @@ export default function StakingTerminal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedStake, setSelectedStake] = useState<any>(null);
 
+  const chainId = useChainId();
+  const { isGaslessMode, setIsGaslessMode, isSponsoring, sendGaslessTransaction } = useGaslessTx();
+
   const projectedJNSX = stakeAmount ? (parseFloat(stakeAmount) * selectedLock.multiplier).toFixed(2) : '0.00';
 
   useEffect(() => {
@@ -51,7 +56,7 @@ export default function StakingTerminal() {
         address: JNS_STAKING_ADDRESS as `0x${string}`,
         abi: JNS_STAKING_ABI,
         functionName: 'deposit',
-        args: [parseEther(stakeAmount), BigInt(lockTypeIndex)]
+        args: [parseEther(stakeAmount), lockTypeIndex]
       }, {
         onSuccess: () => setStakeAmount('')
       });
@@ -61,8 +66,12 @@ export default function StakingTerminal() {
   const handleDeposit = async () => {
     if (!stakeAmount || parseFloat(stakeAmount) <= 0) return;
     
-    // Gasless flow temporarily disabled for local development per founder instructions
-    // Execute standard Web3 approve transaction first
+    if (isGaslessMode && chainId !== 31337) {
+      await sendGaslessTransaction(JNS_STAKING_ADDRESS as `0x${string}`, "0xDeposit" as `0x${string}`);
+      return;
+    }
+
+    // Bypass o fallback a estándar (chainId 31337 local o gasless desactivado)
     writeApprove({
       address: JNS_TOKEN_ADDRESS as `0x${string}`,
       abi: JNS_TOKEN_ABI,
@@ -141,16 +150,34 @@ export default function StakingTerminal() {
               </div>
 
               <div className="mt-auto flex flex-col gap-4">
+                <div className="flex items-center justify-between p-4 bg-[#050505] rounded-2xl border border-zinc-800">
+                  <div>
+                    <div className="flex items-center gap-2 group/tooltip relative">
+                      <p className="text-sm font-black uppercase text-white tracking-[0.2em] flex items-center gap-2">
+                        Gasless Mode
+                        <span className="bg-red-500 text-[9px] px-2.5 py-1 rounded-full text-white">DAO Sponsored</span>
+                      </p>
+                      <span className="text-zinc-500 hover:text-white cursor-help">
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      </span>
+                      <div className="absolute bottom-full left-0 mb-2 w-72 bg-zinc-900 border border-zinc-700 text-zinc-300 text-[9px] p-3 rounded-xl opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none z-20">
+                        The DAO's Paymaster holds an ETH pool funded by product revenues to sponsor your network gas fees for Voting and Compounding.
+                      </div>
+                    </div>
+                    <p className="text-[10px] text-zinc-400 mt-1.5 uppercase tracking-widest font-bold">Pay 0 ETH for Gas (ERC-4337)</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" checked={isGaslessMode} onChange={() => setIsGaslessMode(!isGaslessMode)} className="sr-only peer" />
+                    <div className="w-11 h-6 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-500"></div>
+                  </label>
+                </div>
+
                 <button 
                   onClick={handleDeposit}
-                  disabled={!stakeAmount || parseFloat(stakeAmount) <= 0 || parseFloat(stakeAmount) > jnsBalance || isApprovePending || isDepositPending}
+                  disabled={isSponsoring || !stakeAmount || parseFloat(stakeAmount) <= 0 || parseFloat(stakeAmount) > jnsBalance || isApprovePending || isDepositPending}
                   className="w-full py-5 bg-red-600 hover:bg-red-500 text-white font-black rounded-2xl uppercase tracking-[0.2em] text-sm transition-all shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {parseFloat(stakeAmount) > jnsBalance 
-                    ? "Insufficient Balance" 
-                    : (isApprovePending || isDepositPending) 
-                      ? "Processing..." 
-                      : "Lock & Mint"}
+                  {isSponsoring ? "Sponsoring Tx..." : parseFloat(stakeAmount) > jnsBalance ? "Insufficient Balance" : (isApprovePending || isDepositPending) ? "Processing..." : "Lock & Mint"}
                 </button>
               </div>
             </div>
@@ -234,7 +261,7 @@ export default function StakingTerminal() {
               
               <div className="flex flex-col gap-3 mt-auto z-10">
                 <button 
-                  onClick={() => {}}
+                  onClick={() => sendGaslessTransaction("0xStaking" as `0x${string}`, "0xClaim" as `0x${string}`)}
                   disabled={hasLockedPositions && daysUntilNextClaim > 0}
                   className="w-full py-4 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-colors border border-zinc-700/50 hover:border-zinc-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
@@ -255,7 +282,7 @@ export default function StakingTerminal() {
                 </div>
 
                 <button 
-                  onClick={() => {}}
+                  onClick={() => sendGaslessTransaction("0xStaking" as `0x${string}`, "0xAutoCompound" as `0x${string}`)}
                   disabled={hasLockedPositions && daysUntilNextClaim > 0}
                   className="w-full py-4 bg-red-600/90 hover:bg-red-500 text-white font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-all shadow-[0_0_20px_rgba(220,38,38,0.2)] hover:shadow-[0_0_30px_rgba(220,38,38,0.4)] transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
                 >
@@ -420,13 +447,13 @@ export default function StakingTerminal() {
 
             <div className="flex gap-3">
               <button 
-                onClick={() => { setIsModalOpen(false); }}
+                onClick={() => { sendGaslessTransaction("0xStaking" as `0x${string}`, "0xClaim" as `0x${string}`); setIsModalOpen(false); }}
                 className="flex-1 py-4 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] border border-zinc-700/50 hover:border-zinc-500 transition-colors"
               >
                 Claim Yield
               </button>
               <button 
-                onClick={() => { setIsModalOpen(false); }}
+                onClick={() => { sendGaslessTransaction("0xStaking" as `0x${string}`, "0xAutoCompound" as `0x${string}`); setIsModalOpen(false); }}
                 className="flex-1 py-4 bg-white hover:bg-zinc-200 text-black font-black rounded-xl uppercase tracking-[0.2em] text-[10px] shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] transition-all transform hover:-translate-y-0.5"
               >
                 Compound
