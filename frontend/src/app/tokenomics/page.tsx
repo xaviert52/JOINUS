@@ -49,14 +49,7 @@ const VAULTS = [
     color: "bg-zinc-300",
     description: "Treasury reserve for external yield generation and Casino bankroll."
   },
-  {
-    name: "Founder",
-    address: process.env.NEXT_PUBLIC_FOUNDER_WALLET || "0x4444444444444444444444444444444444444444",
-    allocation: 7,
-    amount: 700000,
-    color: "bg-blue-600",
-    description: "Founder allocation with a strict multi-year vesting schedule."
-  },
+
   {
     name: "Devs & Advisors",
     address: process.env.NEXT_PUBLIC_DEVS_WALLET || "0x5555555555555555555555555555555555555555",
@@ -97,10 +90,10 @@ export default function TokenomicsTracker() {
       </div>
 
       <div className="mb-14 border-b border-zinc-800/80 pb-8 pt-6">
-        <Link href="/docs" className="text-zinc-500 hover:text-white uppercase tracking-[0.2em] text-[10px] font-black flex items-center gap-2 mb-6 w-max transition-colors">
+        <Link href="/docs" className="text-zinc-500 hover:text-zinc-300 uppercase tracking-[0.2em] text-[10px] font-black flex items-center gap-2 mb-6 w-max transition-colors">
           &larr; Back to Documentation
         </Link>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase text-white flex flex-col md:flex-row md:items-center gap-4">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase text-zinc-300 flex flex-col md:flex-row md:items-center gap-4">
           <span className="w-3 h-10 bg-red-500 rounded-sm shadow-[0_0_15px_rgba(239,68,68,0.8)] hidden md:block"></span>
           LIVE TOKENOMICS TRACKER
         </h1>
@@ -113,11 +106,11 @@ export default function TokenomicsTracker() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
         <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-6 shadow-2xl">
           <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2">Total Genesis Supply</p>
-          <p className="text-3xl font-mono font-bold text-white drop-shadow-md">10,000,000 <span className="text-sm text-zinc-600">$JNS</span></p>
+          <p className="text-3xl font-mono font-bold text-zinc-300 drop-shadow-md">10,000,000 <span className="text-sm text-zinc-600">$JNS</span></p>
         </div>
         <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-6 shadow-2xl">
           <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2">Network Target</p>
-          <p className="text-3xl font-mono font-bold text-white drop-shadow-md">Arbitrum One</p>
+          <p className="text-3xl font-mono font-bold text-zinc-300 drop-shadow-md">Arbitrum One</p>
         </div>
         <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-6 shadow-2xl flex flex-col justify-center">
           <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2">Perpetual Deflation</p>
@@ -127,7 +120,7 @@ export default function TokenomicsTracker() {
 
       {/* VISUAL BREAKDOWN BARS */}
       <div className="bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl mb-16">
-        <h2 className="text-sm font-black text-white uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
+        <h2 className="text-sm font-black text-zinc-300 uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
           <span className="w-2 h-2 bg-zinc-300 rounded-full animate-pulse"></span>
           Vault Distribution (Live Allocation)
         </h2>
@@ -140,7 +133,7 @@ export default function TokenomicsTracker() {
               style={{ width: `${vault.allocation}%` }} 
               className={`${vault.color} h-full transition-all duration-1000 ease-out hover:opacity-80 cursor-pointer relative group`}
             >
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-zinc-900 border border-zinc-700 text-white text-[9px] font-bold px-3 py-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-zinc-900 border border-zinc-700 text-zinc-300 text-[9px] font-bold px-3 py-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
                 {vault.name} ({vault.allocation}%)
               </div>
             </div>
@@ -181,14 +174,14 @@ function VaultCard({ vault, totalSupply }: { vault: any, totalSupply: number }) 
         <div className="flex items-center gap-3">
           <span className={`w-3 h-3 rounded-sm ${vault.color}`}></span>
           <div>
-            <h3 className="text-white font-bold tracking-wide uppercase text-sm">{vault.name}</h3>
+            <h3 className="text-zinc-300 font-bold tracking-wide uppercase text-sm">{vault.name}</h3>
             <p className="text-zinc-500 font-mono text-[10px] truncate max-w-[150px] sm:max-w-[200px]" title={vault.address}>
               {vault.address}
             </p>
           </div>
         </div>
         <div className="text-right">
-          <p className="text-white font-mono font-bold text-lg">{amountToDisplay.toLocaleString()}</p>
+          <p className="text-zinc-300 font-mono font-bold text-lg">{amountToDisplay.toLocaleString()}</p>
           <p className="text-zinc-500 text-[10px] font-bold tracking-widest uppercase mt-1">
             {isLoading ? 'SYNCING...' : isError ? 'ERROR' : `${currentAllocation}%`}
           </p>

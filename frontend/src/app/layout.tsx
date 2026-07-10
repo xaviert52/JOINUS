@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${jetbrains.variable}`}>
-      <body className="bg-[#050505] text-white font-sans antialiased selection:bg-red-500/30 selection:text-red-200">
+      <body className="bg-[#050505] text-zinc-300 font-sans antialiased selection:bg-red-500/30 selection:text-red-200">
         <Providers>
           <PageTitle />
           <Navbar />

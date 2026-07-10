@@ -14,7 +14,7 @@ export default function ProductsTerminal() {
       {/* HEADER */}
       <div className="mb-14 border-b border-zinc-800/80 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase text-white flex items-center gap-4">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase text-zinc-300 flex items-center gap-4">
             <span className="w-3 h-10 bg-red-600 rounded-sm shadow-[0_0_15px_rgba(220,38,38,0.8)]"></span>
             ECOSYSTEM PRODUCTS
           </h1>
@@ -40,13 +40,13 @@ export default function ProductsTerminal() {
             </span>
           </div>
 
-          <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-widest group-hover:text-red-50 transition-colors">The Arena</h2>
+          <h2 className="text-2xl md:text-3xl font-black text-zinc-300 mb-4 uppercase tracking-widest group-hover:text-red-50 transition-colors">The Arena</h2>
           <p className="text-zinc-400 text-sm leading-relaxed mb-8 font-medium">
             Our premier decentralized casino. Where the house always wins, and you are the house. Cashflows generated from The Arena are directly distributed to the DAO's RewardPool and High-Conviction stakers.
           </p>
 
           <Link href="/casino" className="mt-auto w-full">
-            <button className="w-full py-5 bg-[#050505] hover:bg-zinc-900 border border-zinc-800/80 hover:border-red-500/50 text-white font-black rounded-2xl uppercase tracking-[0.2em] text-xs transition-all shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:shadow-[0_0_40px_rgba(239,68,68,0.1)]">
+            <button className="w-full py-5 bg-[#050505] hover:bg-zinc-900 border border-zinc-800/80 hover:border-red-500/50 text-zinc-300 font-black rounded-2xl uppercase tracking-[0.2em] text-xs transition-all shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:shadow-[0_0_40px_rgba(239,68,68,0.1)]">
               Enter The Arena
             </button>
           </Link>
@@ -65,7 +65,7 @@ export default function ProductsTerminal() {
             </span>
           </div>
 
-          <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-widest group-hover:text-blue-50 transition-colors">Lending Protocol</h2>
+          <h2 className="text-2xl md:text-3xl font-black text-zinc-300 mb-4 uppercase tracking-widest group-hover:text-blue-50 transition-colors">Lending Protocol</h2>
           <p className="text-zinc-400 text-sm leading-relaxed mb-8 font-medium">
             Institutional-grade over-collateralized lending. Borrow against your $JNSX or deposit stablecoins to earn risk-adjusted yield. Expanding the utility of our ecosystem assets.
           </p>

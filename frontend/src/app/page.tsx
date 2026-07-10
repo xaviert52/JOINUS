@@ -58,16 +58,16 @@ export default function Home() {
         {/* Glow de ambientación profunda */}
         <div className="absolute top-1/2 left-1/2 w-[80vw] md:w-[600px] h-[400px] bg-red-600/15 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none animate-pulse" />
 
-        <h1 className="font-extrabold text-zinc-100 tracking-tighter text-6xl md:text-8xl drop-shadow-2xl">
+        <h1 className="font-extrabold text-zinc-400 tracking-tighter text-6xl md:text-8xl drop-shadow-2xl">
           WE ENCODE <br/>
-          <span className="font-extrabold text-zinc-100 tracking-tighter text-red-500">LONG-TERM THINKING.</span>
+          <span className="font-black text-red-500 tracking-tighter">LONG-TERM</span> THINKING.
         </h1>
         <p className="text-zinc-400 text-lg md:text-xl max-w-2xl font-medium tracking-wide leading-relaxed">
           Liquid Staking & DeFi Venture Hub. <span className="text-red-400">Institutional grade Zero-Knowledge Governance</span> on Arbitrum.
         </p>
         <div className="flex flex-col sm:flex-row gap-5 mt-12 pt-4 w-full sm:w-auto">
           <Link href="/staking" className="w-full sm:w-auto">
-            <button className="w-full px-12 py-5 bg-red-600 hover:bg-red-500 text-white font-black rounded-xl uppercase tracking-[0.2em] text-sm transition-all shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] transform hover:-translate-y-1">
+            <button className="w-full px-12 py-5 bg-red-600 hover:bg-red-500 text-zinc-300 font-black rounded-xl uppercase tracking-[0.2em] text-sm transition-all shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] transform hover:-translate-y-1">
               Enter the dApp
             </button>
           </Link>
@@ -95,7 +95,7 @@ export default function Home() {
           className="group bg-[#0a0a0a]/80 backdrop-blur-2xl border border-zinc-800/80 rounded-2xl p-8 flex flex-col justify-center items-center text-center shadow-2xl hover:border-red-500/40 transition-colors duration-500"
         >
           <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mb-4">Total Value Locked</h3>
-          <p suppressHydrationWarning className="text-4xl md:text-5xl font-mono font-bold text-white mb-3 group-hover:text-red-50 transition-colors drop-shadow-md">{formattedTVL}</p>
+          <p suppressHydrationWarning className="text-4xl md:text-5xl font-mono font-bold text-zinc-300 mb-3 group-hover:text-red-50 transition-colors drop-shadow-md">{formattedTVL}</p>
           <p className="text-[10px] text-red-500/90 font-bold tracking-[0.2em] uppercase">Secured by 3-Day Timelock</p>
         </motion.div>
 
@@ -115,7 +115,7 @@ export default function Home() {
         {/* Stat 3: Burned */}
         <div className="group bg-[#0a0a0a]/80 backdrop-blur-2xl border border-zinc-800/80 rounded-2xl p-8 flex flex-col justify-center items-center text-center shadow-2xl hover:border-red-500/40 transition-all duration-500 hover:-translate-y-2">
           <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mb-4">$JNS Burned</h3>
-          <p className="text-4xl md:text-5xl font-mono font-bold text-white mb-3 group-hover:text-red-50 transition-colors drop-shadow-md">{formattedBurned} JNS</p>
+          <p className="text-4xl md:text-5xl font-mono font-bold text-zinc-300 mb-3 group-hover:text-red-50 transition-colors drop-shadow-md">{formattedBurned} JNS</p>
           <p className="text-[10px] text-zinc-500 font-bold tracking-[0.2em] uppercase">Perpetual Deflation Engine</p>
         </div>
       </motion.section>
@@ -125,7 +125,7 @@ export default function Home() {
       {/* ECOSISTEMA (CARDS) */}
       <section className="mb-20">
         <div className="flex flex-col items-center mb-16">
-          <h2 className="text-2xl md:text-3xl font-black uppercase tracking-[0.3em] text-white flex flex-col items-center">
+          <h2 className="text-2xl md:text-3xl font-black uppercase tracking-[0.3em] text-zinc-300 flex flex-col items-center">
             Core <span className="text-red-500 mt-1">Pillars</span>
           </h2>
           <div className="w-16 h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent mt-6 opacity-70"></div>
@@ -138,7 +138,7 @@ export default function Home() {
             <div className="w-12 h-12 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center justify-center mb-8 transform group-hover:scale-110 transition-transform">
               <svg className="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
             </div>
-            <h3 className="text-lg font-black text-white mb-4 uppercase tracking-widest">Liquid Staking</h3>
+            <h3 className="text-lg font-black text-zinc-300 mb-4 uppercase tracking-widest">Liquid Staking</h3>
             <p className="text-zinc-400 text-sm leading-relaxed mb-8 font-medium">
               Participate in liquid staking with $JNSX. Choose lock-up periods of up to 365 days to multiply your Base Yield and interact with the Dual Vault.
             </p>
@@ -153,7 +153,7 @@ export default function Home() {
             <div className="w-12 h-12 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center justify-center mb-8 transform group-hover:scale-110 transition-transform">
               <svg className="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
             </div>
-            <h3 className="text-lg font-black text-white mb-4 uppercase tracking-widest">ZK Governance</h3>
+            <h3 className="text-lg font-black text-zinc-300 mb-4 uppercase tracking-widest">ZK Governance</h3>
             <p className="text-zinc-400 text-sm leading-relaxed mb-8 font-medium">
               Exercise your voting power anonymously through Zero-Knowledge Proofs (Semaphore). Prevent Sybil attacks and guarantee true decentralization.
             </p>
@@ -168,7 +168,7 @@ export default function Home() {
             <div className="w-12 h-12 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center justify-center mb-8 transform group-hover:scale-110 transition-transform">
               <svg className="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
             </div>
-            <h3 className="text-lg font-black text-white mb-4 uppercase tracking-widest">Products</h3>
+            <h3 className="text-lg font-black text-zinc-300 mb-4 uppercase tracking-widest">Products</h3>
             <p className="text-zinc-400 text-sm leading-relaxed mb-8 font-medium">
               The decentralized financial engine that injects real capital into the DAO. We provide institutional infrastructure where "the house" always shares the flow.
             </p>

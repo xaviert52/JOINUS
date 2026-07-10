@@ -12,10 +12,10 @@ export default function Whitepaper() {
 
       {/* Título Masivo */}
       <div className="mb-16 border-b border-zinc-800/80 pb-12">
-        <Link href="/docs" className="text-zinc-500 hover:text-white transition-colors text-[10px] font-black uppercase tracking-[0.2em] mb-8 inline-block flex items-center gap-2">
+        <Link href="/docs" className="text-zinc-500 hover:text-zinc-300 transition-colors text-[10px] font-black uppercase tracking-[0.2em] mb-8 inline-block flex items-center gap-2">
           <span>&larr;</span> Back to Docs
         </Link>
-        <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase text-transparent bg-clip-text bg-gradient-to-br from-white via-zinc-300 to-zinc-600 mt-4 leading-[1.1]">
+        <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase text-transparent bg-clip-text bg-gradient-to-br from-zinc-300 via-zinc-300 to-zinc-600 mt-4 leading-[1.1]">
           JOINUS! <br/>
           THE FINANCIAL <span className="text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]">REVOLUTION</span>
         </h1>
@@ -30,7 +30,7 @@ export default function Whitepaper() {
         {/* Sidebar Index */}
         <div className="md:col-span-4">
           <div className="sticky top-28 bg-[#0a0a0a]/80 backdrop-blur-md border border-zinc-800/80 rounded-2xl p-6 shadow-2xl">
-            <h3 className="text-white text-[10px] font-black uppercase tracking-[0.3em] mb-6 pb-4 border-b border-zinc-800/50">Table of Contents</h3>
+            <h3 className="text-zinc-300 text-[10px] font-black uppercase tracking-[0.3em] mb-6 pb-4 border-b border-zinc-800/50">Table of Contents</h3>
             <ul className="space-y-4 text-xs font-bold tracking-widest uppercase">
               <li>
                 <a href="#manifesto" className="text-zinc-400 hover:text-red-400 transition-colors flex items-center gap-2">
@@ -59,7 +59,7 @@ export default function Whitepaper() {
         {/* Content Body */}
         <div className="md:col-span-8 space-y-16">
           <section id="manifesto" className="scroll-mt-32">
-            <h2 className="text-2xl font-black text-white uppercase tracking-widest mb-6 flex items-center gap-4">
+            <h2 className="text-2xl font-black text-zinc-300 uppercase tracking-widest mb-6 flex items-center gap-4">
               <span className="text-red-500 text-sm">01.</span> Manifesto
             </h2>
             <div className="prose prose-invert prose-zinc max-w-none text-zinc-400 leading-relaxed font-medium">
@@ -69,7 +69,7 @@ export default function Whitepaper() {
           </section>
 
           <section id="economics" className="scroll-mt-32">
-            <h2 className="text-2xl font-black text-white uppercase tracking-widest mb-6 flex items-center gap-4">
+            <h2 className="text-2xl font-black text-zinc-300 uppercase tracking-widest mb-6 flex items-center gap-4">
               <span className="text-red-500 text-sm">02.</span> Asymptotic Economics
             </h2>
             <div className="prose prose-invert prose-zinc max-w-none text-zinc-400 leading-relaxed font-medium">
@@ -78,7 +78,7 @@ export default function Whitepaper() {
           </section>
           
           <section id="governance" className="scroll-mt-32">
-            <h2 className="text-2xl font-black text-white uppercase tracking-widest mb-6 flex items-center gap-4">
+            <h2 className="text-2xl font-black text-zinc-300 uppercase tracking-widest mb-6 flex items-center gap-4">
               <span className="text-red-500 text-sm">03.</span> ZK Governance
             </h2>
             <div className="prose prose-invert prose-zinc max-w-none text-zinc-400 leading-relaxed font-medium">
@@ -87,7 +87,7 @@ export default function Whitepaper() {
           </section>
 
           <section id="arena" className="scroll-mt-32">
-            <h2 className="text-2xl font-black text-white uppercase tracking-widest mb-6 flex items-center gap-4">
+            <h2 className="text-2xl font-black text-zinc-300 uppercase tracking-widest mb-6 flex items-center gap-4">
               <span className="text-red-500 text-sm">04.</span> The Arena & Real Yield
             </h2>
             <div className="prose prose-invert prose-zinc max-w-none text-zinc-400 leading-relaxed font-medium">

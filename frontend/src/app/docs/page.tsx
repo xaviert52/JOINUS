@@ -18,7 +18,7 @@ export default function DocsTerminal() {
           setActiveSection(visibleSection);
         }
       },
-      { rootMargin: '-30% 0px -70% 0px', threshold: 0 } // Ajuste del sweet spot
+      { rootMargin: '-10% 0px -60% 0px', threshold: 0 } // Ajuste del sweet spot
     );
 
     const elements = document.querySelectorAll('section[id], div[id="zk-proofs"]');
@@ -49,35 +49,35 @@ export default function DocsTerminal() {
             <nav className="flex flex-col gap-4">
               <div className="space-y-2">
                 <p className="text-[9px] text-zinc-600 font-bold uppercase tracking-widest mb-3">Specifications</p>
-                <a href="#governance-balance" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'governance-balance' ? 'text-white border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-white'}`}>
+                <a href="#governance-balance" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'governance-balance' ? 'text-zinc-300 border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-zinc-300'}`}>
                   Governance Balance (08)
                 </a>
-                <a href="#zk-proofs" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'zk-proofs' ? 'text-white border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-white'}`}>
+                <a href="#zk-proofs" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'zk-proofs' ? 'text-zinc-300 border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-zinc-300'}`}>
                   ZK-Proofs Integration
                 </a>
-                <a href="#asymptotic" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'asymptotic' ? 'text-white border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-white'}`}>
+                <a href="#asymptotic" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'asymptotic' ? 'text-zinc-300 border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-zinc-300'}`}>
                   Asymptotic Economics
                 </a>
               </div>
 
               <div className="space-y-2 pt-4 border-t border-zinc-800/50">
                 <p className="text-[9px] text-zinc-600 font-bold uppercase tracking-widest mb-3">Architecture (ADR)</p>
-                <a href="#apy" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'apy' ? 'text-white border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-white'}`}>
+                <a href="#apy" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'apy' ? 'text-zinc-300 border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-zinc-300'}`}>
                   ADR-009: APY & RewardPool
                 </a>
-                <a href="#adr-016" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'adr-016' ? 'text-white border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-white'}`}>
+                <a href="#adr-016" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'adr-016' ? 'text-zinc-300 border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-zinc-300'}`}>
                   ADR-016: Paymaster Runway
                 </a>
-                <a href="#adr-019" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'adr-019' ? 'text-white border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-white'}`}>
+                <a href="#adr-019" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'adr-019' ? 'text-zinc-300 border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-zinc-300'}`}>
                   ADR-019: Lending Hub Base
                 </a>
-                <a href="#adr-020" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'adr-020' ? 'text-white border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-white'}`}>
+                <a href="#adr-020" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'adr-020' ? 'text-zinc-300 border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-zinc-300'}`}>
                   ADR-020: The Arena Spec
                 </a>
-                <Link href="/docs/whitepaper" className="block text-xs font-medium text-zinc-500 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1 mt-4">
+                <Link href="/docs/whitepaper" className="block text-xs font-medium text-zinc-500 hover:text-zinc-300 transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1 mt-4">
                   Whitepaper
                 </Link>
-                <Link href="/tokenomics" className="block text-xs font-medium text-zinc-500 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
+                <Link href="/tokenomics" className="block text-xs font-medium text-zinc-500 hover:text-zinc-300 transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
                   Live Tokenomics
                 </Link>
               </div>
@@ -88,7 +88,7 @@ export default function DocsTerminal() {
         {/* MAIN CONTENT AREA */}
         <main className="lg:w-3/4">
           <div className="mb-12 border-b border-zinc-800/80 pb-8">
-            <h1 className="text-4xl md:text-5xl font-black tracking-tighter uppercase text-white flex items-center gap-4">
+            <h1 className="text-4xl md:text-5xl font-black tracking-tighter uppercase text-zinc-300 flex items-center gap-4">
               DOCUMENTATION
             </h1>
             <p className="text-zinc-500 mt-4 tracking-[0.1em] uppercase text-xs font-bold leading-relaxed max-w-2xl">
@@ -106,7 +106,7 @@ export default function DocsTerminal() {
                 <span className="bg-red-500/10 text-red-400 text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-lg border border-red-500/20 w-max">
                   SPEC-08
                 </span>
-                <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider">Governance Balance</h2>
+                <h2 className="text-2xl md:text-3xl font-black text-zinc-300 uppercase tracking-wider">Governance Balance</h2>
               </div>
               
               <div className="prose prose-invert prose-zinc max-w-none">
@@ -116,7 +116,7 @@ export default function DocsTerminal() {
                 
                 <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="bg-[#0a0a0a] border border-zinc-800/80 rounded-2xl p-6 shadow-inner hover:border-red-500/30 transition-colors">
-                    <h3 className="text-white font-black mb-3 uppercase text-xs tracking-widest flex items-center gap-3">
+                    <h3 className="text-zinc-300 font-black mb-3 uppercase text-xs tracking-widest flex items-center gap-3">
                       <div className="w-6 h-6 rounded bg-red-500/10 flex items-center justify-center border border-red-500/20">
                         <svg className="w-3 h-3 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                       </div>
@@ -128,7 +128,7 @@ export default function DocsTerminal() {
                   </div>
 
                   <div className="bg-[#0a0a0a] border border-zinc-800/80 rounded-2xl p-6 shadow-inner hover:border-green-500/30 transition-colors">
-                    <h3 className="text-white font-black mb-3 uppercase text-xs tracking-widest flex items-center gap-3">
+                    <h3 className="text-zinc-300 font-black mb-3 uppercase text-xs tracking-widest flex items-center gap-3">
                       <div className="w-6 h-6 rounded bg-green-500/10 flex items-center justify-center border border-green-500/20">
                         <svg className="w-3 h-3 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                       </div>
@@ -158,7 +158,7 @@ export default function DocsTerminal() {
                 <span className="bg-zinc-800 text-zinc-400 text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-lg border border-zinc-700 w-max">
                   SPEC-09
                 </span>
-                <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider">Asymptotic Economics</h2>
+                <h2 className="text-2xl md:text-3xl font-black text-zinc-300 uppercase tracking-wider">Asymptotic Economics</h2>
               </div>
               
               <div className="prose prose-invert prose-zinc max-w-none">
@@ -174,14 +174,14 @@ export default function DocsTerminal() {
                 <span className="bg-zinc-800 text-zinc-400 text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-lg border border-zinc-700 w-max">
                   ADR-009
                 </span>
-                <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider">RewardPool & APY</h2>
+                <h2 className="text-2xl md:text-3xl font-black text-zinc-300 uppercase tracking-wider">RewardPool & APY</h2>
               </div>
               
               <div className="prose prose-invert prose-zinc max-w-none">
                 <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base">
                   The JOINUS economic model separates inflationary rewards from real yield. The <strong>Base APY</strong> is funded exclusively by the Genesis Pool and the Transactional Tax, whereas external dividends come from the Ecosystem Products.
                   <br /><br />
-                  <Link href="/docs/apy" className="inline-block mt-2 text-red-500 hover:text-red-400 font-bold underline transition-colors">
+                  <Link href="/docs/apy" className="text-red-500 underline text-sm">
                     Understand how our Asymptotic APY works in real-time
                   </Link>
                 </p>
@@ -190,7 +190,7 @@ export default function DocsTerminal() {
                   <div className="flex items-start gap-4 p-5 bg-[#0a0a0a] rounded-2xl border border-zinc-800/80 shadow-inner hover:border-zinc-600 transition-colors">
                     <div className="text-2xl mt-1 opacity-80">🔥</div>
                     <div>
-                      <h4 className="text-white font-black text-sm uppercase tracking-widest mb-1">1% Burn (Perpetual Deflation)</h4>
+                      <h4 className="text-zinc-300 font-black text-sm uppercase tracking-widest mb-1">1% Burn (Perpetual Deflation)</h4>
                       <p className="text-xs text-zinc-500 font-medium leading-relaxed">Every on-chain transfer of $JNS burns exactly 1% of the total transaction amount, constantly and irreversibly reducing the circulating supply.</p>
                     </div>
                   </div>
@@ -198,7 +198,7 @@ export default function DocsTerminal() {
                   <div className="flex items-start gap-4 p-5 bg-[#0a0a0a] rounded-2xl border border-zinc-800/80 shadow-inner hover:border-zinc-600 transition-colors">
                     <div className="text-2xl mt-1 opacity-80">🏦</div>
                     <div>
-                      <h4 className="text-white font-black text-sm uppercase tracking-widest mb-1">2% RewardPool (Staking Fuel)</h4>
+                      <h4 className="text-zinc-300 font-black text-sm uppercase tracking-widest mb-1">2% RewardPool (Staking Fuel)</h4>
                       <p className="text-xs text-zinc-500 font-medium leading-relaxed">2% of every transfer is injected directly into the locked RewardPool contract. This contract mathematically distributes yield to $JNS stakers based on their locked timeframe.</p>
                     </div>
                   </div>
@@ -206,7 +206,7 @@ export default function DocsTerminal() {
                   <div className="flex items-start gap-4 p-5 bg-[#0a0a0a] rounded-2xl border border-zinc-800/80 shadow-inner hover:border-zinc-600 transition-colors">
                     <div className="text-2xl mt-1 opacity-80">🎰</div>
                     <div>
-                      <h4 className="text-white font-black text-sm uppercase tracking-widest mb-1">Ecosystem Cashflow (USDC)</h4>
+                      <h4 className="text-zinc-300 font-black text-sm uppercase tracking-widest mb-1">Ecosystem Cashflow (USDC)</h4>
                       <p className="text-xs text-zinc-500 font-medium leading-relaxed">External revenue generated from products like The Arena is routed directly to High-Conviction stakers (users locked for 365 days who have fulfilled their Civic Duty).</p>
                     </div>
                   </div>
@@ -220,7 +220,7 @@ export default function DocsTerminal() {
                 <span className="bg-zinc-800 text-zinc-400 text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-lg border border-zinc-700 w-max">
                   ADR-016
                 </span>
-                <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider">Paymaster Runway</h2>
+                <h2 className="text-2xl md:text-3xl font-black text-zinc-300 uppercase tracking-wider">Paymaster Runway</h2>
               </div>
               <div className="prose prose-invert prose-zinc max-w-none">
                 <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base">
@@ -235,7 +235,7 @@ export default function DocsTerminal() {
                 <span className="bg-zinc-800 text-zinc-400 text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-lg border border-zinc-700 w-max">
                   ADR-019
                 </span>
-                <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider">Lending Hub Base</h2>
+                <h2 className="text-2xl md:text-3xl font-black text-zinc-300 uppercase tracking-wider">Lending Hub Base</h2>
               </div>
               <div className="prose prose-invert prose-zinc max-w-none">
                 <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base">
@@ -250,7 +250,7 @@ export default function DocsTerminal() {
                 <span className="bg-zinc-800 text-zinc-400 text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-lg border border-zinc-700 w-max">
                   ADR-020
                 </span>
-                <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider">The Arena Spec</h2>
+                <h2 className="text-2xl md:text-3xl font-black text-zinc-300 uppercase tracking-wider">The Arena Spec</h2>
               </div>
               <div className="prose prose-invert prose-zinc max-w-none">
                 <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base">

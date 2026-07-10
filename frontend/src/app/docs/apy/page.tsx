@@ -42,10 +42,10 @@ export default function ApyAnalytics() {
       </div>
 
       <div className="mb-14 border-b border-zinc-800/80 pb-8 pt-6">
-        <Link href="/docs" className="text-zinc-500 hover:text-white uppercase tracking-[0.2em] text-[10px] font-black flex items-center gap-2 mb-6 w-max transition-colors">
+        <Link href="/docs" className="text-zinc-500 hover:text-zinc-300 uppercase tracking-[0.2em] text-[10px] font-black flex items-center gap-2 mb-6 w-max transition-colors">
           &larr; Back to Docs
         </Link>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase text-white flex flex-col md:flex-row md:items-center gap-4">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase text-zinc-300 flex flex-col md:flex-row md:items-center gap-4">
           <span className="w-3 h-10 bg-green-500 rounded-sm shadow-[0_0_15px_rgba(74,222,128,0.8)] hidden md:block"></span>
           THE MATHEMATICS OF REAL YIELD
         </h1>
@@ -61,7 +61,7 @@ export default function ApyAnalytics() {
           <div className="bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
             
-            <h2 className="text-sm font-black text-white uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
+            <h2 className="text-sm font-black text-zinc-300 uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
               <span className="w-2 h-2 bg-green-500 rounded-full shadow-[0_0_10px_rgba(74,222,128,1)] animate-pulse"></span>
               Core Equation
             </h2>
@@ -88,7 +88,7 @@ export default function ApyAnalytics() {
                   <span className="text-red-500 text-xs font-black">01</span>
                 </div>
                 <div>
-                  <h4 className="text-white font-bold mb-2">Self-Regulating Runway (Auto-Throttle)</h4>
+                  <h4 className="text-zinc-300 font-bold mb-2">Self-Regulating Runway (Auto-Throttle)</h4>
                   <p className="text-zinc-400 text-sm leading-relaxed">
                     The pool mathematically targets a 10.2-year lifespan (530 Weeks) (100% Health). It adjusts emissions dynamically per week. If the pool health drops below 100%, the absolute emissions are proportionally throttled down, forcing a mathematical replenish until the 10.2 years target is restored.
                   </p>
@@ -100,7 +100,7 @@ export default function ApyAnalytics() {
                   <span className="text-green-500 text-xs font-black">02</span>
                 </div>
                 <div>
-                  <h4 className="text-white font-bold mb-2">Casino Injections</h4>
+                  <h4 className="text-zinc-300 font-bold mb-2">Casino Injections</h4>
                   <p className="text-zinc-400 text-sm leading-relaxed">
                     When external products (The Arena) generate profit, they fill the pool. The formula detects the increase and naturally raises the APY, routing real yield directly to the stakers.
                   </p>
@@ -112,7 +112,7 @@ export default function ApyAnalytics() {
                   <span className="text-blue-500 text-xs font-black">03</span>
                 </div>
                 <div>
-                  <h4 className="text-white font-bold mb-2">Protection against Bank Runs</h4>
+                  <h4 className="text-zinc-300 font-bold mb-2">Protection against Bank Runs</h4>
                   <p className="text-zinc-400 text-sm leading-relaxed">
                     In bear markets, emissions slow down, preventing the treasury from ever going to zero. This creates a psychological floor and a mathematical guarantee of protocol survival.
                   </p>
@@ -124,7 +124,7 @@ export default function ApyAnalytics() {
                   <span className="text-yellow-500 text-xs font-black">04</span>
                 </div>
                 <div>
-                  <h4 className="text-white font-bold mb-2">Slice of the Pie Mechanics</h4>
+                  <h4 className="text-zinc-300 font-bold mb-2">Slice of the Pie Mechanics</h4>
                   <div className="bg-[#050505] p-4 rounded-xl border border-zinc-800/80 my-3">
                     <code className="text-yellow-400 font-mono text-xs md:text-sm">
                       Your Reward = (Your $JNSX / Total Global $JNSX) * Weekly Emission
@@ -146,7 +146,7 @@ export default function ApyAnalytics() {
                   <span className="text-purple-500 text-xs font-black">05</span>
                 </div>
                 <div>
-                  <h4 className="text-white font-bold mb-2">Dynamic Early Unstake Penalty</h4>
+                  <h4 className="text-zinc-300 font-bold mb-2">Dynamic Early Unstake Penalty</h4>
                   <div className="bg-[#050505] p-4 rounded-xl border border-zinc-800/80 my-3">
                     <code className="text-purple-400 font-mono text-xs md:text-sm">
                       Penalty % = (Days Left / Total Lock Days) * 25%
@@ -163,7 +163,7 @@ export default function ApyAnalytics() {
                   <span className="text-cyan-500 text-xs font-black">06</span>
                 </div>
                 <div>
-                  <h4 className="text-white font-bold mb-2">Compound Routing</h4>
+                  <h4 className="text-zinc-300 font-bold mb-2">Compound Routing</h4>
                   <p className="text-zinc-400 text-sm leading-relaxed">
                     Instead of arbitrary reinvestment, the DAO grants sovereignty via Compound Routing. When claiming yield, users route funds across 7 options: from <span className="text-cyan-400 font-bold">Flexible (1.0x)</span> to <span className="text-cyan-400 font-bold">3 Years (3.2x)</span>, unlocking massive yield acceleration on new dividends.
                   </p>
@@ -181,7 +181,7 @@ export default function ApyAnalytics() {
             <div className="space-y-8">
               <div>
                 <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">RewardPool Balance</p>
-                <p className="text-3xl font-mono font-bold text-white drop-shadow-md">
+                <p className="text-3xl font-mono font-bold text-zinc-300 drop-shadow-md">
                   {isLoading ? 'SYNCING...' : isError ? 'ERROR' : rewardPoolBalance.toLocaleString()} <span className="text-sm text-zinc-600">$JNS</span>
                 </p>
               </div>

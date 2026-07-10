@@ -105,7 +105,7 @@ export default function StakingTerminal() {
       {/* HEADER */}
       <div className="mb-14 border-b border-zinc-800/80 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <h1 className="text-4xl md:text-5xl font-black tracking-tighter uppercase text-white flex items-center gap-4">
+          <h1 className="text-4xl md:text-5xl font-black tracking-tighter uppercase text-zinc-300 flex items-center gap-4">
             <span className="w-3 h-10 bg-red-600 rounded-sm shadow-[0_0_15px_rgba(220,38,38,0.8)]"></span>
             STAKING TERMINAL
           </h1>
@@ -113,7 +113,7 @@ export default function StakingTerminal() {
         </div>
         <div className="bg-[#0a0a0a]/80 border border-zinc-800/80 backdrop-blur-xl rounded-2xl p-5 shadow-2xl flex items-center justify-between md:block gap-4">
           <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-[0.2em] mb-2">Available Balance</p>
-          <p className="text-2xl font-mono font-bold text-white drop-shadow-md">{jnsBalance.toLocaleString()} <span className="text-red-500 text-lg">$JNS</span></p>
+          <p className="text-2xl font-mono font-bold text-zinc-300 drop-shadow-md">{jnsBalance.toLocaleString()} <span className="text-red-500 text-lg">$JNS</span></p>
         </div>
       </div>
 
@@ -125,7 +125,7 @@ export default function StakingTerminal() {
           {/* Subtle hover effect on card */}
           <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none" />
           
-          <h2 className="text-sm font-black text-white uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
+          <h2 className="text-sm font-black text-zinc-300 uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
             <span className="w-2 h-2 bg-red-500 rounded-full shadow-[0_0_10px_rgba(239,68,68,1)] animate-pulse"></span>
             Deposit & Mint
           </h2>
@@ -143,7 +143,7 @@ export default function StakingTerminal() {
                       value={stakeAmount}
                       onChange={(e) => setStakeAmount(e.target.value)}
                       placeholder="0.0"
-                      className="w-full bg-[#050505] border border-zinc-800 text-white text-4xl font-mono font-bold p-6 rounded-2xl focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all placeholder:text-zinc-800 shadow-inner"
+                      className="w-full bg-[#050505] border border-zinc-800 text-zinc-300 text-4xl font-mono font-bold p-6 rounded-2xl focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all placeholder:text-zinc-800 shadow-inner"
                     />
                     <button 
                       onClick={() => setStakeAmount(jnsBalance.toString())}
@@ -157,7 +157,7 @@ export default function StakingTerminal() {
                 {/* Projection Box */}
                 <div className="bg-[#050505] border border-zinc-800 rounded-2xl p-6 mb-8 flex justify-between items-center shadow-inner">
                   <span className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.2em]">You will receive:</span>
-                  <span className="text-2xl font-mono font-bold text-white tracking-wider">{projectedJNSX} <span className="text-red-500 text-lg">$JNSX</span></span>
+                  <span className="text-2xl font-mono font-bold text-zinc-300 tracking-wider">{projectedJNSX} <span className="text-red-500 text-lg">$JNSX</span></span>
                 </div>
               </div>
 
@@ -165,11 +165,11 @@ export default function StakingTerminal() {
                 <div className="flex items-center justify-between p-4 bg-[#050505] rounded-2xl border border-zinc-800">
                   <div>
                     <div className="flex items-center gap-2 group/tooltip relative">
-                      <p className="text-sm font-black uppercase text-white tracking-[0.2em] flex items-center gap-2">
+                      <p className="text-sm font-black uppercase text-zinc-300 tracking-[0.2em] flex items-center gap-2">
                         Gasless Mode
-                        <span className="bg-red-500 text-[9px] px-2.5 py-1 rounded-full text-white">DAO Sponsored</span>
+                        <span className="bg-red-500 text-[9px] px-2.5 py-1 rounded-full text-zinc-300">DAO Sponsored</span>
                       </p>
-                      <span className="text-zinc-500 hover:text-white cursor-help">
+                      <span className="text-zinc-500 hover:text-zinc-300 cursor-help">
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                       </span>
                       <div className="absolute bottom-full left-0 mb-2 w-72 bg-zinc-900 border border-zinc-700 text-zinc-300 text-[9px] p-3 rounded-xl opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none z-20">
@@ -187,7 +187,7 @@ export default function StakingTerminal() {
                 <button 
                   onClick={handleDeposit}
                   disabled={isSponsoring || !stakeAmount || parseFloat(stakeAmount) <= 0 || parseFloat(stakeAmount) > jnsBalance || isWritePending}
-                  className="w-full py-5 bg-red-600 hover:bg-red-500 text-white font-black rounded-2xl uppercase tracking-[0.2em] text-sm transition-all shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-5 bg-red-600 hover:bg-red-500 text-zinc-300 font-black rounded-2xl uppercase tracking-[0.2em] text-sm transition-all shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSponsoring ? "Sponsoring Tx..." : parseFloat(stakeAmount) > jnsBalance ? "Insufficient Balance" : isWritePending ? "Processing..." : "Lock & Mint"}
                 </button>
@@ -239,16 +239,16 @@ export default function StakingTerminal() {
           className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 hover:border-red-500/40 transition-colors duration-500 flex flex-col group relative overflow-hidden h-full"
         >
           <div className="absolute inset-0 bg-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-          <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3 flex justify-between items-center z-10">
+          <h3 className="text-[10px] font-black text-zinc-300 uppercase tracking-[0.2em] mb-3 flex justify-between items-center z-10">
             RewardPool Yield 
-            <span className="text-white text-[9px] bg-zinc-800/50 px-2.5 py-1 rounded-full border border-zinc-700/50 tracking-[0.2em] font-black shadow-inner">ACTIVE</span>
+            <span className="text-zinc-300 text-[9px] bg-zinc-800/50 px-2.5 py-1 rounded-full border border-zinc-700/50 tracking-[0.2em] font-black shadow-inner">ACTIVE</span>
           </h3>
               <div className="mb-4"></div>
               
               <div className="grid grid-cols-2 gap-4 mb-6 relative z-10">
                 <div className="bg-[#050505] p-4 rounded-xl border border-zinc-800/80 shadow-inner">
                   <div className="text-[9px] font-black uppercase text-zinc-500 tracking-[0.2em] mb-1">Available to Withdraw:</div>
-                  <div className="text-3xl font-mono font-bold text-white drop-shadow-md">
+                  <div className="text-3xl font-mono font-bold text-zinc-300 drop-shadow-md">
                     {baseYieldPending.toFixed(2)} <span className="text-sm text-zinc-600">$JNS</span>
                   </div>
                 </div>
@@ -296,7 +296,7 @@ export default function StakingTerminal() {
                 <button 
                   onClick={() => sendGaslessTransaction("0xStaking" as `0x${string}`, "0xAutoCompound" as `0x${string}`)}
                   disabled={hasLockedPositions && daysUntilNextClaim > 0}
-                  className="w-full py-4 bg-red-600/90 hover:bg-red-500 text-white font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-all shadow-[0_0_20px_rgba(220,38,38,0.2)] hover:shadow-[0_0_30px_rgba(220,38,38,0.4)] transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+                  className="w-full py-4 bg-red-600/90 hover:bg-red-500 text-zinc-300 font-bold rounded-xl uppercase tracking-[0.2em] text-[10px] transition-all shadow-[0_0_20px_rgba(220,38,38,0.2)] hover:shadow-[0_0_30px_rgba(220,38,38,0.4)] transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
                 >
                   Compound
                 </button>
@@ -309,10 +309,10 @@ export default function StakingTerminal() {
           className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 hover:border-zinc-500/40 transition-colors duration-500 flex flex-col group relative overflow-hidden h-full"
         >
           <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-          <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em] mb-3 flex justify-between items-center z-10">
+          <h3 className="text-[10px] font-black text-zinc-300 uppercase tracking-[0.2em] mb-3 flex justify-between items-center z-10">
             Civic Dividends
             {isCivicDutyMet ? (
-              <span className="text-white text-[9px] bg-zinc-800/50 px-2.5 py-1 rounded-full border border-zinc-700/50 tracking-[0.2em] font-black shadow-inner">ELIGIBLE</span>
+              <span className="text-zinc-300 text-[9px] bg-zinc-800/50 px-2.5 py-1 rounded-full border border-zinc-700/50 tracking-[0.2em] font-black shadow-inner">ELIGIBLE</span>
             ) : (
               <span className="text-zinc-500 text-[9px] bg-zinc-900/50 px-2.5 py-1 rounded-full border border-zinc-800 tracking-[0.2em] font-black">INELIGIBLE</span>
             )}
@@ -321,11 +321,11 @@ export default function StakingTerminal() {
           
           <div className="bg-[#050505] p-5 rounded-2xl border border-zinc-800/80 mb-6 shadow-inner relative z-10 flex flex-col items-center text-center">
             <div className="text-[9px] font-black uppercase text-zinc-500 tracking-[0.2em] mb-2">Ready to Claim:</div>
-            <div className="text-3xl font-mono font-bold text-white drop-shadow-md mb-4">
+            <div className="text-3xl font-mono font-bold text-zinc-300 drop-shadow-md mb-4">
               {extraordinaryDividends.toFixed(2)} <span className="text-sm text-zinc-500">$USDC</span>
             </div>
             <p className="text-[10px] text-zinc-400 font-bold max-w-[90%] mx-auto leading-relaxed">
-              To be eligible you must have over 70% civic duty attendance. To check your real-time civic status, review the <Link href="/governance" className="text-zinc-400 underline hover:text-red-500 transition-colors">Governance</Link> terminal.
+              To be eligible you must have over 70% civic duty attendance. To check your real-time civic status, review <Link href="/governance" className="text-zinc-400 underline hover:text-zinc-300 transition-colors">Governance</Link>.
             </p>
           </div>
 
@@ -333,7 +333,7 @@ export default function StakingTerminal() {
 
           {!isCivicDutyMet && (
             <div className="text-[9px] uppercase tracking-widest text-zinc-400 bg-zinc-900/50 border border-zinc-800 p-4 rounded-xl mb-6 shadow-inner z-10 text-center">
-              <span className="font-black text-white">Warning:</span> You have missed more than 30% of votes this epoch. Dividends forfeited.
+              <span className="font-black text-zinc-300">Warning:</span> You have missed more than 30% of votes this epoch. Dividends forfeited.
             </div>
           )}
 
@@ -392,7 +392,7 @@ export default function StakingTerminal() {
                           <td className="py-4 text-right">
                             <button 
                               onClick={() => { setSelectedStake({ type: typeLabel, mult: `${mult}x`, amount, power: jnsxAmount, date, lockValue: isFlex ? 'flexible' : 'ladder' }); setIsModalOpen(true); }}
-                              className="text-[9px] bg-zinc-900 hover:bg-zinc-800 px-3 py-1.5 rounded uppercase tracking-wider text-zinc-400 hover:text-white transition-colors border border-zinc-800"
+                              className="text-[9px] bg-zinc-900 hover:bg-zinc-800 px-3 py-1.5 rounded uppercase tracking-wider text-zinc-400 hover:text-zinc-300 transition-colors border border-zinc-800"
                             >
                               Details
                             </button>
@@ -421,23 +421,23 @@ export default function StakingTerminal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             className="bg-zinc-950 border border-zinc-800 p-8 rounded-3xl w-full max-w-md relative shadow-2xl flex flex-col gap-6"
           >
-            <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors">
+            <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 text-zinc-500 hover:text-zinc-300 transition-colors">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
             
             <div>
-              <h3 className="text-white font-black uppercase tracking-[0.2em] mb-1">Stake Details</h3>
+              <h3 className="text-zinc-300 font-black uppercase tracking-[0.2em] mb-1">Stake Details</h3>
               <p className="text-zinc-500 text-[10px] uppercase tracking-widest">{selectedStake.type} Lock ({selectedStake.mult})</p>
             </div>
             
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-[#050505] p-4 rounded-xl border border-zinc-800/80 shadow-inner">
                 <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest mb-1">Amount</p>
-                <p className="text-white font-mono text-xl font-bold">{selectedStake.amount} <span className="text-[10px] text-zinc-600">$JNS</span></p>
+                <p className="text-zinc-300 font-mono text-xl font-bold">{selectedStake.amount} <span className="text-[10px] text-zinc-600">$JNS</span></p>
               </div>
               <div className="bg-[#050505] p-4 rounded-xl border border-zinc-800/80 shadow-inner">
                 <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest mb-1">Unlock Date</p>
-                <p className="text-white font-mono text-sm font-bold mt-1.5">{selectedStake.date}</p>
+                <p className="text-zinc-300 font-mono text-sm font-bold mt-1.5">{selectedStake.date}</p>
               </div>
             </div>
 
@@ -491,9 +491,9 @@ export default function StakingTerminal() {
                   <input 
                     type="number" 
                     placeholder="0.0" 
-                    className="w-full bg-zinc-900 border border-zinc-800 text-white font-mono text-lg rounded p-3 focus:outline-none focus:border-zinc-500 transition-colors placeholder:text-zinc-700"
+                    className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 font-mono text-lg rounded p-3 focus:outline-none focus:border-zinc-500 transition-colors placeholder:text-zinc-700"
                   />
-                  <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-zinc-800 hover:bg-zinc-700 text-white text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded transition-colors">
+                  <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded transition-colors">
                     MAX
                   </button>
                 </div>
