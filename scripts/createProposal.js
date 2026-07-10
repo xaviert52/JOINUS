@@ -5,9 +5,8 @@ require("dotenv").config({ path: path.join(__dirname, "..", "frontend", ".env") 
 
 async function main() {
   const governorAddress = process.env.NEXT_PUBLIC_JNS_GOVERNOR_ADDRESS;
-  
   const signers = await hre.ethers.getSigners();
-  const founderWallet = signers[4]; // The founder wallet (index 4)
+  const founderWallet = signers[4]; // The founder wallet
 
   console.log("Using Founder Wallet:", founderWallet.address);
 
@@ -16,22 +15,23 @@ async function main() {
   const jnsStaking = await hre.ethers.getContractAt("JNSStaking", process.env.NEXT_PUBLIC_JNS_STAKING_ADDRESS);
 
   console.log("Staking JNS to get voting power...");
-  const stakeAmount = hre.ethers.utils.parseEther("15000");
+  const stakeAmount = hre.ethers.utils.parseEther("15000"); // >= 10,000 threshold
   await jnsToken.connect(founderWallet).approve(jnsStaking.address, stakeAmount);
-  await jnsStaking.connect(founderWallet).deposit(stakeAmount, 4); // 365 days
+  await jnsStaking.connect(founderWallet).deposit(stakeAmount, 4); // 365 days lock
+  
   try {
     await jnsStaking.connect(founderWallet).delegate(founderWallet.address);
     console.log("Delegated voting power to self.");
   } catch(e) {
-    console.log("Could not delegate (maybe not ERC20Votes?):", e.message);
+    console.log("Could not delegate:", e.message);
   }
   
-  console.log("Creating proposal 'PIP-001: Camelot Liquidity Bootstrapping'...");
+  console.log("Creating proposal 'PIP-001: Camelot LP Funding'...");
   
   const target = founderWallet.address;
   const value = 0;
   const calldata = "0x";
-  const description = "PIP-001: Camelot Liquidity Bootstrapping";
+  const description = "PIP-001: Camelot LP Funding";
 
   const proposeTx = await JNSGovernorzk.connect(founderWallet).propose(
     [target],
@@ -46,7 +46,6 @@ async function main() {
   
   console.log("Proposal Created! ID:", proposalId.toString());
 
-  // Save proposal ID to a JSON file so frontend can read it
   const configPath = path.join(__dirname, "..", "frontend", "src", "config", "latestProposal.json");
   fs.writeFileSync(configPath, JSON.stringify({ proposalId: proposalId.toString() }));
   console.log(`Saved proposal ID to ${configPath}`);
@@ -57,37 +56,12 @@ async function main() {
     const blocksToMine = votingDelay.add(1);
     console.log(`Mining ${blocksToMine.toString()} blocks...`);
     await hre.network.provider.send("hardhat_mine", [hre.ethers.utils.hexValue(blocksToMine)]);
-    
-    // DEBUG
-    const snapshot = await JNSGovernorzk.proposalSnapshot(proposalId);
-    const clock = await JNSGovernorzk.clock();
-    console.log("Snapshot:", snapshot.toString(), "Clock:", clock.toString());
-    if (clock.lte(snapshot)) {
-      console.log("Clock is still less than or equal to snapshot! Let's jump time.");
-      await hre.network.provider.send("evm_increaseTime", [86400]);
-      await hre.network.provider.send("evm_mine");
-      console.log("New Clock:", (await JNSGovernorzk.clock()).toString());
-    }
   } catch(e) {
     console.log("Error passing delay:", e.message);
   }
 
-  console.log("Voting in favor...");
-  await JNSGovernorzk.connect(founderWallet).castVote(proposalId, 1);
-  console.log("Voted in favor.");
-
-  try {
-    const votingPeriod = await JNSGovernorzk.votingPeriod();
-    console.log("Voting Period:", votingPeriod.toString());
-    const blocksToMine2 = votingPeriod.add(1);
-    console.log(`Mining ${blocksToMine2.toString()} blocks...`);
-    await hre.network.provider.send("hardhat_mine", [hre.ethers.utils.hexValue(blocksToMine2)]);
-  } catch(e) {
-    console.log("Error passing period:", e.message);
-  }
-  
   const state = await JNSGovernorzk.state(proposalId);
-  console.log("Time advanced. Current Proposal State:", state.toString());
+  console.log("Current Proposal State (Should be 1 for Active):", state.toString());
 }
 
 main().catch(console.error);

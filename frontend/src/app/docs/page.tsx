@@ -65,13 +65,13 @@ export default function DocsTerminal() {
                 <a href="#apy" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'apy' ? 'text-white border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-white'}`}>
                   ADR-009: APY & RewardPool
                 </a>
-                <a href="#adr-016" className="block text-xs font-medium text-zinc-500 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
+                <a href="#adr-016" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'adr-016' ? 'text-white border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-white'}`}>
                   ADR-016: Paymaster Runway
                 </a>
-                <a href="#adr-019" className="block text-xs font-medium text-zinc-500 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
+                <a href="#adr-019" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'adr-019' ? 'text-white border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-white'}`}>
                   ADR-019: Lending Hub Base
                 </a>
-                <a href="#adr-020" className="block text-xs font-medium text-zinc-500 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1">
+                <a href="#adr-020" className={`block text-xs font-medium transition-colors border-l-2 pl-3 py-1 ${activeSection === 'adr-020' ? 'text-white border-red-500 bg-red-500/5' : 'text-zinc-500 border-transparent hover:border-zinc-700 hover:text-white'}`}>
                   ADR-020: The Arena Spec
                 </a>
                 <Link href="/docs/whitepaper" className="block text-xs font-medium text-zinc-500 hover:text-white transition-colors border-l-2 border-transparent hover:border-zinc-700 pl-3 py-1 mt-4">
@@ -214,7 +214,53 @@ export default function DocsTerminal() {
               </div>
             </section>
 
+            {/* ADR-016 */}
+            <section id="adr-016" className="scroll-mt-32 bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
+              <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
+                <span className="bg-zinc-800 text-zinc-400 text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-lg border border-zinc-700 w-max">
+                  ADR-016
+                </span>
+                <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider">Paymaster Runway</h2>
+              </div>
+              <div className="prose prose-invert prose-zinc max-w-none">
+                <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base">
+                  The protocol subsidizes user transaction fees (gas) through an Account Abstraction Paymaster (ERC-4337). This Runway is funded automatically from protocol revenue, ensuring that active governance participants and stakers experience zero friction.
+                </p>
+              </div>
+            </section>
+
+            {/* ADR-019 */}
+            <section id="adr-019" className="scroll-mt-32 bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
+              <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
+                <span className="bg-zinc-800 text-zinc-400 text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-lg border border-zinc-700 w-max">
+                  ADR-019
+                </span>
+                <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider">Lending Hub Base</h2>
+              </div>
+              <div className="prose prose-invert prose-zinc max-w-none">
+                <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base">
+                  In Phase 6, the ecosystem will deploy its own Lending Hub. Users will use their non-transferable $JNSX as internal collateral to take out liquid loans in USDC, resolving the opportunity cost paradox of long-term illiquidity.
+                </p>
+              </div>
+            </section>
+
+            {/* ADR-020 */}
+            <section id="adr-020" className="scroll-mt-32 bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
+              <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
+                <span className="bg-zinc-800 text-zinc-400 text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-lg border border-zinc-700 w-max">
+                  ADR-020
+                </span>
+                <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider">The Arena Spec</h2>
+              </div>
+              <div className="prose prose-invert prose-zinc max-w-none">
+                <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base">
+                  A gamified environment designed to generate continuous real yield (USDC) for the protocol via interactive modules like Options, Mines, and Plinko. This is the primary driver of Extraordinary Dividends.
+                </p>
+              </div>
+            </section>
+
           </div>
+
         </main>
 
       </div>

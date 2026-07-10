@@ -71,7 +71,10 @@ export default function StakingTerminal() {
         args: [JNS_STAKING_ADDRESS as `0x${string}`, amountInWei],
       });
       
-      await waitForTransactionReceipt(config, { hash: approveTx });
+      const approveReceipt = await waitForTransactionReceipt(config, { hash: approveTx, confirmations: 1 });
+      if (approveReceipt.status !== 'success') {
+        throw new Error('Approve transaction reverted');
+      }
 
       // 3. Solo entonces disparar Deposit
       const depositTx = await writeContractAsync({

@@ -58,9 +58,9 @@ export default function Home() {
         {/* Glow de ambientación profunda */}
         <div className="absolute top-1/2 left-1/2 w-[80vw] md:w-[600px] h-[400px] bg-red-600/15 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none animate-pulse" />
 
-        <h1 className="title-brutalist text-6xl md:text-8xl tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-200 to-zinc-600 drop-shadow-2xl">
-          THE FINANCIAL <br/>
-          <span className="title-brutalist bg-clip-text bg-gradient-to-r from-red-500 to-red-900 drop-shadow-[0_0_20px_rgba(220,38,38,0.5)]">REVOLUTION</span>
+        <h1 className="font-extrabold text-zinc-100 tracking-tighter text-6xl md:text-8xl drop-shadow-2xl">
+          WE ENCODE <br/>
+          <span className="font-extrabold text-zinc-100 tracking-tighter text-red-500">LONG-TERM THINKING.</span>
         </h1>
         <p className="text-zinc-400 text-lg md:text-xl max-w-2xl font-medium tracking-wide leading-relaxed">
           Liquid Staking & DeFi Venture Hub. <span className="text-red-400">Institutional grade Zero-Knowledge Governance</span> on Arbitrum.
