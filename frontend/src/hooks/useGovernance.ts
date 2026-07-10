@@ -25,7 +25,7 @@ export function useGovernance() {
     address: process.env.NEXT_PUBLIC_JNS_GOVERNOR_ADDRESS as `0x${string}`,
     abi: GOVERNOR_ABI,
     functionName: 'state',
-    args: [BigInt(latestProposal.proposalId)],
+    args: latestProposal?.proposalId ? [BigInt(String(latestProposal.proposalId))] : undefined,
   });
 
   const stateMap: Record<number, string> = {

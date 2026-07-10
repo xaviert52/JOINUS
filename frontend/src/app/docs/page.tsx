@@ -36,7 +36,7 @@ export default function DocsTerminal() {
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-12 mt-10">
+      <div className="flex flex-col lg:flex-row items-start gap-12 mt-10">
         
         {/* SIDEBAR NAVIGATION */}
         <aside className="lg:w-1/4 flex flex-col gap-6">
@@ -165,6 +165,12 @@ export default function DocsTerminal() {
                 <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base">
                   The tokenomics model follows an asymptotic decay curve for emission schedules, guaranteeing mathematical scarcity over time. Rewards distribute heavily in early epochs to bootstrap liquidity, then stabilize to reward long-term conviction via real-yield routing from the DeFi Venture Hub.
                 </p>
+                <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base mt-4">
+                  <strong>The Rolling Runway Model (V2):</strong> La emisión de recompensas ya no es una división anual estática. El APY Base es dinámico y auto-regulado basado en tendencias de pago. El protocolo ajusta el APY para garantizar que el RewardPool mantenga un 'Runway' (Colchón de Vida) proyectado mínimo de 5 Años.
+                </p>
+                <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base mt-4">
+                  Si el Runway supera los 5 años, el APY se mantiene o sube. Si el Runway baja de 5 años por sobre-demanda de stakers, el APY base decrece algorítmicamente. Las recompras de los productos (Casino/Aggregator) inyectan JNS al pool, expandiendo el Runway y empujando el APY al alza.
+                </p>
               </div>
             </section>
 
@@ -226,6 +232,12 @@ export default function DocsTerminal() {
                 <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base">
                   The protocol subsidizes user transaction fees (gas) through an Account Abstraction Paymaster (ERC-4337). This Runway is funded automatically from protocol revenue, ensuring that active governance participants and stakers experience zero friction.
                 </p>
+                <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base mt-4">
+                  El ROI justificado para la DAO es la eliminación total de la fricción (especialmente para usuarios no nativos o con bajo balance de ETH) en las acciones constructivas para el TVL, mientras el usuario asume los costos de salida o retiro.
+                </p>
+                <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base mt-4">
+                  El pool del Paymaster se fundará exclusivamente con un porcentaje de las utilidades de moneda dura (ETH/USDC) generadas por el Casino (The Arena) y el Yield Aggregator. El sistema se auto-sustenta sin emitir ni vender tokens nativos.
+                </p>
               </div>
             </section>
 
@@ -241,6 +253,12 @@ export default function DocsTerminal() {
                 <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base">
                   In Phase 6, the ecosystem will deploy its own Lending Hub. Users will use their non-transferable $JNSX as internal collateral to take out liquid loans in USDC, resolving the opportunity cost paradox of long-term illiquidity.
                 </p>
+                <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base mt-4">
+                  El token $JNSX (recibo del Staking) se establece oficialmente como intransferible para proteger el Skin in the Game cívico de los stakers. La cualidad "Líquida" del protocolo (Liquid Staking) no proviene de intercambiar $JNSX en un DEX, sino del Compound Routing hacia posiciones flexibles.
+                </p>
+                <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base mt-4">
+                  Esto resuelve el paradigma del Liquid Staking (liberando valor líquido para el usuario) sin comprometer la seguridad de la gobernanza, previniendo que actores externos acumulen poder de voto sin bloquear JNS.
+                </p>
               </div>
             </section>
 
@@ -255,6 +273,12 @@ export default function DocsTerminal() {
               <div className="prose prose-invert prose-zinc max-w-none">
                 <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base">
                   A gamified environment designed to generate continuous real yield (USDC) for the protocol via interactive modules like Options, Mines, and Plinko. This is the primary driver of Extraordinary Dividends.
+                </p>
+                <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base mt-4">
+                  The Arena acts as a massive sink for protocol revenue generation, creating a closed-loop economy where the house edge is directly fed back to High-Conviction stakers who fulfill their Civic Duty.
+                </p>
+                <p className="text-zinc-400 leading-relaxed font-medium text-sm md:text-base mt-4">
+                  This modular architecture ensures that as The Arena grows in volume, the Base APY of the RewardPool and the Civic Dividends scale as well, establishing a sustainable, asymptotic real yield.
                 </p>
               </div>
             </section>

@@ -375,10 +375,14 @@ export default function StakingTerminal() {
                   ) : (
                     stakes.map((stake: any, idx: number) => {
                       const amount = Number(formatEther(stake.amount)).toLocaleString();
-                      const jnsxAmount = Number(formatEther(stake.jnsxAmount)).toLocaleString();
-                      const mult = (Number(stake.multiplier) / 100).toFixed(1);
-                      const isFlex = Number(stake.durationInDays) === 0;
-                      const typeLabel = isFlex ? 'Flexible' : `${Number(stake.durationInDays)} Days`;
+                      const jnsxAmountNum = Number(formatEther(stake.jnsxMinted));
+                      const amountNum = Number(formatEther(stake.amount));
+                      const jnsxAmount = jnsxAmountNum.toLocaleString();
+                      const mult = amountNum > 0 ? (jnsxAmountNum / amountNum).toFixed(1) : "1.0";
+                      const lockTypeToDays = [0, 30, 90, 180, 365, 730, 1095];
+                      const duration = lockTypeToDays[Number(stake.lockType)] || 0;
+                      const isFlex = duration === 0;
+                      const typeLabel = isFlex ? 'Flexible' : `${duration} Days`;
                       const date = isFlex ? 'N/A' : new Date(Number(stake.unlockTime) * 1000).toISOString().split('T')[0];
                       return (
                         <tr key={idx} className="border-b border-zinc-800/50 hover:bg-zinc-900/30 transition-colors">

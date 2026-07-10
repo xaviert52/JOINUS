@@ -148,9 +148,9 @@
 - **Motivo**: Canalizar el flujo de caja circular de The Arena priorizando el beneficio comunitario al elevar estratégicamente el RewardPool al 15% e incentivando el compromiso a largo plazo.
 - **Estado**: Aceptado.
 
-### ADR-010: Sostenibilidad Matemática y Health Factor
-- **Decisión**: El concepto central del APY no es un "Porcentaje Fijo", sino una **"Porción del Pastel" (Slice of the Pie)**. La recompensa del usuario se calcula como: `(Tus $JNSX / Total Global $JNSX) * Emisión Semanal`. El tiempo de vida del RewardPool depende estrictamente de esta Tasa de Emisión Asintótica. Se establece la fórmula matemática inmutable para mantener el Health Factor en 10.2 Años de forma auto-regulada: `Weekly Emission = Current RewardPool Balance / Target Health Weeks`. Actualmente `Target Health Weeks` = 530, pero es un parámetro gobernable y modificable vía votación del DAO.
-- **Motivo**: Garantiza una transparencia total sobre la pista de aterrizaje (runway). Si el pool cae, la emisión absoluta disminuye asintóticamente (auto-throttle) forzando el replenish matemático hasta volver al target de 530 semanas (10.2 años).
+### ADR-010: Rolling Runway Model (V2)
+- **Decisión**: La emisión de recompensas ya no es una división anual estática. El APY Base es dinámico y auto-regulado basado en tendencias de pago. El protocolo ajusta el APY para garantizar que el RewardPool mantenga un 'Runway' (Colchón de Vida) proyectado mínimo de 5 Años. Si el Runway supera los 5 años, el APY se mantiene o sube. Si el Runway baja de 5 años por sobre-demanda de stakers, el APY base decrece algorítmicamente. Las recompras de los productos (Casino/Aggregator) inyectan JNS al pool, expandiendo el Runway y empujando el APY al alza.
+- **Motivo**: Garantiza una transparencia total sobre la pista de aterrizaje (runway). Si el pool cae, la emisión absoluta disminuye asintóticamente (auto-throttle) forzando el replenish matemático.
 - **Estado**: Aceptado.
 
 ### ADR-011: Weekly Epochs, Claiming Frequency & Governance Filters

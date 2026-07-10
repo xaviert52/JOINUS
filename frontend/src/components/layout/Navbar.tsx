@@ -25,7 +25,7 @@ export function Navbar() {
             </svg>
           </button>
           <Link href="/" className="flex items-center gap-3 group">
-            <Image src="/logo2.png" alt="JOINUS Logo" width={32} height={32} className="object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
+            <Image src="/logo2.png" alt="JOINUS Logo" width={180} height={40} className="object-contain" priority />
           </Link>
         </div>
         

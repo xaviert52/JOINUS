@@ -46,7 +46,7 @@ export function useStaking() {
   
   if (stakes.length > 0) {
     lockedJNS = stakes.reduce((acc: number, stake: any) => acc + Number(formatEther(stake.amount)), 0);
-    has365DayLock = stakes.some((s: any) => Number(s.durationInDays) >= 365);
+    has365DayLock = stakes.some((s: any) => Number(s.lockType) >= 4);
     const maxUnlock = Math.max(...stakes.map((s: any) => Number(s.unlockTime)));
     latestUnlockDate = new Date(maxUnlock * 1000);
   }
