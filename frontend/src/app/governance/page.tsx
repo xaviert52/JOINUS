@@ -46,7 +46,13 @@ export default function GovernanceTerminal() {
 
       {/* PROPOSALS GRID */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        {activeProposals.map((proposal) => (
+        {activeProposals.length === 0 ? (
+          <div className="col-span-1 xl:col-span-2 bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-12 text-center shadow-2xl">
+            <h3 className="text-xl font-black text-zinc-500 uppercase tracking-widest">No active proposals</h3>
+            <p className="text-zinc-600 mt-2 text-sm">There are currently no active governance proposals to vote on.</p>
+          </div>
+        ) : (
+          activeProposals.map((proposal) => (
           <div key={proposal.id} className="bg-[#0a0a0a]/70 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-8 flex flex-col relative overflow-hidden group hover:border-zinc-700/80 transition-all duration-500 shadow-2xl">
             
             {/* Header Propuesta */}
@@ -122,7 +128,8 @@ export default function GovernanceTerminal() {
             </div>
 
           </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

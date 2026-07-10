@@ -58,10 +58,7 @@ export default function Home() {
         {/* Glow de ambientación profunda */}
         <div className="absolute top-1/2 left-1/2 w-[80vw] md:w-[600px] h-[400px] bg-red-600/15 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none animate-pulse" />
 
-        <h1 className="font-extrabold text-zinc-400 tracking-tighter text-6xl md:text-8xl drop-shadow-2xl">
-          WE ENCODE <br/>
-          <span className="font-black text-red-500 tracking-tighter">LONG-TERM</span> THINKING.
-        </h1>
+        <h1 className="text-zinc-300 font-extrabold text-6xl md:text-8xl tracking-tighter">WE ENCODE <br/> <span className="font-black text-red-500">LONG-TERM</span> <br/> THINKING.</h1>
         <p className="text-zinc-400 text-lg md:text-xl max-w-2xl font-medium tracking-wide leading-relaxed">
           Liquid Staking & DeFi Venture Hub. <span className="text-red-400">Institutional grade Zero-Knowledge Governance</span> on Arbitrum.
         </p>

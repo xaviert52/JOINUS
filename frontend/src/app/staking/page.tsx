@@ -24,6 +24,7 @@ export default function StakingTerminal() {
   const {
     jnsBalance,
     jnsxBalance,
+    allowance,
     baseYieldPending,
     extraordinaryDividends,
     isCivicDutyMet,
@@ -35,7 +36,8 @@ export default function StakingTerminal() {
     stakes,
     config,
     writeContractAsync,
-    isWritePending
+    isWritePending,
+    refetchAll
   } = useStaking();
 
   const [stakeAmount, setStakeAmount] = useState('');
@@ -48,8 +50,10 @@ export default function StakingTerminal() {
 
   const projectedJNSX = stakeAmount ? (parseFloat(stakeAmount) * selectedLock.multiplier).toFixed(2) : '0.00';
 
+  const isApproved = stakeAmount && parseFloat(stakeAmount) > 0 && allowance >= parseFloat(stakeAmount);
+
   // Flow asyncronous para Lock & Mint
-  const handleDeposit = async () => {
+  const handleAction = async () => {
     if (!stakeAmount || parseFloat(stakeAmount) <= 0) return;
     
     const lockTypeIndex = LOCK_OPTIONS.findIndex(l => l.label === selectedLock.label);
@@ -60,33 +64,36 @@ export default function StakingTerminal() {
     }
 
     try {
-      // 1. Convertir a Wei
       const amountInWei = parseEther(stakeAmount);
       
-      // 2. Disparar Approve y ESPERAR
-      const approveTx = await writeContractAsync({
-        address: JNS_TOKEN_ADDRESS as `0x${string}`,
-        abi: JNS_TOKEN_ABI,
-        functionName: 'approve',
-        args: [JNS_STAKING_ADDRESS as `0x${string}`, amountInWei],
-      });
-      
-      const approveReceipt = await waitForTransactionReceipt(config, { hash: approveTx, confirmations: 1 });
-      if (approveReceipt.status !== 'success') {
-        throw new Error('Approve transaction reverted');
+      if (!isApproved) {
+        // 1. Disparar Approve y ESPERAR
+        const approveTx = await writeContractAsync({
+          address: JNS_TOKEN_ADDRESS as `0x${string}`,
+          abi: JNS_TOKEN_ABI,
+          functionName: 'approve',
+          args: [JNS_STAKING_ADDRESS as `0x${string}`, amountInWei],
+        });
+        
+        const approveReceipt = await waitForTransactionReceipt(config, { hash: approveTx, confirmations: 1 });
+        if (approveReceipt.status !== 'success') {
+          throw new Error('Approve transaction reverted');
+        }
+        refetchAll();
+      } else {
+        // 2. Solo entonces disparar Deposit
+        const depositTx = await writeContractAsync({
+          address: JNS_STAKING_ADDRESS as `0x${string}`,
+          abi: JNS_STAKING_ABI,
+          functionName: 'deposit',
+          args: [amountInWei, lockTypeIndex],
+        });
+
+        await waitForTransactionReceipt(config, { hash: depositTx });
+        
+        setStakeAmount('');
+        refetchAll();
       }
-
-      // 3. Solo entonces disparar Deposit
-      const depositTx = await writeContractAsync({
-        address: JNS_STAKING_ADDRESS as `0x${string}`,
-        abi: JNS_STAKING_ABI,
-        functionName: 'deposit',
-        args: [amountInWei, lockTypeIndex],
-      });
-
-      await waitForTransactionReceipt(config, { hash: depositTx });
-      
-      setStakeAmount('');
     } catch (e) {
       console.error('Staking Error:', e);
     }
@@ -185,11 +192,11 @@ export default function StakingTerminal() {
                 </div>
 
                 <button 
-                  onClick={handleDeposit}
+                  onClick={handleAction}
                   disabled={isSponsoring || !stakeAmount || parseFloat(stakeAmount) <= 0 || parseFloat(stakeAmount) > jnsBalance || isWritePending}
                   className="w-full py-5 bg-red-600 hover:bg-red-500 text-zinc-300 font-black rounded-2xl uppercase tracking-[0.2em] text-sm transition-all shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSponsoring ? "Sponsoring Tx..." : parseFloat(stakeAmount) > jnsBalance ? "Insufficient Balance" : isWritePending ? "Processing..." : "Lock & Mint"}
+                  {isSponsoring ? "Sponsoring Tx..." : parseFloat(stakeAmount) > jnsBalance ? "Insufficient Balance" : isWritePending ? "Processing..." : (!isApproved ? "1. APPROVE $JNS" : "2. LOCK & MINT")}
                 </button>
               </div>
             </div>

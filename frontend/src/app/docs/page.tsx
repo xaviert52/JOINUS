@@ -99,7 +99,7 @@ export default function DocsTerminal() {
           <div className="space-y-12">
             
             {/* GOVERNANCE BALANCE SPECS */}
-            <section id="governance-balance" className="scroll-mt-24 bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
+            <section id="governance-balance" className="scroll-mt-24 min-h-[50vh] bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
               
               <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
@@ -140,7 +140,7 @@ export default function DocsTerminal() {
                   </div>
                 </div>
 
-                <div id="zk-proofs" className="scroll-mt-32 bg-red-950/10 border-l-4 border-red-600 p-8 rounded-r-2xl relative overflow-hidden mt-6">
+                <div id="zk-proofs" className="scroll-mt-32 min-h-[50vh] bg-red-950/10 border-l-4 border-red-600 p-8 rounded-r-2xl relative overflow-hidden mt-6">
                   <div className="absolute top-0 right-0 p-4 opacity-10">
                     <svg className="w-24 h-24 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                   </div>
@@ -153,7 +153,7 @@ export default function DocsTerminal() {
             </section>
 
             {/* ASYMPTOTIC ECONOMICS */}
-            <section id="asymptotic" className="scroll-mt-32 bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
+            <section id="asymptotic" className="scroll-mt-32 min-h-[50vh] bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
               <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
                 <span className="bg-zinc-800 text-zinc-400 text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-lg border border-zinc-700 w-max">
                   SPEC-09
@@ -175,7 +175,7 @@ export default function DocsTerminal() {
             </section>
 
             {/* THE APY ARCHITECTURE */}
-            <section id="apy" className="scroll-mt-32 bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
+            <section id="apy" className="scroll-mt-32 min-h-[50vh] bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
               <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
                 <span className="bg-zinc-800 text-zinc-400 text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-lg border border-zinc-700 w-max">
                   ADR-009
@@ -221,7 +221,7 @@ export default function DocsTerminal() {
             </section>
 
             {/* ADR-016 */}
-            <section id="adr-016" className="scroll-mt-32 bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
+            <section id="adr-016" className="scroll-mt-32 min-h-[50vh] bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
               <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
                 <span className="bg-zinc-800 text-zinc-400 text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-lg border border-zinc-700 w-max">
                   ADR-016
@@ -242,7 +242,7 @@ export default function DocsTerminal() {
             </section>
 
             {/* ADR-019 */}
-            <section id="adr-019" className="scroll-mt-32 bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
+            <section id="adr-019" className="scroll-mt-32 min-h-[50vh] bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
               <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
                 <span className="bg-zinc-800 text-zinc-400 text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-lg border border-zinc-700 w-max">
                   ADR-019
@@ -263,7 +263,7 @@ export default function DocsTerminal() {
             </section>
 
             {/* ADR-020 */}
-            <section id="adr-020" className="scroll-mt-32 bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
+            <section id="adr-020" className="scroll-mt-32 min-h-[50vh] bg-[#050505] border border-zinc-800/80 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
               <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
                 <span className="bg-zinc-800 text-zinc-400 text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-lg border border-zinc-700 w-max">
                   ADR-020

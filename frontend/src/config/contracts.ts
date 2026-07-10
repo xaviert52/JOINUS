@@ -6,7 +6,8 @@ export const JNS_STAKING_ADDRESS = (process.env.NEXT_PUBLIC_JNS_STAKING_ADDRESS 
 export const JNS_TOKEN_ABI = parseAbi([
   'function balanceOf(address account) external view returns (uint256)',
   'function totalSupply() external view returns (uint256)',
-  'function approve(address spender, uint256 amount) external returns (bool)'
+  'function approve(address spender, uint256 amount) external returns (bool)',
+  'function allowance(address owner, address spender) external view returns (uint256)'
 ]);
 
 export const JNS_STAKING_ABI = parseAbi([

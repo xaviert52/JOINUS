@@ -14,6 +14,13 @@ export function useStaking() {
     args: address ? [address] : undefined,
   });
 
+  const { data: allowanceRaw, refetch: refetchAllowance } = useReadContract({
+    address: JNS_TOKEN_ADDRESS,
+    abi: JNS_TOKEN_ABI,
+    functionName: 'allowance',
+    args: address ? [address, JNS_STAKING_ADDRESS] : undefined,
+  });
+
   // Assuming JNSStaking also acts as an ERC20 or has balanceOf for JNSX
   const { data: jnsxBalanceRaw, refetch: refetchJnsx } = useReadContract({
     address: JNS_STAKING_ADDRESS,
@@ -31,8 +38,22 @@ export function useStaking() {
 
   const jnsBalance = jnsBalanceRaw ? Number(formatEther(jnsBalanceRaw as bigint)) : 0;
   const jnsxBalance = jnsxBalanceRaw ? Number(formatEther(jnsxBalanceRaw as bigint)) : 0;
+  const allowance = allowanceRaw ? Number(formatEther(allowanceRaw as bigint)) : 0;
 
-  const stakes = (stakesRaw as any[]) || [];
+  const rawStakes = (stakesRaw as any[]) || [];
+  const stakes = rawStakes.map(stake => {
+    // Handling wagmi tuple array or struct object
+    if (Array.isArray(stake)) {
+      return {
+        amount: stake[0],
+        jnsxMinted: stake[1],
+        unlockTime: stake[2],
+        lockType: stake[3]
+      };
+    }
+    return stake;
+  });
+
   const hasLockedPositions = stakes.length > 0;
   
   // Values pending real contract integration
@@ -58,11 +79,13 @@ export function useStaking() {
     refetchJns();
     refetchJnsx();
     refetchStakes();
+    refetchAllowance();
   };
 
   return {
     jnsBalance,
     jnsxBalance,
+    allowance,
     baseYieldPending,
     extraordinaryDividends,
     isCivicDutyMet,
