@@ -50,10 +50,8 @@ export default function StakingTerminal() {
 
   const projectedJNSX = stakeAmount ? (parseFloat(stakeAmount) * selectedLock.multiplier).toFixed(2) : '0.00';
 
-  const isApproved = stakeAmount && parseFloat(stakeAmount) > 0 && allowance >= parseFloat(stakeAmount);
-
   // Flow asyncronous para Lock & Mint
-  const handleAction = async () => {
+  const handleDeposit = async () => {
     if (!stakeAmount || parseFloat(stakeAmount) <= 0) return;
     
     const lockTypeIndex = LOCK_OPTIONS.findIndex(l => l.label === selectedLock.label);
@@ -64,36 +62,31 @@ export default function StakingTerminal() {
     }
 
     try {
-      const amountInWei = parseEther(stakeAmount);
+      const amountInWei = parseEther(stakeAmount.toString());
       
-      if (!isApproved) {
-        // 1. Disparar Approve y ESPERAR
-        const approveTx = await writeContractAsync({
-          address: JNS_TOKEN_ADDRESS as `0x${string}`,
-          abi: JNS_TOKEN_ABI,
-          functionName: 'approve',
-          args: [JNS_STAKING_ADDRESS as `0x${string}`, amountInWei],
-        });
-        
-        const approveReceipt = await waitForTransactionReceipt(config, { hash: approveTx, confirmations: 1 });
-        if (approveReceipt.status !== 'success') {
-          throw new Error('Approve transaction reverted');
-        }
-        refetchAll();
-      } else {
-        // 2. Solo entonces disparar Deposit
-        const depositTx = await writeContractAsync({
-          address: JNS_STAKING_ADDRESS as `0x${string}`,
-          abi: JNS_STAKING_ABI,
-          functionName: 'deposit',
-          args: [amountInWei, lockTypeIndex],
-        });
+      // Paso 1: Ejecutar Approve
+      const approveTx = await writeContractAsync({
+        address: JNS_TOKEN_ADDRESS as `0x${string}`,
+        abi: JNS_TOKEN_ABI,
+        functionName: 'approve',
+        args: [JNS_STAKING_ADDRESS as `0x${string}`, amountInWei],
+      });
+      
+      // Paso 2: ESPERAR OBLIGATORIAMENTE EL MINADO DEL BLOQUE
+      await waitForTransactionReceipt(config, { hash: approveTx });
 
-        await waitForTransactionReceipt(config, { hash: depositTx });
-        
-        setStakeAmount('');
-        refetchAll();
-      }
+      // Paso 3: Detonar el depósito con el enum LockTypeIndex correcto
+      const depositTx = await writeContractAsync({
+        address: JNS_STAKING_ADDRESS as `0x${string}`,
+        abi: JNS_STAKING_ABI,
+        functionName: 'deposit',
+        args: [amountInWei, lockTypeIndex],
+      });
+
+      await waitForTransactionReceipt(config, { hash: depositTx });
+      
+      setStakeAmount('');
+      refetchAll();
     } catch (e) {
       console.error('Staking Error:', e);
     }
@@ -192,11 +185,11 @@ export default function StakingTerminal() {
                 </div>
 
                 <button 
-                  onClick={handleAction}
+                  onClick={handleDeposit}
                   disabled={isSponsoring || !stakeAmount || parseFloat(stakeAmount) <= 0 || parseFloat(stakeAmount) > jnsBalance || isWritePending}
                   className="w-full py-5 bg-red-600 hover:bg-red-500 text-zinc-300 font-black rounded-2xl uppercase tracking-[0.2em] text-sm transition-all shadow-[0_0_30px_rgba(220,38,38,0.3)] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSponsoring ? "Sponsoring Tx..." : parseFloat(stakeAmount) > jnsBalance ? "Insufficient Balance" : isWritePending ? "Processing..." : (!isApproved ? "1. APPROVE $JNS" : "2. LOCK & MINT")}
+                  {isSponsoring ? "Sponsoring Tx..." : parseFloat(stakeAmount) > jnsBalance ? "Insufficient Balance" : isWritePending ? "Processing..." : "LOCK & MINT"}
                 </button>
               </div>
             </div>
@@ -347,7 +340,7 @@ export default function StakingTerminal() {
           <div className="flex flex-col gap-3 z-10">
             <button 
               disabled={!isCivicDutyMet}
-              className="w-full py-4 bg-white hover:bg-zinc-200 text-black font-black rounded-xl uppercase tracking-[0.2em] text-[10px] transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+              className="w-full py-4 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-black rounded-xl uppercase tracking-[0.2em] text-[10px] transition-all shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_25px_rgba(255,255,255,0.1)] transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
             >
               Claim USDC
             </button>
@@ -477,7 +470,7 @@ export default function StakingTerminal() {
               </button>
               <button 
                 onClick={() => { sendGaslessTransaction("0xStaking" as `0x${string}`, "0xAutoCompound" as `0x${string}`); setIsModalOpen(false); }}
-                className="flex-1 py-4 bg-white hover:bg-zinc-200 text-black font-black rounded-xl uppercase tracking-[0.2em] text-[10px] shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] transition-all transform hover:-translate-y-0.5"
+                className="flex-1 py-4 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-black rounded-xl uppercase tracking-[0.2em] text-[10px] shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_25px_rgba(255,255,255,0.1)] transition-all transform hover:-translate-y-0.5"
               >
                 Compound
               </button>

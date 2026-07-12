@@ -14,21 +14,7 @@ async function main() {
   const jnsToken = await hre.ethers.getContractAt("JNSToken", process.env.NEXT_PUBLIC_JNS_TOKEN_ADDRESS);
   const jnsStaking = await hre.ethers.getContractAt("JNSStaking", process.env.NEXT_PUBLIC_JNS_STAKING_ADDRESS);
 
-  const deployer = signers[0];
-  console.log("Transferring 200,000 JNS to Founder...");
-  await jnsToken.connect(deployer).transfer(founderWallet.address, hre.ethers.utils.parseEther("200000"));
 
-  console.log("Staking JNS to get voting power...");
-  const stakeAmount = hre.ethers.utils.parseEther("15000"); // >= 10,000 threshold
-  await jnsToken.connect(founderWallet).approve(jnsStaking.address, stakeAmount);
-  await jnsStaking.connect(founderWallet).deposit(stakeAmount, 4); // 365 days lock
-  
-  try {
-    await jnsStaking.connect(founderWallet).delegate(founderWallet.address);
-    console.log("Delegated voting power to self.");
-  } catch(e) {
-    console.log("Could not delegate:", e.message);
-  }
   
   console.log("Creating proposal 'PIP-001: Camelot LP Funding'...");
   

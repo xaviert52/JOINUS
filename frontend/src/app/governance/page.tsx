@@ -114,7 +114,7 @@ export default function GovernanceTerminal() {
 
               <button 
                 disabled={!selectedVotes[proposal.id]}
-                className={`w-full py-4 font-black rounded-xl uppercase tracking-[0.2em] text-[10px] md:text-xs transition-all border mt-auto ${selectedVotes[proposal.id] ? 'bg-white text-black hover:bg-zinc-200 border-transparent shadow-[0_0_30px_rgba(255,255,255,0.3)] transform hover:-translate-y-0.5' : 'bg-zinc-900 border-zinc-800 text-zinc-700 cursor-not-allowed'}`}
+                className={`w-full py-4 font-black rounded-xl uppercase tracking-[0.2em] text-[10px] md:text-xs transition-all border mt-auto ${selectedVotes[proposal.id] ? 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border-transparent shadow-[0_0_30px_rgba(255,255,255,0.05)] transform hover:-translate-y-0.5' : 'bg-zinc-900 border-zinc-800 text-zinc-700 cursor-not-allowed'}`}
               >
                 Generate ZK-Proof & Cast Vote
               </button>
